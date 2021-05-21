@@ -1,0 +1,69 @@
+<div class="comments-area">
+    {%for comment in commentaire_pub%}  
+    {%if comment.primaire==True%}
+    <div class="box-shadow--4dp">
+        <div class="comment-list">
+            <div class="single-comment justify-content-between d-flex blog-author">
+                <div class="user justify-content-between d-flex" style="padding: 5px;">
+                    <div class="thumb">
+                        <img src="{{url_for('static', filename='default.png')}}" alt="">
+                    </div>
+                    <div class="desc">
+                        <p class="comment">
+                            {{comment.commentaire}}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <h5>
+                                    <a href="#">{{comment.vis_com.pseudonyme}}</a>
+                                </h5>
+                                <p class="date">{{comment.date_mod.strftime('%d-%m-%Y')}}</p>
+                            </div>
+                            <div class="reply-btn">
+                                <a href="#" class="btn-reply text-uppercase" data-toggle="modal" data-target="#myModal{{comment.id}}"><span class="label label-success">Réponse</span> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+        {%for  secondaire in comment.comments%}
+        <div class="row">
+            <div class="col-md-1">
+    
+            </div>
+            <div class="col-md-11">
+                <div class="comment-list">
+                    <div class="single-comment justify-content-between d-flex" style="padding: 5px;">
+                        <div class="user justify-content-between d-flex">
+                            <div class="thumb">
+                                <img src="{{url_for('static', filename='default.png')}}" alt="">
+                            </div>
+                            <div class="desc">
+                                <p class="comment">
+                                    {{secondaire.commentaire}}
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <h5>
+                                            <a href="#">{{secondaire.vis_comment.pseudonyme}}</a>
+                                        </h5>
+                                        <p class="date">{{secondaire.date_mod.strftime('%d-%m-%Y')}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+    
+        </div>
+        {%endfor%}
+    </div>
+
+    {%endif%}
+    {%endfor%}
+
+</div>

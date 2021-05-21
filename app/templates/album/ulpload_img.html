@@ -1,0 +1,100 @@
+{% extends "layout/admini.html" %}
+
+
+
+
+{% block body %}
+<div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>Photo</h3>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="{{url_for('album.index')}}">Album</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Photo album</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12"> 
+      <section id="basic-vertical-layouts">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                      <h3><b>Ajouter photo</b></h3> 
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                          {% with messages= get_flashed_messages(with_categories=true) %}
+                          {% if messages  %}
+                              {% for category, message in messages %}
+                                  <div class="alert text-center alert-{{ category }}">
+                                      <b>{{ message }}</b>
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                          {% endwith %}  
+  
+                            <form class="form form-vertical" enctype="multipart/form-data" method="POST">
+                              {{ form.csrf_token }}  
+                              <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label> <small>* Les photos de l'albums</small> </label>
+                                                    {% if form.file.errors %}
+                                                    {{ form.file(class="file-control is-invalid")}}
+                                                    <i class="form-group__bar"></i>
+                                                    <div class="invalid-feedback">
+                                                        {% for error in form.file.errors %}
+                                                            <span>{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    {% else %}
+                                                    {{ form.file(class="file-control ")}}
+                                                    <i class="form-group__bar"></i>
+                                                    {% endif %}
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-center mt-2">
+                                    <button class="btn btn-info btn-md me-1 mb-1" id="submit" name="submit" type="submit">
+                                            <i class="ti-cloud"></i> Upload
+                                    </button>
+                                    <a class="btn btn-danger btn-md me-1 mb-1" href=" {{url_for('album.terminerupload')}} "> <i class="fa fa-times" ></i> Terminer</a>
+                                </div>
+                            </div>
+                            </form>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 ">
+                <div class="row">
+                    {%for photo in album%}
+                    <div class="col-sm-12 col-md-4">
+                        <div>
+                            <img src="{{url_for('static', filename='publication/{}'.format(photo.url))}}" class="img-fluid">
+                            <a href="{{url_for('album.sup_photo', photo_id=photo.id, cat_id=id_a)}} " onclick="return confirm('Voulez-vous vraiment suprimer cette image?')"><i class="fa fa-close"></i> </a>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    </div><!--/col-->
+  </div><!--/row-->
+
+{% endblock body %}
+
+

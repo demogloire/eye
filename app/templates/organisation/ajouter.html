@@ -1,0 +1,143 @@
+{% extends "layout/admini.html" %}
+
+
+{% block body %}
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Organisation</h3>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('organisation.index', id_act=0, id_pro=1)}}">Organisation</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ajouter information</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+
+<div class="row">
+          <div class="col-md-9">
+            <div class="card card-outline-secondary box-shadow--3dp">
+              <div class="card-body">
+                <h3><b>Les informations</b></h3> <br>
+
+                                        
+                <form class="user" method="POST" enctype="multipart/form-data">
+                  {{ form.csrf_token }}
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        
+                        {% if form.nom.errors %}
+                        {{ form.nom(class="form-control form-control  is-invalid", placeholder=" Nom de l'organisation ")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.nom.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.nom(class="form-control form-control", placeholder=" Nom de l'organisation ")}}
+                        {% endif %}
+                      </div>
+                    </div>
+
+                      <div class="form-group row">
+                        <div class="col-md-5">
+                          
+                          {% if form.adresse_mail.errors %}
+                          {{ form.adresse_mail(class="form-control form-control  is-invalid", placeholder=" E-mail ")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.adresse_mail.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.adresse_mail(class="form-control  input-md", placeholder=" E-mail ")}}
+                          {% endif %}
+                        </div>
+
+                        <div class="col-md-7">
+                          {% if form.num_telephone.errors %}
+                          {{ form.num_telephone(class="form-control is-invalid", placeholder="Numéro de téléphone")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.num_telephone.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.num_telephone(class="form-control ", placeholder="Numéro de téléphone")}}
+                          {% endif %}
+                         
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-md-12">
+                          {% if form.personnalite_juridique.errors %}
+                          {{ form.personnalite_juridique(class="form-control  is-invalid", placeholder="Personnalite juridique")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.personnalite_juridique.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.personnalite_juridique(class="form-control  ", placeholder="Personnalite juridique")}}
+                          {% endif %}
+                         
+                        </div>
+                      </div>
+
+
+                      <div class="form-group row">
+                        <div class="col-md-12">
+                          {% if form.adresse_physique.errors %}
+                          {{ form.adresse_physique(class="form-control is-invalid", placeholder="Adresse physique")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.adresse_physique.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.adresse_physique(class="form-control ", placeholder="Adresse physique")}}
+                          {% endif %}
+                         
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-md-12">
+                          
+                          {% if form.logo.errors %}
+                          {{ form.logo( class="form-control-file is-invalid")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.logo.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.logo(class="form-control-file")}}
+                          {% endif %}
+                        </div>
+                      </div>
+
+
+                      </div>
+                      <div class="text-center mb-3 ">
+                        <button class="btn btn-outline-success btn-md"  type="submit">
+                           Enregistrer
+                        </button>
+                        <a class="btn btn-danger " id="success" href="{{url_for('organisation.index', id_act=0, id_pro=1)}}  ">Annuler</a>     
+                    </div>
+                  </form>
+                    </div>
+
+                     
+
+
+
+              </div><!--/card-block-->
+</div>
+         
+
+{% endblock body %}

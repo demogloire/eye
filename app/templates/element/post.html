@@ -1,0 +1,21 @@
+<div class="sidebar-box ftco-animate">
+    <h3>Les recentes actualités</h3>
+    {%for i in post_recent %}
+    <div class="block-21 mb-4 d-flex">
+        <a class="blog-img mr-4"
+            style="background-image: url({{url_for('static', filename='publication/{}'.format(i.url_img))}});"></a>
+        <div class="text">
+            <h3 class="heading"><a href="{{url_for('coedac.article', slug=i.slug)}}">
+                    {{i.titre}}
+                </a></h3>
+            <div class="meta">
+                <div><a href="{{url_for('coedac.article', slug=i.slug)}}"><span class="icon-calendar"></span>
+                        {{i.date_pub.strftime('%d/%m/%Y')}}</a></div>
+                <div><a href="#"><span class="icon-person"></span> {{i.user_pub.prenom}}</a></div>
+                <div><a href="#"><span class="fa fa-eye"></span> {{i.nbr_lu}}</a></div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+
+</div>

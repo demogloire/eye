@@ -1,0 +1,86 @@
+{% extends "layout/admini.html" %}
+
+
+
+{% block body %}
+
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Album photo</h3>
+      <br>
+      <a href="{{url_for('album.ajoutalbm')}} " class="d-none d-md-inline-block btn btn-md btn-dark shadow-md">
+      <i class="fa fa-folder fa-md text-white-50"></i> Ajouter album</a>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Liste des albums</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-12">
+      <br>
+      {% with messages= get_flashed_messages(with_categories=true) %}
+                  {% if messages  %}
+                      {% for category, message in messages %}
+                          <div class="alert text-center alert-{{ category }}">
+                              <b>{{ message }}</b>
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+      <br>
+  </div>
+
+  <div class="col-md-12">
+      <div class="row">
+        {%if liste !=[]%} 
+            {% for listes in liste%}
+                
+            <div class="col-md-3">
+                <div class="card shadow">
+                <img class="card-img" src="{{url_for('static', filename='album/{}'.format(listes.avatar))}}" alt="succulent">
+                <div class="card-img-overlay text-white">
+                    <h5 class="card-title">{{ listes.noms }} ({{listes.nbr_picture}}) </h5>
+                    <p class="card-text">
+                        <a href="{{ url_for('album.mediaaled', cate_id=listes.id)}}" class="btn btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
+                        {% if listes.statut==True%}
+                        <a href="{{ url_for('album.statutalb', cat_id=listes.id)}}  " class="btn btn-success btn-sm"> <i class="fa fa-unlock"></i> </a>
+                        {% else %}
+                        <a href="{{ url_for('album.statutalb', cat_id=listes.id)}} " class="btn btn-danger btn-sm"> <i class="fa fa-lock"></i> </a>
+                        {% endif%}
+                        <a href="{{ url_for('album.editalbum', cate_id=listes.id)}}" class="btn btn-dark btn-sm"> <i class="fa fa-edit"></i> </a>
+                        <a href="{{ url_for('album.sup_album', cat_id=listes.id)}}" class="btn btn-danger btn-sm"> <i class="fa fa-close"></i> </a>
+        
+                    
+                    </p>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+      
+        {%else%}
+          <div class="col-md-12">
+            <p class="text-center" style="margin-top:100px">
+                <i class="fa fa-folder-o success fa-5x text-center"></i>
+                <h4 class="text-center">AUCUN ALBUM .</h4>
+                <br><br><br><br><br><br>
+            </p>
+          </div>
+        {%endif%}
+      </div>
+  </div>
+
+</div>
+
+
+{% endblock body %}

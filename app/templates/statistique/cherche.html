@@ -1,0 +1,275 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<script src="{{url_for('static', filename='plugins/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/gijgo.min.js')}}" type="text/javascript"></script>
+<link href="{{url_for('static', filename='plugins/gijgo.min.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{url_for('static', filename='plugins/messages.fr-fr.js')}}" type="text/javascript"></script>
+
+{%endblock%}
+
+{% block body %}
+
+<div class="row">
+	<div class="col-12 col-md-6 order-md-1 order-last">
+		<h3>Statistique</h3>
+	</div>
+	<div class="col-12 col-md-6 order-md-2 order-first">
+		<nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+			<ol class="breadcrumb">
+			  <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+			  <li class="breadcrumb-item"><a href="{{url_for('stat.index')}}">Statistique</a></li>
+			</ol>
+		</nav>
+	</div>
+</div>
+
+<div class="row">
+		<div class="col-md-12"> 
+		  <section id="basic-vertical-layouts">
+			<div class="row match-height">
+				<div class="col-md-7 col-12">
+				  <br><br>
+					<div class="card">
+						<div class="card-header">
+						  <h3><b>Trier par date</b></h3> 
+						</div>
+						<div class="card-content">
+							<div class="card-body">
+							  {% with messages= get_flashed_messages(with_categories=true) %}
+							  {% if messages  %}
+								  {% for category, message in messages %}
+									  <div class="alert text-center alert-{{ category }}">
+										  <b>{{ message }}</b>
+									  </div>
+								  {% endfor %}
+							  {% endif %}
+							  {% endwith %}  
+
+								<form class="form form-vertical" enctype="multipart/form-data" method="POST">
+								  {{ form.csrf_token }}  
+								  <div class="form-body">
+									  <div class="row">
+
+									  <div class="col-md-6">
+										<small>Date mensuelle</small>
+										<div class="form-group position-relative has-icon-left">
+										  {% if form.mois.errors %}
+										  {{ form.mois(class="form-control is-invalid", id="datemask")}}
+										  <div class="invalid-feedback">
+											  {% for error in form.mois.errors %}
+												  <span>{{ error }}</span>
+											  {% endfor %}
+										  </div>
+										  {% else %}
+										  {{ form.mois(class="form-control ",id="datemask")}}
+										  {% endif %}
+										  <div class="form-control-icon">
+											<i class="bi bi-calendar"></i>
+										</div>
+										</div>
+									  </div>
+									  <div class="col-md-4">
+										<small>Année</small>
+										<div class="form-group position-relative has-icon-left">
+										  {% if form.annee.errors %}
+										  {{ form.annee(class="form-control is-invalid", placeholder="aaaa")}}
+										  <div class="invalid-feedback">
+											  {% for error in form.annee.errors %}
+												  <span>{{ error }}</span>
+											  {% endfor %}
+										  </div>
+										  {% else %}
+										  {{ form.annee(class="form-control ", placeholder="aaaa")}}
+										  {% endif %}
+										  <div class="form-control-icon">
+											<i class="bi bi-calendar"></i>
+										</div>
+										</div>
+									  </div>
+									  </div>
+									<div class="col-12 d-flex justify-content-center mt-2">
+									  <button class="btn btn-danger me-1 mb-1" id="submit" name="submit" type="submit">
+										<i class="fa fa-search"></i> Chercher
+									</button>
+								  </div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+		</div><!--/col-->
+</div><!--/row-->
+
+{%if control_mois==True%}
+<div class="row">
+	<div class="col-7">
+		<div class="card">
+			<div class="card-header">
+				<h4>Trie du mois de {{date_encours}}</h4>
+			</div>
+			<div class="card-body">
+				<div id="chart-profile-visit"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-5">
+		<div class="card">
+			<div class="card-header">
+				<h4>Visteurs par jour</h4>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-light mb-0">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th class="text-center">Nombre visiteurs</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%for i in visiteur%}
+							<tr>
+								<td class="text-bold-500">{{i.date_vist.strftime('%d/%m/%Y')}}</td>
+								<td class="text-center">{{i.nombre_vis}}</td>
+							</tr>
+							{%endfor%}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{%endif%}
+
+{%if control_annee==True%}
+<div class="row">
+	<div class="col-7">
+		<div class="card">
+			<div class="card-header">
+				<h4>Trie de l'année {{date_encours}}</h4>
+			</div>
+			<div class="card-body">
+				<div id="chart-profile-visit"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-5">
+		<div class="card">
+			<div class="card-header">
+				<h4>Visteurs par mois</h4>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-light mb-0">
+						<thead>
+							<tr>
+								<th>Mois</th>
+								<th class="text-center">Nombre visiteurs</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%for i in visiteur%}
+							<tr>
+								<td class="text-bold-500">{{i[0]}}</td>
+								<td class="text-center">{{i[1]}}</td>
+							</tr>
+							{%endfor%}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{%endif%}
+
+
+
+{% endblock body %}
+
+{%block jsblock%}
+<script src="{{url_for('static', filename='plugins/input-mask/jquery.inputmask.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+
+<script>
+	    $('#datepicker').datepicker({
+         uiLibrary: 'bootstrap4',
+         format: 'dd/mm/yyyy',
+         locale: 'fr-fr',
+         icons: {
+          rightIcon: '<i class="bi bi-calendar-date-fill"></i>'
+      }
+     });
+	 $('#datemask').inputmask('mm/yyyy', { 'placeholder': 'mm/yyyy' });
+</script>
+
+{%if control_mois==True%}
+<script>
+var optionsProfileVisit = {
+	annotations: {
+		position: 'back'
+	},
+	dataLabels: {
+		enabled:false
+	},
+	chart: {
+		type: 'bar',
+		height: 300
+	},
+	fill: {
+		opacity:1
+	},
+	plotOptions: {
+	},
+	series: [{
+		name: 'Visiteur',
+		data: [{%for i in data%} {{i}}, {%endfor%}]
+	}],
+	colors: '#435ebe',
+	xaxis: {
+		categories: [{%for i in label%} "{{i}}", {%endfor%}],
+	},
+}
+var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
+chartProfileVisit.render();
+</script>
+{%endif%}
+
+{%if control_annee==True%}
+<script>
+var optionsProfileVisit = {
+	annotations: {
+		position: 'back'
+	},
+	dataLabels: {
+		enabled:false
+	},
+	chart: {
+		type: 'bar',
+		height: 300
+	},
+	fill: {
+		opacity:1
+	},
+	plotOptions: {
+	},
+	series: [{
+		name: 'Visiteur',
+		data: [{%for i in data%} {{i}}, {%endfor%}]
+	}],
+	colors: '#435ebe',
+	xaxis: {
+		categories: [{%for i in label%} "{{i}}", {%endfor%}],
+	},
+}
+var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
+chartProfileVisit.render();
+</script>
+{%endif%}
+
+{%endblock%}

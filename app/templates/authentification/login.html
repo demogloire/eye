@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link href="{{url_for('static', filename='nv_admin/css/font.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/css/app.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/css/pages/auth.css')}}">
+</head>
+
+<body>
+    <div id="auth">
+
+        <div class="row h-100">
+            <div class="col-lg-5 col-12">
+                <div id="auth-left">
+                    <div class="auth-logo">
+                    </div>
+                    <h1 class="auth-title">Connexion.</h1>
+                    <p class="auth-subtitle mb-5">Vous serez rédirigé à l'administration du site web.</p>
+
+                    {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages  %}
+                        {% for category, message in messages %}
+                            <div class="alert text-center alert-{{ category }}">
+                                <b>{{ message }}</b>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST">
+                      {{ form.csrf_token }}
+                        <div class="form-group position-relative has-icon-left mb-4">
+                          {% if form.username.errors %}
+                          {{ form.username(class="form-control form-control-xl is-invalid", placeholder="E-mail")}}
+                          <i class="form-group__bar"></i>
+                          <div class="invalid-feedback">
+                          {% for error in form.username.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.username(class="form-control form-control-xl", placeholder="E-mail")}}
+                              <i class="form-group__bar"></i>
+                          {% endif %}
+                            <div class="form-control-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-4">
+                          {% if form.password.errors %}
+                          {{ form.password(class="form-control form-control-xl is-invalid", placeholder="Mot de passe")}}
+                          <i class="form-group__bar"></i>
+                          <div class="invalid-feedback">
+                          {% for error in form.password.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.password(class="form-control form-control-xl", placeholder="Mot de passe")}}
+                              <i class="form-group__bar"></i>
+                          {% endif %}
+                            <div class="form-control-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                        </div>
+                        <div class="form-check form-check-lg d-flex align-items-end">
+                          {{ form.remember(id="flexCheckDefault", class="form-check-input me-2" )}}
+                           <label class="form-check-label text-gray-600" for="flexCheckDefault">
+                                Souvenez-vous
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Connectez - vous </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-7 d-none d-lg-block">
+                <div id="auth-right">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+
+
+

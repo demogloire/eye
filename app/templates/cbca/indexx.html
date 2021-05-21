@@ -1,0 +1,375 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="COADEC">
+<meta property="og:title" content="Accueil">
+<meta name="keywords" content="COADEC, Acceuil">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<title>Acceuil</title>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<div class="hero-wrap js-fullheight"
+	style="background-image: url('{{url_for('static', filename='coedac/images/bg.jpg')}}');">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-end"
+			data-scrollax-parent="true">
+			<div class="col-md-8 text-justify ftco-animate mb-5 pr-lg-4">
+				{%if video_alaune!=None%}
+				<a href="" data-toggle="modal" data-target="#VideoPop"
+					class="icon-wrap  d-flex align-items-center mt-4">
+					<div class="icon d-flex align-items-center justify-content-center">
+						<span class="ion-ios-play"></span>
+					</div>
+					<div class="heading-title ml-3">
+						<span>Suivez la vidéo</span>
+					</div>
+				</a>
+				{%endif%}
+
+				<h1 class="mb-0 ombre-blanche" style="color:#3389b4">Aimer Dieu, Aimer les autres, Servir Dieu de tout
+					votre coeur.</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+{%if video_alaune!=None%}
+<div class="modal fade VideoPopup" id="VideoPop" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body p-0">
+				<iframe width="100%" height="600" src="{{video_alaune.url_media}}" frameborder="0"
+					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+{%endif%}
+
+<section class="ftco-section ftco-no-pt ftco-no-pb">
+	<div class="container">
+		<div class="row no-gutters">
+			<div class="col-lg-6 py-4 py-md-5">
+				<div class="d-flex services ftco-animate text-lg-justify py-4 px-lg-4">
+					<div class="icon order-md-last d-flex align-items-center justify-content-center"><span
+							class="flaticon-praying"></span></div>
+					<div class="media-body pr-lg-4">
+						<h3 class="heading mb-3">Prière quotidienne</h3>
+						<p>Nous partageons quotidiennement notre vie et reconnaissance à Dieu en priant sans cesse.
+						</p>
+					</div>
+				</div>
+				<div class="d-flex services active ftco-animate text-lg-right py-4 px-4">
+					<div class="icon order-md-last d-flex align-items-center justify-content-center"><span
+							class="flaticon-church"></span></div>
+					<div class="media-body pr-lg-4">
+						<h3 class="heading mb-3">Communauté de l'Eglise</h3>
+						<p>La parole de Dieu, anime la fraternité et l'amour au sein de notre communauté <b>COEDAC</b>.
+						</p>
+					</div>
+				</div>
+				<div class="d-flex services ftco-animate text-lg-left py-4 px-lg-4">
+					<div class="icon order-md-last d-flex align-items-center justify-content-center"><span
+							class="flaticon-bible"></span></div>
+					<div class="media-body pr-lg-4">
+						<h3 class="heading mb-3">Enseignement biblique</h3>
+						<p>Le comité d'oeuvre de Dieu en Afrique centrale, enseigne la bonne nouvelle aux fidèles.</p>
+					</div>
+				</div>
+				<div class="d-flex services ftco-animate text-lg-right py-4 px-lg-4">
+					<div class="icon order-md-last d-flex align-items-center justify-content-center"><span
+							class="flaticon-social-care"></span></div>
+					<div class="media-body pr-lg-4">
+						<h3 class="heading mb-3">Aide aux nécessités</h3>
+						<p>COEDAC s'implique à la vie de sa communauté en aidant les personnes en difficultés.</p>
+					</div>
+				</div>
+
+				<div class="d-flex services ftco-animate text-lg-left py-4 px-lg-4">
+					<div class="icon order-md-last d-flex align-items-center justify-content-center"><span
+							class="flaticon-promotion"></span></div>
+					<div class="media-body pr-lg-4">
+						<h3 class="heading mb-3">Evènement évangélique</h3>
+						<p>Par les campagnes d'évangélisation et aux autres évènements, nous évangélisons.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 d-flex align-items-stretch">
+				<div class="img img-about"
+					style="background-image: url({{url_for('static', filename='coedac/images/about.jpg')}});"></div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ftco-counter" id="section-counter">
+	<div class="container">
+		<div class="row d-flex no-gutters">
+			<div class="col-md-6 d-flex flex-column align-items-stretch">
+				<div class="img d-flex align-self-stretch align-items-center justify-content-center"
+					style="background-image:url({{url_for('static', filename='coedac/images/a.jpg')}});">
+				</div>
+			</div>
+			<div class="col-md-6 px-md-5 py-4 py-md-5">
+				<div class="row justify-content-start pt-md-3 pb-md-3">
+					<div class="col-md-12 heading-section ftco-animate">
+						<h2 class="mb-4">Le comité d'oeuvre de Dieu en Afrique centrale</h2>
+						<p class="text-justify">COEBAC est une Eglise qui mène les activités chrétiennes en Afrique
+							Centrale précisément en République Démocratique du Congo, une Eglise
+							qui croit en Jésus-Christ, qui enseigne la parole de Dieu.</p>
+
+						<p class="text-justify">
+							Encourage la fraternité au sein de sa communauté et dans le milieu auquel
+							elle œuvre, en intervenant d’une manière ou d’une autre pour aider les personnes
+							en de situation difficile et convertir les âmes en disciple de Jésus Christ.
+						</p>
+						<b>Elle compte pour le moment:</b>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 justify-content-center counter-wrap ftco-animate">
+
+						<div class="block-18 text-center py-4 mb-4">
+							<div class="text">
+								<strong class="number" data-number="1677">0</strong>
+								<span>Fidèles</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center py-4 mb-4">
+							<div class="text">
+								<strong class="number" data-number="44">0</strong>
+								<span>Pasteurs</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center py-4 mb-4">
+							<div class="text">
+								<strong class="number" data-number="27">0</strong>
+								<span>Enseignant des Eglises</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center py-4 mb-4">
+							<div class="text">
+								+<strong class="number" data-number="2">0</strong>
+								<span>Eglises</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{%if ala_une !=None%}
+<section class="ftco-section bg-light">
+	<div class="container">
+		<div class="row justify-content-center mb-5 pb-3">
+			<div class="col-md-12 text-center heading-section heading-section-light ftco-animate">
+
+				<h2 class="mb-2"><span class="px-4">Prédication du jour.</span></h2>
+			</div>
+		</div>
+		<div class="row d-flex sermon-wrap">
+			<div class="col-md-6 d-flex align-items-stretch ftco-animate">
+				<div class="img"
+					style="background-image: url({{url_for('static', filename='publication/{}'.format(ala_une.url_img))}});">
+				</div>
+			</div>
+			<div class="col-md-6 py-4 text ftco-animate">
+				<h1 class="mb-4"><a href="{{url_for('coedac.predication_une',slug=ala_une.slug)}}">{{ala_une.titre}}
+					</a></h1>
+				<div class="meta">
+					<p>
+						<span> <a href="#" class="ptr">{{ala_une.cat_pub.nom}}, {{ala_une.user_pub.prenom}}
+								{{ala_une.user_pub.nom}} {{ala_une.user_pub.post_nom}}</a></span>
+					</p>
+				</div>
+				<p>
+					{{ala_une.resume|safe}}
+				</p>
+				<p class="mt-4 btn-customize">
+					{%if ala_une.url_youtube!=None%}
+					<a href="" data-toggle="modal" data-target="#VideoV" class="btn btn-primary px-4 py-3 mr-md-2"><span
+							class="icon-play"></span> Suivez la vidéo</a>
+					{%endif%}
+
+
+					{%if fichier!=None%}
+					<a href="{{url_for('static', filename='publication/{}'.format(fichier))}}"
+						class="btn btn-black px-4 py-3 ml-lg-2" download><span class="fa fa-file-pdf-o"></span>
+						Télécharger
+					</a>
+					{%endif%}
+				</p>
+			</div>
+		</div>
+		<div class="modal fade VideoPop" id="VideoV" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-body p-0">
+						<iframe width="100%" height="600" src="{{ala_une.url_youtube}}" frameborder="0"
+							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{%endif%}
+
+
+{%if photos != [] %}
+<section class="instagram ftco-section ftco-no-pt ftco-no-pb">
+	<div class="container-fluid px-md-0">
+		<div class="row no-gutters">
+			{%for i in photos%}
+
+			<div class="col-sm-12 col-md ftco-animate">
+				<a href="{{url_for('static', filename='publication/{}'.format(i.url))}}"
+					class="insta-img img image-popup"
+					style="background-image: url({{url_for('static', filename='publication/{}'.format(i.url))}});">
+					<div class="icon d-flex justify-content-center">
+						<span class="icon-instagram align-self-center"></span>
+					</div>
+				</a>
+			</div>
+			{%endfor%}
+		</div>
+	</div>
+</section>
+{%endif%}
+
+
+{%if pub !=[]%}
+<section class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center mb-5 pb-3">
+			<div class="col-md-12 text-center heading-section heading-section-light ftco-animate">
+				<span class="subheading">Nos actualités</span>
+				<h2 class="mb-2"><span class="px-4">Récente publication</span></h2>
+			</div>
+		</div>
+		<div class="row">
+			{%for i in pub%}
+			<div class="col-md-4 ftco-animate ">
+				<div class="blog-entry" style="padding:5px">
+					<div class="text">
+						<div class="meta mb-0 pl-md-5">
+							<div><a href="#">{{timeagos(i.date_pub)}}</a></div>
+							<div><a href="#">{{i.user_pub.prenom}}</a></div>
+							<div><a href="#" class="meta-chat"><span class="fa fa-eye"></span> {{i.nbr_lu}} </a></div>
+						</div>
+						<h3 class="heading pl-md-5"><a href="{{url_for('coedac.article', slug=i.slug)}}">{{i.titre}}</a>
+						</h3>
+					</div>
+					<a href="{{url_for('coedac.article', slug=i.slug)}}" class="block-20"
+						style="background-image: url('{{url_for('static', filename='publication/{}'.format(i.url_img))}}');">
+					</a>
+				</div>
+			</div>
+			{%endfor%}
+		</div>
+	</div>
+</section>
+{%endif%}
+
+
+{%if evenements !=[]%}
+<section class="ftco-section ftco-no-pt bg-light">
+	<div class="container px-0">
+
+		<div class="row no-gutters justify-content-center">
+			<div class="col-md-7 text-center heading-section ftco-animate mt-5 mb-3">
+				<span class="subheading">Événement</span>
+				<h2 class="mb-2">Événement à venir</h2>
+			</div>
+		</div>
+		<div class="row no-gutters">
+			{%for i in evenements%}
+			<div class="col-md-4 event-wrap event-wrap-full ftco-animate">
+				<div class="img"
+					style="background-image: url({{url_for('static', filename='publication/{}'.format(i.avatar))}});">
+				</div>
+				<div class="text">
+					<h2 class="mb-3"><a data-toggle="modal" data-target="#myModal{{i.id}}">{{i.titre}}</a></h2>
+					<div class="meta">
+						<p>
+							<span><i class="icon-calendar mr-2"></i> {{i.date_even.strftime('%d/%m/%Y')}} -
+								{{i.date_fin.strftime('%d/%m/%Y')}} (
+								{%if verification_date(i.date_even, i.date_fin) =='Avant' %}
+								Avant évènement
+								{%elif verification_date(i.date_even, i.date_fin) =='Encours' %}
+								évènement encours
+								{%else%}
+								évènement expirée
+								{%endif%}
+								) </span>
+							<span><i class="icon-location_city mr-2"></i>{{i.lieu}} </span>
+						</p>
+					</div>
+					{%if verification_date(i.date_even, i.date_fin) =='Encours' %}
+					<p><a data-toggle="modal" data-target="#myModal{{i.id}}" class="btn btn-primary">Savoir plus</a></p>
+					{%endif%}
+				</div>
+			</div>
+			{%endfor%}
+
+
+		</div>
+	</div>
+</section>
+
+{%for i in evenements%}
+<div class="modal fade" id="myModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog bg-light modal-lg" role="document">
+		<div class="modal-header">
+			<h3>Evénément: {{i.titre}}</h3>
+		</div>
+		<div class="modal-content">
+			<div class="modal-body" style="color: black;">
+				{{i.message|safe}}
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{%endfor%}
+
+
+{%endif%}
+
+{% endblock body %}
+
+{% block js %}
+<script>
+	$(".VideoPopup").on('hidden.bs.modal', function (e) {
+		$(".VideoPopup iframe").attr("src", $(".VideoPopup iframe").attr("src"));
+	});
+</script>
+{% endblock %}

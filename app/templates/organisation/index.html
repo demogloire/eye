@@ -1,0 +1,229 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link href="{{ url_for('static', filename='plugins/profil.css')}}" rel="stylesheet">
+{%endblock%}
+
+
+
+{% block body %}
+
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Organisation et activités</h3>
+      <br>
+      {%if controle_org==0%}
+      <a href="{{url_for('organisation.ajouter')}} " class="d-none d-md-inline-block btn btn-md btn-primary shadow-md">
+      <i class="fa fa-globe fa-md text-white-50"></i> Ajouter information</a>
+      {%endif%}
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Information</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-12">
+      <br>
+      {% with messages= get_flashed_messages(with_categories=true) %}
+                  {% if messages  %}
+                      {% for category, message in messages %}
+                          <div class="alert text-center alert-{{ category }}">
+                              <b>{{ message }}</b>
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+      <br>
+  </div>
+
+  <div class="col-md-9">
+    <div class="card card-outline-secondary box-shadow--3dp">
+      <div class="card-body">
+    <div id="user-profile-2" class="user-profile">
+      <div class="tabbable">
+        <ul class="nav nav-tabs padding-18">
+          <li class="{%if controle_pro==1%}active{%endif%}">
+            <a data-toggle="tab" href="{{url_for('organisation.index',id_pro=1, id_act=0)}}">
+              <i class="green ace-icon fa fa-user bigger-120"></i>
+              Organisation
+            </a>
+          </li>
+  
+          <li class="{%if controle_act==1%}active{%endif%}">
+            <a data-toggle="tab" href="{{url_for('organisation.index',id_pro=0, id_act=1)}}">
+              <i class="orange ace-icon fa fa-rss bigger-120"></i>
+              Activités
+            </a>
+          </li>
+
+        </ul>
+  
+        <div class="tab-content no-border padding-24">
+          <div id="home" class="tab-pane  {%if controle_pro==1%}in active{%endif%} ">
+            <div class="row">
+              <div class="col-xs-12 col-sm-3 center">
+                <span class="profile-picture">
+                  <img class="editable img-fluid img-circle" alt=" Avatar" id="avatar2" src="{{url_for('static', filename='publication/{}'.format(liste.logo))}}">
+                </span>
+                <br>
+                <a href="{{url_for('organisation.edit',organisation_id=liste.id)}} " class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+              </div><!-- /.col -->
+  
+              <div class="col-xs-12 col-sm-9">
+                <h4 class="blue">
+                  <span class="middle">{{liste.nom }}</span>
+                </h4>
+  
+                <div class="profile-user-info">
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> Organisation </div>
+                    <div class="profile-info-value">
+                      <i class="fa fa-globe light-orange bigger-110"></i>
+                      <span>{{liste.nom}}</span>
+                    </div>
+                  </div>
+  
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> E-mail </div>
+  
+                    <div class="profile-info-value">
+                      <i class="fa fa-envelope-o light-orange bigger-110"></i>
+                       <span>{{liste.adresse_mail}}</span>
+                    </div>
+                  </div>
+  
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> Téléphone </div>
+                    <div class="profile-info-value">
+                      <i class="fa fa-phone light-orange bigger-110"></i>
+                      <span>{{liste.num_telephone}} </span>
+                    </div>
+                  </div>
+  
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> Adresse: </div>
+                    <div class="profile-info-value">
+                      <i class="fa fa-map-marker light-orange bigger-110"></i>
+                      <span>{{liste.adresse_physique}}</span>
+                    </div>
+                  </div>
+  
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> Document </div>
+                    <div class="profile-info-value">
+                      <i class="fa fa-balance-scale light-orange bigger-110"></i>
+                      <span>{{liste.personnalite_juridique}}</span>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="hr hr-8 dotted"></div>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+  
+          </div><!-- /#home -->
+  
+          <div id="feed" class="tab-pane {%if controle_act==1%}in active{%endif%} ">
+            <div class="profile-feed row">
+              <div class="col-sm-12">
+                {%for activite in activites.items%}
+                  {%if activite.internaute_id==None and activite.user_id!=None  %}
+                  <div class="profile-activity clearfix">
+                    <div>
+                      <img class="pull-left" alt="Alex Doe's avatar" src="{{url_for('static', filename='user.png')}}">
+                      <a class="user" href="#"> {{activite.user_his.prenom}} {{activite.user_his.nom}} {{activite.user_his.post_nom}}  </a>
+                      {{activite.message}}
+                      <div class="time">
+                        <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                        {{timeagos(activite.date_mod)}}
+                      </div>
+                    </div>
+    
+                    <div class="tools action-buttons">
+                      <a href="#" class="blue">
+                        <i class="ace-icon fa fa-pencil bigger-125"></i>
+                      </a>
+    
+                      <a href="#" class="red">
+                        <i class="ace-icon fa fa-times bigger-125"></i>
+                      </a>
+                    </div>
+                  </div>
+                  {%elif activite.internaute_id!=None and activite.user_id==None %}
+                  <div class="profile-activity clearfix">
+                    <div>
+                      <img class="pull-left" alt="Alex Doe's avatar" src="{{url_for('static', filename='avatar/{}'.format(activite.inter_hist.avatar))}}">
+                      <a class="user" href="#">{{activite.inter_hist.pseudonyme}}  </a>
+                      {{activite.message}}
+                      <div class="time">
+                        <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                        {{timeagos(activite.date_mod)}}
+                      </div>
+                    </div>
+    
+                    <div class="tools action-buttons">
+                      <a href="#" class="blue">
+                        <i class="ace-icon fa fa-pencil bigger-125"></i>
+                      </a>
+    
+                      <a href="#" class="red">
+                        <i class="ace-icon fa fa-times bigger-125"></i>
+                      </a>
+                    </div>
+                  </div>
+                  {%endif%}
+                {%endfor%}
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+  
+            <div class="space-12"></div>
+  
+            <div class="center">
+              {%if activites.items|length>3%}
+              <div class="row ">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-primary">
+                      {% for page_num in activites.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                      {% if page_num %}
+                          {% if activites.page==page_num %}
+                          <li class="page-item"><a class="page-link" href="{{ url_for('organisation.index',id_pro=0,id_act=1,  page=page_num) }}">{{page_num}}</a></li>
+                          {% else %}
+                          <li class="page-item"><a class="page-link" href="{{ url_for('organisation.index',id_pro=0,id_act=1, page=page_num) }}">{{page_num}}</a></li>                       
+
+                          {% endif %}
+                      {% else %}
+                        ...
+                      {% endif %}
+                      {% endfor %}
+                        
+                    </ul>
+                  </nav>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+              {%endif%}
+            </div>
+          </div><!-- /#feed -->
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+{% endblock body %}

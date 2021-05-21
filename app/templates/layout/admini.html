@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title> Dashboard </title>
+    {% endif %}
+
+    <link href="{{url_for('static', filename='nv_admin/css/font.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/iconly/bold.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/font-awesome/css/font-awesome.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='nv_admin/css/app.css')}}">
+    <link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+    <link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+    {% block css %}{%endblock%}
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="logo">
+                            {%if session['logo']=='logo.png'%}
+                            <a href="{{url_for('main.dashboard')}}"><img src="{{url_for('static', filename='logo_org/logo.png')}}" alt="Logo" srcset=""></a>
+                            {%else%}
+                            <a href="{{url_for('main.dashboard')}}">
+                               {{session['nom']|truncate(12)}}                          
+                            </a>
+                            {%endif%}
+                            
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        
+
+                        <li class="sidebar-item  ">
+                            <a href="{{url_for('main.dashboard')}} " class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-title">News</li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-stack"></i>
+                                <span>Publication</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('publication.index')}}">Publications</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('evenement.index')}}">Evenement</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-camera-fill"></i>
+                                <span>Media</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('album.index')}}">Photo</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('media.index_audio')}}">Audio</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('media.index_video')}}">Vidéo</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-title">Programme</li>
+
+                        <li class="sidebar-item  ">
+                            <a href="{{url_for('realisation.index')}}" class='sidebar-link'>
+                                <i class="bi bi-ui-checks-grid"></i>
+                                <span>Réalisation</span>
+                            </a>
+                        </li>
+
+                        
+                        <li class="sidebar-title">Visteurs</li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-bar-chart-line-fill"></i>
+                                <span>Statistique</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('stat.index')}}">Visiteur</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {%if current_user.role=='Administrateur'%}
+                        <li class="sidebar-title">Configuration</li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-gear"></i>
+                                <span>Rubrique</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('categorie.index')}}">Cat. publication</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('organisation.index', id_act=0, id_pro=1)}}">Organisation</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="sidebar-title">Utilisateur</li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-person"></i>
+                                <span>Utilisateur</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('user.index')}}">Administrateur</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {%endif%}
+
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main" class='layout-navbar'>
+            <header class='mb-3'>
+                <nav class="navbar navbar-expand navbar-light ">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600">{{current_user.prenom}}</h6>
+                                            <p class="mb-0 text-sm text-gray-600">{{current_user.role}}</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="{{url_for('static', filename='user.png')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <h6 class="dropdown-header">Bonjour, {{current_user.prenom}} !</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="{{url_for('user.profil', user_id=current_user.id, id_pro=1, id_act=0)}} "><i class="icon-mid bi bi-person me-2"></i> 
+                                            Profile</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="{{url_for('user.edit_profil', user_id=current_user.id)}} "><i class="icon-mid bi bi-check2-square me-2"></i> 
+                                        Information</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{{url_for('auth.logout')}}  ">
+                                        <i class="icon-mid bi bi-box-arrow-left me-2"></i> Déconnexion</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div id="main-content">
+                <div class="page-content">
+                    {%block body%}{%endblock%}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="{{url_for('static', filename='nv_admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{url_for('static', filename='nv_admin/js/bootstrap.bundle.min.js')}}"></script>
+
+    <script src="{{url_for('static', filename='nv_admin/vendors/apexcharts/apexcharts.js')}}"></script>
+
+    {%block jsblock%}{%endblock%}
+    <script src="{{url_for('static', filename='nv_admin/js/main.js')}}"></script>
+    
+</body>
+</html>

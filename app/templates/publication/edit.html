@@ -1,0 +1,140 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.css')}}" >
+{%endblock%}
+
+
+
+
+    {% block body %}
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+          <h3>Publications</h3>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first">
+          <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('publication.index')}}">Les publications</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Modification publication</li>
+              </ol>
+          </nav>
+      </div>
+  </div>
+
+        <div class="row">
+          <div class="col-md-12"> 
+            <div class="row">
+              <div class="col-md-10">
+                <div class="card card-outline-secondary box-shadow--3dp">
+                  <div class="card-body">
+                    <h3><b>Modification</b></h3> <br>
+                    {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages  %}
+                        {% for category, message in messages %}
+                            <div class="alert text-center alert-{{ category }}">
+                                <b>{{ message }}</b>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}                 
+                                            
+                    <form  method="POST" enctype="multipart/form-data">
+                      {{ form.csrf_token }}
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            {% if form.titre.errors %}
+                            {{ form.titre(class="form-control form-control is-invalid", placeholder="Titre de la publication")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.titre.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.titre(class="form-control", placeholder="Titre de la publication")}}
+                            {% endif %}
+                          </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            {% if form.resume.errors %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        <div class="invalid-feedback">
+                                            {% for error in form.resume.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        {% endif %}
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                            <label> <i class="fa fa-youtube"></i></label>
+                            {% if form.url.errors %}
+                            {{ form.url(class="form-control form-control is-invalid", placeholder="URL Youtube")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.url.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.url(class="form-control", placeholder="URL Youtube")}}
+                            {% endif %}
+                          </div>
+                          <div class="col-md-6">
+                            <label class="control-label mb-1" > <small>Catégorie</small> </label>
+                            {% if form.categorie.errors %}
+                            {{ form.categorie(class="choices form-select")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.categorie.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.categorie(class="choices form-select")}}    
+                            {% endif %}
+                          </div>
+                        </div>
+
+                        <div class="text-center mb-1">
+                            <button class="btn btn-outline-success btn-md"  type="submit">
+                               Modification
+                            </button>
+                            <a class="btn btn-danger " id="success" href="{{url_for('publication.index')}}  ">Annuler</a>     
+                        </div>
+                      </form>
+                  </div><!--/card-block-->
+                </div><!-- /form card login -->
+              </div>
+            </div>
+          </div><!--/col-->
+        </div><!--/row-->
+
+    {% endblock body %}
+
+
+    {%block jsblock%}
+   <script src="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/jquery/jquery.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.js')}}"></script>
+   <script>
+       $('#summernote').summernote({
+           tabsize: 2,
+           height: 120,
+       });
+
+   </script>
+    {%endblock%}
+
+
+
+
+   

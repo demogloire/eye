@@ -1,0 +1,125 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="COADEC">
+<meta property="og:title" content="Galérie">
+<meta name="keywords" content="COADEC, Galérie">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+
+<title>Média </title>
+<style>
+  .conta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 15px;
+}
+.conta img {
+  width: 100%;
+  display: block;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+  transition: all 100ms ease-out;
+}
+.conta img:hover {
+  transform: scale(1.04);
+  -webkit-filter: grayscale(0);
+  filter: grayscale(0);
+}
+
+</style>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2"
+  style="background-image: url('{{url_for('static', filename='coedac/images/photo.jpg')}}');"
+  data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate pb-5 text-center">
+        <h1 class="mb-2 bread">Galérie </h1>
+        <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                class="ion-ios-arrow-forward"></i></a></span> <span>Galérie</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 ftco-animate">
+        {%if album_actif !=None%}
+        <div class="conta">
+          {%for i in photo_al_actif%}
+          <img src="{{url_for('static', filename='publication/{}'.format(i.url))}}">
+          {%endfor%}
+        </div>
+        {%else%}
+        <br><br><br><br>
+          <p class="text-center" style="margin-top:100px">
+            <i class="fa fa-file-image-o success fa-5x text-center"></i>
+        <h4 class="text-center">AUCUNE PHOTO DANS L'ALBUM .</h4>
+        <br><br><br><br><br><br>
+        </p>
+
+        {%endif%}
+      </div>
+      <div class="col-lg-4 sidebar ftco-animate">
+
+        {%if album!=[] %}
+        <div class="sidebar-box ftco-animate">
+          <h3>Les albums photos</h3>
+          {%for i in album %}
+          <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4"
+                  style="background-image: url({{url_for('static', filename='album/{}'.format(i.avatar))}});"></a>
+              <div class="text">
+                  <h3 class="heading"><a href="{{url_for('coedac.galerie_trie', id=i.id)}}">
+                          {{i.noms}} </a></h3>
+                      <div><a href="{{url_for('coedac.galerie_trie', id=i.id)}}"><span class="fa fa-file-image-o"></span> {{i.nbr_picture}}</a></div>
+              </div>
+          </div>
+          {%endfor%}
+      
+        </div>
+        {%else%}
+          {% include'element/media.html'%}
+          {% include'element/post.html'%}
+        {%endif%}
+
+
+
+       
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock body %}
+
+{% block js %}
+<script>
+  $(".images img").click(function () {
+    $(this).addClass("zoom");
+  });
+
+  $(".images img").mouseleave(function () {
+    $(this).removeClass("zoom");
+  });
+
+</script>
+{% endblock %}

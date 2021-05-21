@@ -1,0 +1,156 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="{{une_pub.titre}}">
+<meta property="og:image" content="{{url_for('static', filename='publication/{}'.format(une_pub.url_img), _external=True)}}">
+<meta property="og:url" content="{{url_for('coedac.article', slug=une_pub.slug, _external=True)}}">
+<meta name="twitter:title" content="{{une_pub.titre}}">
+<meta name="twitter:image" content=" {{url_for('static', filename='publication/{}'.format(une_pub.url_img), _external=True)}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{url_for('coedac.article', slug=une_pub.slug, _external=True)}}">
+<meta property="og:site_name" content="COADEC">
+<meta name="keywords" content="COADEC, {{une_pub.titre}}">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<title>Prédications </title>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/event-2.jpg')}}');"
+data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+            <h1 class="mb-2 bread">Prédication </h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                            class="ion-ios-arrow-forward"></i></a></span> <span>Prédication</span></p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <p>
+                    <img src="{{url_for('static', filename='publication/{}'.format(une_pub.url_img))}}" alt="" class="img-fluid">
+                </p>
+                <h2 class="mb-3">{{une_pub.titre}}</h2>
+
+                <p>{{une_pub.resume|safe}} </p>
+                
+                <p class="mt-4 btn-customize mt-5">
+					{%if une_pub.url_youtube!=None%}
+					<a href="" data-toggle="modal" data-target="#VideoV" class="btn btn-primary px-4 py-3 mr-md-2"><span
+							class="icon-play"></span> Suivez la vidéo</a> 
+					{%endif%}
+					
+					{%if fichier!=None%}
+					<a href="{{url_for('static', filename='publication/{}'.format(fichier))}}" class="btn btn-black px-4 py-3 ml-lg-2" download><span class="fa fa-file-pdf-o"></span> Télécharger
+					</a>
+					{%endif%}
+				</p>
+
+                <div class="pt-5 mt-5">
+                    {%if une_pub.nbr_cmt>=1 %}
+                    <h3 class="mb-5">
+                        {%if une_pub.nbr_cmt>1 %}
+                            {{une_pub.nbr_cmt}} Commentaires 
+                        {%else%}
+                            {{une_pub.nbr_cmt}} Commentaire
+                        {%endif%}
+                    </h3>
+                    {%endif%}
+                        
+                        
+                        
+                    {%if une_pub.nbr_cmt>=1 %}
+                    <!-- <ul class="comment-list">
+
+                        <li class="comment">
+                            <div class="vcard bio">
+                                <img src="images/person_1.jpg" alt="Image placeholder">
+                            </div>
+                            <div class="comment-body">
+                                <h3>John Doe</h3>
+                                <div class="meta">October 03, 2018 at 2:21pm</div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum
+                                    necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim
+                                    sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                                <p><a href="#" class="reply">Reply</a></p>
+                            </div>
+                            <ul class="children">
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="images/person_1.jpg" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>John Doe</h3>
+                                        <div class="meta">October 03, 2018 at 2:21pm</div>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem
+                                            laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat
+                                            saepe enim sapiente iste iure! Quam voluptas earum impedit
+                                            necessitatibus, nihil?</p>
+                                        <p><a href="#" class="reply">Reply</a></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul> -->
+                    {%endif%}
+
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="col-lg-4 sidebar ftco-animate">
+                {% include'element/suivez.html'%}
+
+                {%if post_recent!=[]%}
+                    {% include'element/post.html'%}
+                {%endif%}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade VideoPop" id="VideoV" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+            <iframe width="100%" height="600" src="{{une_pub.url_youtube}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+{% endblock body %}
+
+{% block js %}
+<script>
+	$(".VideoPopup").on('hidden.bs.modal', function (e) {
+		$(".VideoPopup iframe").attr("src",   $(".VideoPopup iframe").attr("src"));
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+
+<style>
+#team .card {
+    border: none;
+    background: #ffffff;
+}
+
+.image-flip:hover .backside,
+.image-flip.hover .backside {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    border-radius: .25rem;
+}
+
+.image-flip:hover .frontside,
+.image-flip.hover .frontside {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.mainflip {
+    -webkit-transition: 1s;
+    -webkit-transform-style: preserve-3d;
+    -ms-transition: 1s;
+    -moz-transition: 1s;
+    -moz-transform: perspective(1000px);
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transition: 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.frontside {
+    position: relative;
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+.backside {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+    -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+    -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+    box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+}
+
+.frontside,
+.backside {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transition: 1s;
+    -moz-transform-style: preserve-3d;
+    -o-transition: 1s;
+    -o-transform-style: preserve-3d;
+    -ms-transition: 1s;
+    -ms-transform-style: preserve-3d;
+    transition: 1s;
+    transform-style: preserve-3d;
+}
+
+.frontside .card,
+.backside .card {
+    min-height: 312px;
+}
+
+.backside .card a {
+    font-size: 18px;
+
+}
+
+.frontside .card .card-title,
+.backside .card .card-title {
+    color: #007b5e !important;
+}
+
+.frontside .card .card-body img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+</style>
+
+{%endblock%}
+{% block body %}
+<div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>Les utilisateurs</h3>
+        <br>
+        <a href="{{url_for('user.ajouter')}} " class="d-none d-md-inline-block btn btn-md btn-info shadow-md">
+        <i class="fa fa-file-o fa-md text-white-50"></i> Ajouter utilisateur</a>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Liste des utilisateurs</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row mt-4" >
+    <div class="col-md-12"> 
+            {% with messages= get_flashed_messages(with_categories=true) %}
+                            {% if messages  %}
+                                {% for category, message in messages %}
+                                    <div class="alert text-center alert-{{ category }}">
+                                        <b>{{ message }}</b>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}  
+            
+              {%if liste!=[]%}
+              <div class="row">
+                  {%for user in liste%}
+                  <div class="col-xs-12 col-sm-6 col-md-4">
+                      <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                          <div class="mainflip">
+                              <div class="frontside">
+                                  <div class="card box-shadow--3dp">
+                                      <div class="card-body text-center">
+                                          <p><img class=" img-fluid" src="
+                                              {%if user.avatar=='user.png'%}
+                                              {{ url_for('static', filename='user.png')}}
+                                              {%else%}
+                                              {{ url_for('static', filename='user/{}'.format(user.avatar))}}
+                                              {%endif%}
+                                            
+                                            " alt="Utilisateur"></p>
+
+                                            
+                                          <h4 class="card-title">{{'{} {}'.format(user.prenom, user.post_nom )}}</h4>
+                                          <p class="card-text"><span class="badge bg-light-primary">{{user.username}}</span>
+                                            <span class="badge bg-light-warning">{{user.password_onhash}}</span>
+                                            <span class="badge 
+                                            {%if user.role=='Administrateur'%}
+                                            bg-light-success
+                                            {%else%}
+                                            bg-light-info
+                                            {%endif%}
+                                            
+                                            ">{{user.role}}</span>
+                                          </p>
+
+                                          <a href="{{url_for('user.statut', user_id=user.id)}}" class="btn 
+                                          {%if user.statut==True%}
+                                          btn-primary
+                                          {%else%}
+                                          btn-danger
+                                          {%endif%}
+                                          
+                                           btn-sm"><i class="
+                                            {%if user.statut==True%}
+                                            fa fa-unlock
+                                            {%else%}
+                                            fa fa-lock
+                                            {%endif%}
+                                            "></i></a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="backside">
+                                  <div class="card">
+                                      <div class="card-body text-center mt-4">
+                                          <h4 class="card-title">{{user.prenom}}</h4>
+                                          <p class="card-text">
+                                            La plateforme fonctionne avec deux niveau d'autorisation, l'administrateur et le webmaster, l'admin à tous les droits
+                                            ce qui est contraire au webmaster.
+                                          </p>
+                                          <ul class="list-inline">
+                                              <li class="list-inline-item">
+                                                <a href="{{url_for('user.statut', user_id=user.id)}}" class="btn 
+                                                {%if user.statut==True%}
+                                                btn-primary
+                                                {%else%}
+                                                btn-danger
+                                                {%endif%}
+                                                
+                                                 btn-sm"><i class="
+                                                  {%if user.statut==True%}
+                                                  fa fa-unlock
+                                                  {%else%}
+                                                  fa fa-lock
+                                                  {%endif%}
+                                                  "></i></a>
+                                              </li>
+                                              <li class="list-inline-item">
+                                                <a href="{{url_for('user.edit', user_id=user.id)}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {%endfor%}
+              </div>
+              {%else%}
+              <p class="text-center" style="margin-top:100px">
+                <i class="fa fa-user success fa-5x text-center"></i>
+                <h4 class="text-center">AUCUN UTILISATEUR .</h4>
+                <br><br><br>
+              </p>
+              {%endif%}
+          </div>
+  </div>
+
+{% endblock body %}

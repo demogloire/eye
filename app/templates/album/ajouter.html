@@ -1,0 +1,80 @@
+{% extends "layout/admini.html" %}
+
+{% block body %}
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Photo</h3>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('album.index')}}">Album</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ajouter album</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12"> 
+    <section id="basic-vertical-layouts">
+      <div class="row match-height">
+          <div class="col-md-7 col-12">
+            <br><br>
+              <div class="card">
+                  <div class="card-header">
+                    <h3><b>Ajouter album</b></h3> 
+                  </div>
+                  <div class="card-content">
+                      <div class="card-body">
+                        {% with messages= get_flashed_messages(with_categories=true) %}
+                        {% if messages  %}
+                            {% for category, message in messages %}
+                                <div class="alert text-center alert-{{ category }}">
+                                    <b>{{ message }}</b>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}  
+
+                          <form class="form form-vertical" enctype="multipart/form-data" method="POST">
+                            {{ form.csrf_token }}  
+                            <div class="form-body">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                  <div class="form-group position-relative has-icon-left">
+                                    {% if form.nom.errors %}
+                                      {{ form.nom(class="form-control is-invalid", placeholder="Nom de l'album ")}}
+                                      <div class="invalid-feedback">
+                                          {% for error in form.nom.errors %}
+                                              <span>{{ error }}</span>
+                                          {% endfor %}
+                                      </div>
+                                    {% else %}
+                                    {{ form.nom(class="form-control", placeholder="Nom de l'album")}}
+                                    {% endif %}
+
+                                    <div class="form-control-icon">
+                                        <i class="fa fa-picture-o"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+                              <div class="col-12 d-flex justify-content-center mt-2">
+                                <button class="btn btn-primary me-1 mb-1" id="submit" name="submit" type="submit">
+                                  <i class="fa fa-folder-o"></i> Enregistrer
+                              </button>
+                              <a class="btn btn-light-secondary me-1 mb-1" href="{{url_for('album.index')}}  ">Annuler</a>     
+                            </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </section>
+  </div><!--/col-->
+</div><!--/row-->
+{% endblock body %}

@@ -1,0 +1,102 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="{{article_pu.titre}}">
+<meta property="og:image" content="{{url_for('static', filename='publication/{}'.format(article_pu.url_img), _external=True)}}">
+<meta property="og:url" content="{{url_for('coedac.article', slug=article_pu.slug, _external=True)}}">
+<meta name="twitter:title" content="{{article_pu.titre}}">
+<meta name="twitter:image" content=" {{url_for('static', filename='publication/{}'.format(article_pu.url_img), _external=True)}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{url_for('coedac.article', slug=article_pu.slug, _external=True)}}">
+<meta property="og:site_name" content="COADEC">
+<meta name="keywords" content="{{article_pu.titre}}">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<title>Actualités </title>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/image_3.jpg')}}');"
+data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+            <h1 class="mb-2 bread">Actualités </h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                            class="ion-ios-arrow-forward"></i></a></span> <span>Actualité </span></p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <p>
+                    <img src="{{url_for('static', filename='publication/{}'.format(article_pu.url_img))}}" alt="" class="img-fluid">
+                </p>
+                <h2 class="mb-3">{{article_pu.titre}}</h2>
+
+                <p>{{article_pu.resume|safe}} </p>
+                
+                <p class="mt-4 btn-customize mt-5">
+					{%if article_pu.url_youtube!=None%}
+					<a href="" data-toggle="modal" data-target="#VideoV" class="btn btn-primary px-4 py-3 mr-md-2"><span
+							class="icon-play"></span> Suivez la vidéo</a> 
+					{%endif%}
+					
+					{%if fichier!=None%}
+					<a href="{{url_for('static', filename='publication/{}'.format(fichier))}}" class="btn btn-black px-4 py-3 ml-lg-2" download><span class="fa fa-file-pdf-o"></span> Télécharger
+					</a>
+					{%endif%}
+				</p>
+
+
+            </div>
+
+            <div class="col-lg-4 sidebar ftco-animate">
+                {% include'element/suivez.html'%}
+
+                {%if post_recent!=[]%}
+                    {% include'element/ala_une.html'%}
+                {%endif%}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade VideoPop" id="VideoV" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+            <iframe width="100%" height="600" src="{{article_pu.url_youtube}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+{% endblock body %}
+
+{% block js %}
+<script>
+	$(".VideoPopup").on('hidden.bs.modal', function (e) {
+		$(".VideoPopup iframe").attr("src",   $(".VideoPopup iframe").attr("src"));
+	});
+</script>
+{% endblock %}

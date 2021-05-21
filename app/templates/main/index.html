@@ -1,0 +1,286 @@
+{% extends "layout/admini.html" %}
+{% block summurnote %}{%endblock%}
+
+{% block body %}
+<section class="row">
+  <div class="col-12 col-lg-9">
+      <div class="row">
+          <div class="col-6 col-lg-3 col-md-6">
+              <div class="card">
+                  <div class="card-body px-3 py-4-5">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="stats-icon purple">
+                                  <i class="iconly-boldShow"></i>
+                              </div>
+                          </div>
+                          <div class="col-md-8">
+                              <h6 class="text-muted font-semibold">Visiteur</h6>
+                              <h6 class="font-extrabold mb-0">{{visteur}}</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+              <div class="card">
+                  <div class="card-body px-3 py-4-5">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="stats-icon blue">
+                                  <i class="fa fa-file-o"></i>
+                              </div>
+                          </div>
+                          <div class="col-md-8">
+                              <h6 class="text-muted font-semibold">Publication</h6>
+                              <h6 class="font-extrabold mb-0">{{publication}}</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+              <div class="card">
+                  <div class="card-body px-3 py-4-5">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="stats-icon green">
+                                  <i class="fa fa-music"></i>
+                              </div>
+                          </div>
+                          <div class="col-md-8">
+                              <h6 class="text-muted font-semibold">Média</h6>
+                              <h6 class="font-extrabold mb-0">{{media}}</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+              <div class="card">
+                  <div class="card-body px-3 py-4-5">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="stats-icon red">
+                                  <i class="fa fa-history"></i>
+                              </div>
+                          </div>
+                          <div class="col-md-8">
+                              <h6 class="text-muted font-semibold">Réalisation</h6>
+                              <h6 class="font-extrabold mb-0">{{realisation}}</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h4>Visteurs du mois</h4>
+                  </div>
+                  <div class="card-body">
+                      <div id="chart-profile-visit"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12 col-lg-12 col-xl-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h4>Dernières activités</h4>
+                  </div>
+                  <div class="card-body">
+                      {%if current_user.role=='Administrateur'%}
+                      <div class="table-responsive">
+                          <table class="table table-hover table-lg">
+                              <thead>
+                                  <tr>
+                                      <th>Nom</th>
+                                      <th>Messages</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {%for i in activite%}
+                                  {%if i.user_id !=None%}
+                                  <tr>
+                                      <td class="col-3">
+                                          <div class="d-flex align-items-center">
+                                              <div class="avatar avatar-md">
+                                                  <img src="{{url_for('static', filename='user.png')}}">
+                                              </div>
+                                              <p class="font-bold ms-3 mb-0">{{i.user_his.prenom}}</p>
+                                          </div>
+                                      </td>
+                                      <td class="col-auto">
+                                          <p class=" mb-0">{{i.message}}</p>
+                                      </td>
+                                  </tr>
+                                  {%else%}
+                                    <tr>
+                                        <td class="col-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-md">
+                                                    <img src="{{url_for('static', filename='avatar/{}'.format(i.inter_hist.avatar))}}">
+                                                </div>
+                                                <p class="font-bold ms-3 mb-0">{{i.inter_hist.pseudonyme}}</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0">{{i.message}}</p>
+                                        </td>
+                                    </tr>
+                                  {%endif%}
+                                  {%endfor%}
+
+                              </tbody>
+                          </table>
+                      </div>
+                      {%else%}
+                      <div class="table-responsive">
+                        <table class="table table-hover table-lg">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Messages</th>
+                                </tr>
+                            </thead>
+                            {%for i in activite%}
+                                {%if i.user_id !=None%}
+                                <tr>
+                                    <td class="col-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="{{url_for('static', filename='user.png')}}">
+                                            </div>
+                                            <p class="font-bold ms-3 mb-0">{{i.user_his.prenom}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="col-auto">
+                                        <p class=" mb-0">{{i.message}}</p>
+                                    </td>
+                                </tr>
+                                {%endif%}
+                            {%endfor%}
+                        </table>
+                    </div>
+                      {%endif%}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-12 col-lg-3">
+      <div class="card">
+          <div class="card-body py-4 px-5">
+              <div class="d-flex align-items-center">
+                  <div class="avatar avatar-xl">
+                      <img src="{{url_for('static', filename='user.png')}}" alt="Face 1">
+                  </div>
+                  <div class="ms-3 name">
+                      <h5 class="font-bold">{{current_user.prenom}} </h5>
+                      <h6 class="text-muted mb-0">@{%if activites==1%}{{activites}} activite {%else%}{{activites}} activites {%endif%} </h6>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="card">
+          <div class="card-header">
+              <h4>Activité internaute</h4>
+          </div>
+          
+          <div class="card-content pb-4">
+            {%for i in internaute %}
+            {%if loop.index <= 4 %}
+              <div class="recent-message d-flex px-4 py-3">
+                  <div class="avatar avatar-lg">
+                      <img src="{{url_for('static', filename='avatar/{}'.format(i.inter_hist.avatar))}}">
+                  </div>
+                  <div class="name ms-4">
+                      <h5 class="mb-1">{{i.inter_hist.pseudonyme}} </h5>
+                  </div>
+              </div>
+              {%endif%}
+              {%endfor%}
+
+              {%if current_user.role=='Administrateur'%}
+              <div class="px-4">
+                  <a href="{{url_for('organisation.index', id_act=1, id_pro=0)}}"  class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>
+                    Activités</a>
+              </div>
+              {%endif%}
+          </div>
+      </div>
+      <div class="card">
+          <div class="card-header">
+              <h4>Article plus lu</h4>
+          </div>
+          <div class="card-body">
+              <div id="chart-visitors-profile"></div>
+          </div>
+      </div>
+  </div>
+</section>
+{% endblock body %}
+
+{%block jsblock%}
+<script>
+    var optionsProfileVisit = {
+	annotations: {
+		position: 'back'
+	},
+	dataLabels: {
+		enabled:false
+	},
+	chart: {
+		type: 'bar',
+		height: 300
+	},
+	fill: {
+		opacity:1
+	},
+	plotOptions: {
+	},
+	series: [{
+		name: 'Visiteur',
+		data: [{%for i in data%} {{i}}, {%endfor%}]
+	}],
+	colors: '#435ebe',
+	xaxis: {
+		categories: [{%for i in label%} "{{i}}", {%endfor%}],
+	},
+}
+var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
+chartProfileVisit.render();
+
+{%if controle==True%}
+let optionsVisitorsProfile  = {
+	series: [{{un[1]}}, {{deux[1]}}],
+	labels: ['{{un[0]}}', '{{deux[0]}}'],
+	colors: ['#435ebe','#55c6e8'],
+	chart: {
+		type: 'donut',
+		width: '100%',
+		height:'350px'
+	},
+	legend: {
+		position: 'bottom'
+	},
+	plotOptions: {
+		pie: {
+			donut: {
+				size: '30%'
+			}
+		}
+	}
+}
+var chartVisitorsProfile = new ApexCharts(document.getElementById('chart-visitors-profile'), optionsVisitorsProfile);
+chartVisitorsProfile.render();
+{%endif%}
+
+</script>
+
+
+{%endblock%}

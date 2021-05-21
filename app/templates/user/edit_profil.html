@@ -1,0 +1,145 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.css')}}" />
+{%endblock%}
+{% block body %}
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Information</h3>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Modifier utilisateur</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+<div class="row">
+      <div class="col-md-12"> 
+        <section id="basic-vertical-layouts">
+          <div class="row match-height">
+              <div class="col-md-8 col-12">
+                <br><br>
+                  <div class="card">
+                      <div class="card-header">
+                        <h3><b>Information utilisateur</b></h3> 
+                      </div>
+                      <div class="card-content">
+                          <div class="card-body">
+                            {% with messages= get_flashed_messages(with_categories=true) %}
+                            {% if messages  %}
+                                {% for category, message in messages %}
+                                    <div class="alert text-center alert-{{ category }}">
+                                        <b>{{ message }}</b>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}  
+
+                              <form class="form form-vertical" enctype="multipart/form-data" method="POST">
+                                {{ form.csrf_token }}  
+                                <div class="form-body">
+                                    <div class="row">
+                                      <div class="col-md-5">
+                                      <div class="form-group">
+                                        {% if form.prenom.errors %}
+                                        {{ form.prenom(class="form-control is-invalid", placeholder="Prénom")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.prenom.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.prenom(class="form-control", placeholder="Prénom")}}
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                      <div class="form-group ">
+                                        {% if form.nom.errors %}
+                                        {{ form.nom(class="form-control is-invalid", placeholder="Nom")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.nom.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.nom(class="form-control", placeholder="Nom ")}}
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="form-group">
+                                        {% if form.post_nom.errors %}
+                                        {{ form.post_nom(class="form-control is-invalid", placeholder="Post-nom")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.post_nom.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.post_nom(class="form-control ", placeholder="Post-nom")}}
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-md-7">
+                                        <div class="form-group">
+                                          {% if form.email.errors %}
+                                          {{ form.email(class="form-control is-invalid", placeholder="E-mail de connexion")}}
+                                          <div class="invalid-feedback">
+                                              {% for error in form.email.errors %}
+                                                  <span>{{ error }}</span>
+                                              {% endfor %}
+                                          </div>
+                                          {% else %}
+                                          {{ form.email(class="form-control ", placeholder="E-mail")}}
+                                          {% endif %}
+                                        </div>
+                                      </div>
+                                      <div class="col-md-5">
+                                        <div class="form-group">
+                                          {% if form.password.errors %}
+                                          {{ form.password(class="form-control is-invalid", placeholder="Mot de passe")}}
+                                          <div class="invalid-feedback">
+                                              {% for error in form.password.errors %}
+                                                  <span>{{ error }}</span>
+                                              {% endfor %}
+                                          </div>
+                                          {% else %}
+                                          {{ form.password(class="form-control", placeholder="Mot de passe")}}
+                                          {% endif %}
+                                        </div>
+                                      </div>
+                                      </div>                     
+                                  <div class="col-12 d-flex justify-content-center mt-2">
+                                    <button class="btn btn-danger me-1 mb-1" id="submit" name="submit" type="submit">
+                                      <i class="la la-folder-o"></i> Modifier
+                                  </button>
+                                  <a class="btn btn-light-secondary me-1 mb-1" href="{{url_for('user.profil', user_id=user_id, id_pro=1, id_act=0)}}">Annuler</a>     
+                                </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </section>
+      </div><!--/col-->
+</div><!--/row-->
+
+{% endblock body %}
+
+{%block jsblock%}
+   <script src="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/jquery/jquery.min.js')}}"></script>
+{%endblock%}

@@ -1,0 +1,300 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/calendar.css')}}" rel="stylesheet">
+{%endblock%}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Publications</h3>
+      <br>
+      <a href="{{url_for('evenement.ajouter')}} " class="d-none d-md-inline-block btn btn-md btn-danger shadow-md">
+      <i class="fa fa-calendar fa-md text-white-50"></i> Ajouter événement</a>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Liste des événements</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+      <br>
+      {% with messages= get_flashed_messages(with_categories=true) %}
+                  {% if messages  %}
+                      {% for category, message in messages %}
+                          <div class="alert text-center alert-{{ category }}">
+                              <b>{{ message }}</b>
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+      <br>
+  </div>
+
+
+  <div class="col-md-5">
+          <div class="container-calendar box-shadow--4dp">
+              <h3 id="monthAndYear"></h3>
+              
+              <div class="button-container-calendar">
+                  <button id="previous" onclick="previous()">&#8249;</button>
+                  <button id="next" onclick="next()">&#8250;</button>
+              </div>
+              
+              <table class="table-calendar" id="calendar" data-lang="fr">
+                  <thead id="thead-month"></thead>
+                  <tbody id="calendar-body"></tbody>
+              </table>
+              
+              <div class="footer-container-calendar">
+                  <label for="month">Chercher: </label>
+                  <select id="month" onchange="jump()">
+                      <option value=0>Jan</option>
+                      <option value=1>Feb</option>
+                      <option value=2>Mar</option>
+                      <option value=3>Apr</option>
+                      <option value=4>May</option>
+                      <option value=5>Jun</option>
+                      <option value=6>Jul</option>
+                      <option value=7>Aug</option>
+                      <option value=8>Sep</option>
+                      <option value=9>Oct</option>
+                      <option value=10>Nov</option>
+                      <option value=11>Dec</option>
+                  </select>
+                  <select id="year" onchange="jump()"></select>       
+              </div>
+      
+          </div>
+  </div>
+  <div class="col-md-7">
+      <div class="row">
+        {%if liste !=[]%} 
+        {%for evenement in liste%}
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-content">
+                  <img src="{{url_for('static', filename='publication/{}'.format(evenement.avatar))}}" class="card-img-top img-fluid" alt="singleminded">
+                  <div class="card-body">
+                      <h5 class="card-title">{{evenement.titre}}</h5>
+                  </div>
+              </div>
+              <ul class="list-group list-group-flush">            
+                  <li class="list-group-item"><i class="bi bi-map"></i> Lieu :  {{evenement.lieu}}</li>
+                  {%if verification_date(evenement.date_even, evenement.date_fin) =='Avant' %}
+                  <li class="list-group-item"><i class="bi bi-calendar-date-fill"></i> Début: {{timeagos(evenement.date_even)}}</li>
+                  {%elif verification_date(evenement.date_even, evenement.date_fin) =='Encours' %}
+                  <li class="list-group-item"><i class="bi bi-calendar-date-fill"></i> Activité encours</li>
+                  {%else%}
+                  <li class="list-group-item"><i class="bi bi-calendar-date-fill"></i> Activité expirée</li>
+                  {%endif%}
+                  <li class="list-group-item text-center">
+                    <a  href="" data-bs-toggle="modal" data-bs-target="#default{{evenement.id}}" ><i class="fa fa-eye"></i></a>
+                    {%if evenement.statut==True%}
+                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Désactiver" href="{{url_for('evenement.statut', evenement_id=evenement.id)}}"><i class="fa fa-unlock" ></i></a>
+                    {%else%}
+                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Activer"  href="{{url_for('evenement.statut', evenement_id=evenement.id)}}"><i class="fa fa-lock" ></i></a>
+                    {%endif%}
+                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editer" href="{{url_for('evenement.edit', evenement_id=evenement.id)}}"><i class="fa fa-edit"></i></a>
+                  </li>
+              </ul>
+          </div>
+          </div>
+          <div class="modal fade text-left" id="default{{evenement.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel1">{{evenement.titre}}</h5>
+                        <button type="button" class="close rounded-pill"
+                            data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                          {{evenement.message|safe}}
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Fermer</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        {%endfor%}
+      
+        {%else%}
+          <div class="col-md-12">
+            <p class="text-center" style="margin-top:100px">
+                <i class="fa fa-calendar success fa-5x text-center"></i>
+                <h4 class="text-center">AUCUN EVENEMENT .</h4>
+                <br><br><br><br><br><br>
+            </p>
+          </div>
+        {%endif%}
+      </div>
+  </div>
+
+</div>
+
+
+{% endblock body %}
+
+{%block jsblock%}
+<script>
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
+
+<script>
+  function generate_year_range(start, end) {
+  var years = "";
+  for (var year = start; year <= end; year++) {
+      years += "<option value='" + year + "'>" + year + "</option>";
+  }
+  return years;
+}
+
+today = new Date();
+currentMonth = today.getMonth();
+currentYear = today.getFullYear();
+selectYear = document.getElementById("year");
+selectMonth = document.getElementById("month");
+
+
+createYear = generate_year_range(1970, 2050);
+/** or
+* createYear = generate_year_range( 1970, currentYear );
+*/
+
+document.getElementById("year").innerHTML = createYear;
+
+var calendar = document.getElementById("calendar");
+var lang = calendar.getAttribute('data-lang');
+
+var months = "";
+var days = "";
+
+var monthDefault = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+var dayDefault = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+if (lang == "en") {
+  months = monthDefault;
+  days = dayDefault;
+} else if (lang == "id") {
+  months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  days = ["Ming", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+} else if (lang == "fr") {
+  months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+  days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+} else {
+  months = monthDefault;
+  days = dayDefault;
+}
+
+
+var $dataHead = "<tr>";
+for (dhead in days) {
+  $dataHead += "<th data-days='" + days[dhead] + "'>" + days[dhead] + "</th>";
+}
+$dataHead += "</tr>";
+
+//alert($dataHead);
+document.getElementById("thead-month").innerHTML = $dataHead;
+
+
+monthAndYear = document.getElementById("monthAndYear");
+showCalendar(currentMonth, currentYear);
+
+
+
+function next() {
+  currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+  currentMonth = (currentMonth + 1) % 12;
+  showCalendar(currentMonth, currentYear);
+}
+
+function previous() {
+  currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+  currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+  showCalendar(currentMonth, currentYear);
+}
+
+function jump() {
+  currentYear = parseInt(selectYear.value);
+  currentMonth = parseInt(selectMonth.value);
+  showCalendar(currentMonth, currentYear);
+}
+
+function showCalendar(month, year) {
+
+  var firstDay = ( new Date( year, month ) ).getDay();
+
+  tbl = document.getElementById("calendar-body");
+
+  
+  tbl.innerHTML = "";
+
+  
+  monthAndYear.innerHTML = months[month] + " " + year;
+  selectYear.value = year;
+  selectMonth.value = month;
+
+  // creating all cells
+  var date = 1;
+  for ( var i = 0; i < 6; i++ ) {
+      
+      var row = document.createElement("tr");
+
+      
+      for ( var j = 0; j < 7; j++ ) {
+          if ( i === 0 && j < firstDay ) {
+              cell = document.createElement( "td" );
+              cellText = document.createTextNode("");
+              cell.appendChild(cellText);
+              row.appendChild(cell);
+          } else if (date > daysInMonth(month, year)) {
+              break;
+          } else {
+              cell = document.createElement("td");
+              cell.setAttribute("data-date", date);
+              cell.setAttribute("data-month", month + 1);
+              cell.setAttribute("data-year", year);
+              cell.setAttribute("data-month_name", months[month]);
+              cell.className = "date-picker";
+              cell.innerHTML = "<span>" + date + "</span>";
+
+              if ( date === today.getDate() && year === today.getFullYear() && month === today.getMonth() ) {
+                  cell.className = "date-picker selected";
+              }
+              row.appendChild(cell);
+              date++;
+          }
+
+
+      }
+
+      tbl.appendChild(row);
+  }
+
+}
+
+function daysInMonth(iMonth, iYear) {
+  return 32 - new Date(iYear, iMonth, 32).getDate();
+}
+</script>
+
+{%endblock%}

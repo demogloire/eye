@@ -1,0 +1,147 @@
+{% extends "layout/admini.html" %}
+{% block summurnote %}
+<style>
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+{%endblock%}
+
+{% block body %}
+<div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>Publications</h3>
+        <br>
+        <a href="{{url_for('publication.ajouter')}} " class="d-none d-md-inline-block btn btn-md btn-primary shadow-md">
+        <i class="fa fa-file-o fa-md text-white-50"></i> Ajouter publication</a>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Liste des publications</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages  %}
+                        {% for category, message in messages %}
+                            <div class="alert text-center alert-{{ category }}">
+                                <b>{{ message }}</b>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+        <br>
+    </div>
+</div>
+<div class="row">
+    {%if taille>0 %}
+    {%for listes in liste%}
+    <div class="col-lg-4 mb-4">
+        <div class="card box-shadow--3dp">
+            {%if listes.url_img !=None%}
+            <div class="paysage">
+                <img src="{{url_for('static', filename='publication/{}'.format(listes.url_img))}} " alt="" height="215"
+                    width="367" class="card-img-top img-fluid">
+            </div>
+            {%endif%}
+            <div class="card-body">
+                <h5 class="card-title"> {{listes.titre}} </h5>
+                <div class="card-text">
+                    <div class="text-left">
+                        <div class="divider divider-left">
+                            <div class="divider-text">Modification & Statistique</div>
+                        </div>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Editer" href="{{url_for('publication.edit', pub_id=listes.id)}} "
+                            class="btn btn-outline-success btn-sm">Editer</a>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Editer img" href="{{url_for('publication.edit_image', pub_id=listes.id)}}"
+                            class="btn btn-outline-warning btn-sm"><i class="bi bi-camera"></i></a>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Editer pdf"  href="{{url_for('publication.edit_pdf', pub_id=listes.id)}}" class="btn btn-outline-info btn-sm"><i class="bi bi-file-earmark"></i></a>
+                        
+                        {%if listes.statut==True%}
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Activer"  class="btn btn-outline-success btn-sm" href="{{url_for('publication.statut', pub_id=listes.id)}}"><i class="bi bi-unlock"
+                                aria-hidden="true"></i></a>
+                        {%else%}
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Désactiver"  class="btn btn-outline-danger btn-sm" href="{{url_for('publication.statut', pub_id=listes.id)}}"><i class="bi bi-lock"
+                                aria-hidden="true"></i></a>
+                        {%endif%}
+                        
+                        {%if listes.pred_jour==True and listes.cat_pub.nom=='Prédications' %}
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Activer"  class="btn btn-outline-dark btn-sm" href="{{url_for('publication.alune', pub_id=listes.id)}}"><i class="fa fa-certificate"
+                                aria-hidden="true"></i></a>
+                        {%elif listes.pred_jour==False and listes.cat_pub.nom=='Prédications' %}
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Désactiver"  class="btn btn-outline-warning btn-sm" href="{{url_for('publication.alune', pub_id=listes.id)}}"><i class="fa fa-circle"
+                                aria-hidden="true"></i></a>
+                        {%endif%}
+
+                        
+                    </div>
+                    <br>
+                    <div class="d-flex flex-row-reverse">
+                        <a href="" class="btn btn-danger btn-sm"><i class="bi bi-hand-thumbs-up-fill"></i> <span
+                                class="badge bg-transparent"> {{listes.nbr_like}} </span> </a>
+                        <a href="" class="btn btn-warning btn-sm"><i class="bi bi-eye-fill"></i> <span
+                                class="badge badge-pill badge-danger"> {{listes.nbr_lu}} </span> </a>
+                        <a href="" class="btn btn-dark btn-sm"><i class="bi bi-chat-right-text"></i> <span
+                                class="badge badge-pill badge-info"> {{listes.nbr_cmt}} </span> </a>
+                    </div>
+                </div>
+
+                <div class="divider divider-right">
+                    <div class="divider-text">{{listes.cat_pub.nom}}</div>
+                </div>
+                <div class="card-text ">
+
+                    <div class="d-flex">
+                        <div class="p-2"><a href="#" class="card-link justify-content-left">{{listes.user_pub.prenom}} </a>
+                    
+                        </div>
+                        
+                        <div class="ml-auto p-2">{%if listes.date_pub==listes.date_mod%}
+                            <a href="#" class="card-link justify-content-right">Ajouter le {{listes.date_pub.strftime('%d-%m-%Y')}} </a>
+                            {%else%}
+                            <a href="#" class="card-link justify-content-right">Modifier {{listes.date_mod.strftime('%d-%m-%Y')}} </a>
+                            {%endif%}</div>
+                      </div>
+
+                        
+                    
+                    
+                    
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <p class="text-center" style="margin-top:150px">
+        <i class="fa fa-file-o success fa-5x text-center"></i>
+        <h4 class="text-center">AUCUNE PUBLICATION .</h4>
+        <br><br><br>
+      </p>
+    {%endif%}
+</div>
+{% endblock body %}
+
+{%block jsblock%}
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+
+{%endblock%}

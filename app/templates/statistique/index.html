@@ -1,0 +1,45 @@
+{% extends "layout/admini.html" %}
+{% block css %}{%endblock%}
+
+{% block body %}
+
+
+
+
+{% endblock body %}
+
+{%block jsblock%}
+<script>
+    var optionsProfileVisit = {
+	annotations: {
+		position: 'back'
+	},
+	dataLabels: {
+		enabled:false
+	},
+	chart: {
+		type: 'bar',
+		height: 300
+	},
+	fill: {
+		opacity:1
+	},
+	plotOptions: {
+	},
+	series: [{
+		name: 'Visiteur',
+		data: [{%for i in data%} {{i}}, {%endfor%}]
+	}],
+	colors: '#435ebe',
+	xaxis: {
+		categories: [{%for i in label%} "{{i}}", {%endfor%}],
+	},
+}
+var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
+chartProfileVisit.render();
+
+
+</script>
+
+
+{%endblock%}

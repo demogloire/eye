@@ -1,0 +1,29 @@
+<div class="comment-form">
+    <h4>Commenter l'actualité</h4>
+    <form class="form-contact comment_form" action="" id="commentaire" method="post">
+        {{ form.csrf_token }}
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    {% if form.commmentaire.errors %}
+                    {{ form.commmentaire(class="form-control w-100 is-invalid", id="commentaire", cols="30", rows="9")}}
+                    <div class="invalid-feedback">
+                        <span id="erreur"></span>
+                    </div>
+                    <div class="invalid-feedback">
+                        {% for error in form.commmentaire.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.commmentaire(class="form-control w-100", id="commentaire", cols="30", rows="9")}} 
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="button button-contactForm btn_1 boxed-btn") }}
+        </div>
+    </form>
+</div>

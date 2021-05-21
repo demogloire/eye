@@ -1,0 +1,137 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="COADEC">
+<meta property="og:title" content="Apropos de nous">
+<meta name="keywords" content="COADEC Apropos de nous">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<title>COEDAC </title>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/event-2.jpg')}}');"
+data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+            <h1 class="mb-2 bread">COADEC </h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                            class="ion-ios-arrow-forward"></i></a></span> <span>COEDAC</span></p>
+        </div>
+    </div>
+</div>
+</section>
+<section class="ftco-section">
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="ministry-list">
+                <li class="active"><a  href="#" id="his">Historique</a></li>
+                <li><a  href="#" id="but">But</a></li>
+                <li><a href="#" id="min">Ministère</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <span id="historique">
+            <h3 class="mb-4">Historique du COEDAC</h3>
+
+                <p class="text-justify"> Il est créé à Minembwe le 12 Septembre 1999 une association sans but lucratif dénommée « comité de l’œuvre de Dieu en Afrique Centrale » C.Œ.D.A.C, en sigle.
+                Le siège du C.Œ.D.A.C est établi à Minembwe, Zone Rurale de Fizi, Province du Sud-Kivu, en République Démocratique du Congo. 
+                L’association C.Œ.D.A.C  exerce ses activités sur toute l’étendue de la République Démocratique du 
+                Congo en particulier et en Afrique Centrale en général.</p> 
+
+                <p class="text-justify">Par la vision ecclésiastique, l’association  est centrée sur la deuxième épître de Paul 
+                aux corinthiens 13:8,  «Car nous n`avons pas de puissance contre la vérité; nous n`en 
+                avons que pour la vérité». (2 Corinthiens 13:8).
+                </p> 
+
+                <p class="text-justify">
+                    Depuis sa création, il y’a de cela plus de 20 ans, sont intervention dans la 
+                    communauté ne cesse de trouver une place au sein de la communauté, par l’Evangile 
+                    en prêchant et en convertissant les âmes égarés  mais aussi par l’intervention 
+                    direct au sein de la communauté en aidant les personnes en difficulté. <br><br>
+                COEDAC compte pour le moment 1677 fidèles, 44 pasteurs, 27 Enseignant de l'église et +2 Eglises. 
+                </p>
+
+            </span>
+
+            <span id="bu">
+                <h3 class="mb-4">But du COEDAC</h3>
+                <p class="text-justify">
+                    Le comité de l’œuvre de Dieu en Afrique Centrale » C.Œ.D.A.C, dans sa 
+                    réalisation de ses missions ecclésiastiques, pour de but ayant des 
+                    traits sur la spiritualité et le bien-être du prochain de manière détaillée, 
+                    il poursuit les buts suivants:
+                </p>
+                <ul class="ministry-list" style="padding-left: 50px;">
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Reprocher les chrétiens égarés et leur montrer le chemin du salut. Jean 2 :16 ;</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Evangéliser les païens. Matthieu 28 :19 ;</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Prier pour divers besoins : l’église, la paix pour le pays, les malades,…</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Organiser les cultes en toute les catégories des chrétiens (adultes, jeunes, femmes, école de dimanche…)
+                    Accueillir les visiteurs venant de tout les coins du monde ;</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Créer les œuvres sociales ;</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Aides aux orphelins et veuves sans distinction d’ethnie ni de religion ;</li>
+                    <li><span class="ion-ios-arrow-forward mr-2"></span>Améliorer les conditions d’habitats des nécessiteux et cultiver leurs champs.</li>
+                    
+                </ul>
+
+                <p class="text-justify">
+                    Les actions que menent C.Œ.D.A.C, tient  compte des buts ci-haut cité traduit la bonne nouvelle telle que dit par <b>Matthieu 22 : 37-39:</b>   "Jésus lui répondit : 
+                    Tu aimeras le Seigneur, ton Dieu, de tout ton cœur, de toute ton âme, et de toute ta pensée. 
+                    C'est le premier et le plus grand commandement. Et voici le second, qui lui est semblable : 
+                    Tu aimeras ton prochain comme toi-même".
+                </p>
+
+            </span>
+
+            <span id="mission">
+                Bientôt disponible
+            </span>
+        </div>
+
+    </div>
+</div>
+</section>
+
+{% endblock body %}
+
+{% block js %}
+<script src="{{url_for('static', filename='plugins/jquery-3.3.1.min.js')}}"></script>
+<script>
+    $("#bu").hide();
+    $("#mission").hide();
+
+	 $(function () {
+      $("#his").click(function () {
+        $("#historique").show();
+        $("#bu").hide();
+        $("#mission").hide();
+      });
+
+      $("#but").click(function () {
+        $("#historique").hide();
+        $("#bu").show();
+        $("#mission").hide();
+      });
+
+      $("#min").click(function () {
+        $("#historique").hide();
+        $("#bu").hide();
+        $("#mission").show();
+
+      });
+  });
+</script>
+{% endblock %}

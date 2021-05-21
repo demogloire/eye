@@ -1,0 +1,79 @@
+{% extends "layout/admini.html" %}
+
+
+{% block body %}
+<div class="row">
+  <div class="col-md-12"> 
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card card-outline-secondary box-shadow--3dp">
+          <div class="card-body">
+            <h3><b>Modification</b></h3> <br>
+            {% with messages= get_flashed_messages(with_categories=true) %}
+            {% if messages  %}
+                {% for category, message in messages %}
+                    <div class="alert text-center alert-{{ category }}">
+                        <b>{{ message }}</b>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}                 
+                                    
+            <form  method="POST" enctype="multipart/form-data">
+              {{ form.csrf_token }}
+              <div class="row">
+                <div class="col-md-12">
+                <div class="form-group position-relative has-icon-left">
+                  {% if form.titre.errors %}
+                  {{ form.titre(class="form-control is-invalid", placeholder="Titre du média")}}
+                  <div class="invalid-feedback">
+                      {% for error in form.titre.errors %}
+                          <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.titre(class="form-control", placeholder="Titre du média")}}
+                  {% endif %}
+
+                  <div class="form-control-icon">
+                      <i class="bi bi-pen"></i>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                <div class="form-group position-relative has-icon-left">
+                  <small>URL du video *</small>
+                  {% if form.url.errors %}
+                  {{ form.url(class="form-control is-invalid", placeholder="URL Vidéo")}}
+                  <div class="invalid-feedback">
+                      {% for error in form.url.errors %}
+                          <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.url(class="form-control", placeholder="URL Video")}}
+                  {% endif %}
+                  <div class="form-control-icon">
+                      <i class="fa fa-youtube-square"></i>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+                <div class="text-center mb-1">
+                    <button class="btn btn-outline-info btn-md"  type="submit">
+                       Modifier
+                    </button>
+                    <a class="btn btn-danger " id="success" href="{{url_for('media.index_video')}}  ">Annuler</a>     
+                </div>
+              </form>
+          </div><!--/card-block-->
+        </div><!-- /form card login -->
+      </div>
+    </div>
+  </div><!--/col-->
+</div><!--/row-->
+{% endblock body %}

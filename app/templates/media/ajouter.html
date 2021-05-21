@@ -1,0 +1,178 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.css')}}" />
+{%endblock%}
+
+
+{% block body %}
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Média</h3>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="">Les médias</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ajouter une média</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+
+    <div class="row">
+      <div class="col-md-12"> 
+        <div class="row">
+          <div class="col-md-7">
+            <div class="card card-outline-secondary box-shadow--3dp">
+              <div class="card-body">
+                <h3><b>Ajouter une média</b></h3> <br>
+                {% with messages= get_flashed_messages(with_categories=true) %}
+                {% if messages  %}
+                    {% for category, message in messages %}
+                        <div class="alert text-center alert-{{ category }}">
+                            <b>{{ message }}</b>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}                 
+                                        
+                <form  method="POST" enctype="multipart/form-data">
+                  {{ form.csrf_token }}
+                  <div class="row">
+                    <div class="col-md-12">
+                    <div class="form-group position-relative has-icon-left">
+                      {% if form.titre.errors %}
+                      {{ form.titre(class="form-control is-invalid", placeholder="Titre du média")}}
+                      <div class="invalid-feedback">
+                          {% for error in form.titre.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.titre(class="form-control", placeholder="Titre du média")}}
+                      {% endif %}
+
+                      <div class="form-control-icon">
+                          <i class="bi bi-pen"></i>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <ul class="list-unstyled mb-0">
+                          <span id="a">
+                          
+                          <li class="d-inline-block me-2 mb-1">
+                              <div class="form-check" >
+                                  <div class="custom-control custom-checkbox">
+                                      {{ form.audio(id="customColorCheck1", class="form-check-input form-check-secondary", )}}
+                                      <label class="form-check-label" for="customColorCheck1">Choir l'audio</label>
+                                  </div>
+                              </div>
+                          </li>
+                        </span>
+                        <span id="v">
+                          <li class="d-inline-block me-2 mb-1" id="v">
+                              <div class="form-check">
+                                  <div class="custom-control custom-checkbox">
+                                      {{ form.video(id="customColorCheck2", class="form-check-input form-check-secondary",)}}
+                                      <label class="form-check-label" for="customColorCheck2">Choisir la video</label>
+                                  </div>
+                              </div>
+                          </li>
+                        </span>
+                      </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row" id="div_deux">
+                    <div class="col-md-12">
+                    <div class="form-group position-relative has-icon-left">
+                      <small>URL du video *</small>
+                      {% if form.url.errors %}
+                      {{ form.url(class="form-control is-invalid", placeholder="URL Vidéo")}}
+                      <div class="invalid-feedback">
+                          {% for error in form.url.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.url(class="form-control", placeholder="URL Video")}}
+                      {% endif %}
+
+                      <div class="form-control-icon">
+                          <i class="fa fa-youtube-square"></i>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
+                  <div class="row" id="div_un">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="mt-2">
+                          <small>Fichier mp3 *</small>
+                          {% if form.mp_trois.errors %}
+                          {{ form.mp_trois(class="form-control-file")}}
+                          <div class="invalid-feedback">
+                              {% for error in form.mp_trois.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                          {% else %}
+                          {{ form.mp_trois(class="form-control-file")}}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="text-center mb-1">
+                        <button class="btn btn-outline-success btn-md"  type="submit">
+                           Enregistrer
+                        </button>
+                        <a class="btn btn-danger " id="success" href="{{url_for('main.dashboard')}}  ">Annuler</a>     
+                    </div>
+                  </form>
+              </div><!--/card-block-->
+            </div><!-- /form card login -->
+          </div>
+        </div>
+      </div><!--/col-->
+    </div><!--/row-->
+{% endblock body %}
+
+{%block jsblock%}
+<script src="{{url_for('static', filename='plugins/jquery-3.3.1.min.js')}}"></script>
+<script>
+  $("#div_un").hide();
+  $("#div_deux").hide();
+
+
+  $(function () {
+      $("#customColorCheck1").click(function () {
+        $("#a").hide();
+        $("#v").show();
+        $("#div_deux").hide();
+        $("#div_un").show();
+        $('#customColorCheck2').prop('checked', false);
+        $('#customColorCheck1').prop('checked', true);
+        
+      });
+      $("#customColorCheck2").click(function () {
+        $("#v").hide();
+        $("#a").show();
+        $("#div_un").hide();
+        $("#div_deux").show();
+        $('#customColorCheck1').prop('checked', false);
+        $('#customColorCheck2').prop('checked', true);
+        
+        
+
+      });
+  });
+</script>
+{%endblock%}

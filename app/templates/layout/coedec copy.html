@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+{% block meta %}{% endblock meta %}
+{% if title %}
+<title> {{ title }} </title>
+{% else %}
+<title> COEDEC </title>
+{% endif %}
+
+<!-- Stylesheets -->
+<link href="{{ url_for('static', filename='ucp/css/bootstrap.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='ucp/css/style.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='ucp/css/responsive.css')}}" rel="stylesheet">
+
+<!--Color Switcher Mockup -->
+<link href="{{ url_for('static', filename='ucp/css/color-switcher-design.css')}}" rel="stylesheet">
+<!--Color Themes -->
+<link id="theme-color-file" href="{{ url_for('static', filename='ucp/css/color-themes/default-theme.css')}}" rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="{{url_for('static',filename='logo.jpg')}}">
+
+<!-- Responsive -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+<link href="{{ url_for('static', filename='BaguetteBox.css')}}" rel="stylesheet">
+
+{%block css%}
+{%endblock%}
+
+
+</head>
+
+<body class="hidden-bar-wrapper">
+
+<div class="page-wrapper">
+ 	{%block body%}
+    <div class="preloader"></div>
+
+	{%endblock%}
+</div>
+
+<!--End pagewrapper-->
+
+<!-- Color Palate / Color Switcher -->
+
+<!--Search Popup-->
+<div id="search-popup" class="search-popup">
+	<div class="close-search theme-btn"><span class="flaticon-multiply"></span></div>
+	<div class="popup-inner">
+		<div class="overlay-layer"></div>
+    	<div class="search-form">
+        	<form method="post" action="">
+            	<div class="form-group">
+                	<fieldset>
+                        <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
+                        <input type="submit" value="Search Now!" class="theme-btn">
+                    </fieldset>
+                </div>
+            </form>
+            
+            <br>
+            <h3>Recent Search Keywords</h3>
+            <ul class="recent-searches">
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Furniture</a></li>
+                <li><a href="#">Kitchen</a></li>
+                <li><a href="#">Bed</a></li>
+                <li><a href="#">Window</a></li>
+            </ul>
+        
+        </div>
+        
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='ucp/js/jquery.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/jquery.fancybox.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/appear.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/isotope.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/owl.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/wow.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/jquery-ui.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/script.js')}}"></script>
+<script src="{{ url_for('static', filename='ucp/js/color-settings.js')}}"></script>
+
+{%block js %}{%endblock%}
+<script type="text/javascript">
+	function googleTranslateElementInit() {
+	  new google.translate.TranslateElement({pageLanguage: 'fr', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
+	}
+
+	function triggerHtmlEvent(element, eventName) {
+	  var event;
+	  if (document.createEvent) {
+		event = document.createEvent('HTMLEvents');
+		event.initEvent(eventName, true, true);
+		element.dispatchEvent(event);
+	  } else {
+		event = document.createEventObject();
+		event.eventType = eventName;
+		element.fireEvent('on' + event.eventType, event);
+	  }
+	}
+
+	jQuery('.lang-select').click(function() {
+	  var theLang = jQuery(this).attr('data-lang');
+	  jQuery('.goog-te-combo').val(theLang);
+
+	  //alert(jQuery(this).attr('href'));
+	  window.location = jQuery(this).attr('href');
+	  location.reload();
+
+	});
+
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+</body>
+
+</html>
+

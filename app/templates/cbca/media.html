@@ -1,0 +1,137 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="COADEC">
+<meta property="og:title" content="Média">
+<meta name="keywords" content="COADEC, Média">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+
+<title>Média </title>
+
+
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2"
+    style="background-image: url('{{url_for('static', filename='coedac/images/media.jpg')}}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate pb-5 text-center">
+                <h1 class="mb-2 bread">Médias </h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                                class="ion-ios-arrow-forward"></i></a></span> <span>Audio</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ftco-animate">
+                {%if audio.items|length > 0%}
+                <div class="row">
+                    {%for i in audio.items%}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-block box-shadow--2dp" style="padding: 10px;">
+                                <div class="mp3-details" style="height: 35px; background-color: #f9f9f9; text-align: center;">
+                                    <a data-toggle="collapse" href="#details" aria-expanded="false"
+                                        aria-controls="displayDetails" style="text-decoration: none;">
+                                        <span style="font-size: 30px; color: #666666; padding: 3px;">&#9776;</span>
+                                    
+                                    </a>
+                                </div>
+                                <div class="collapse collapse-details" id="details">
+                                    <img src="{{url_for('static', filename='oeuvre.png')}}"
+                                        alt="John Doe" class="img-thumbnail mp3-cover" style="border-radius: 5px 5px 0 0; padding: 5px; width:100%;">
+                                    <ul class="list-group" style="font-weight:bold ;">
+                                        <li class="list-group-item"><span>Pour:</span>COEDAC</li>
+                                        <li class="list-group-item"><span>Titre:</span>{{i.titre}}</li>
+                                    </ul>
+                                </div>
+                                <h4 class="card-title">{{i.titre}}</h4>
+                                <div class="mp3-audio">
+                                    <audio controls class="mp3-auido" style="width:100%">
+                                        <source src="{{i.url_media}}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {%endfor%}
+                </div>
+                {%if audio.items|length>3%}
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                                {% for page_num in audio.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                {% if page_num %}
+                                    {% if audio.page==page_num %}
+                                    <li>
+                                        <a href="{{ url_for('coedac.medias', page=page_num) }}" class="active">
+                                           {{page_num}}</i>
+                                        </a> 
+                                    </li>
+                                    {% else %}
+                                    <li>
+                                        <a href="{{ url_for('coedac.medias', page=page_num) }}">
+                                            {{page_num}}</i>
+                                        </a>
+                                    </li>                       
+                                    {% endif %}
+                                {% else %}
+                                ...
+                                {% endif %}
+                                {% endfor %}
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {%endif%}
+                {%else%}
+
+                <p class="text-center" style="margin-top:100px">
+                    <i class="fa fa-music success fa-5x text-center"></i>
+                <h4 class="text-center">AUCUN AUDIO DISPONIBLE .</h4>
+                <br><br><br><br><br><br>
+                </p>
+
+                {%endif%}
+
+            </div>
+            <div class="col-lg-4 sidebar ftco-animate">
+                {% include'element/media.html'%}
+
+                {%if post_recent!=[]%}
+                    {% include'element/post.html'%}
+                {%endif%}
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock body %}
+
+{% block js %}
+
+{% endblock %}

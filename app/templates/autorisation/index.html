@@ -1,0 +1,106 @@
+{% extends "layout/admin.html" %}
+{% block body %}
+
+
+<div class="row">
+    <div class="col-md-12 mt-5"> 
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          
+          <div class="card card-outline-secondary box-shadow--3dp">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3><b>Liste des autorisés</b></h3>
+                    </div>
+                
+                </div>
+                <br>
+                                      {% with messages= get_flashed_messages(with_categories=true) %}
+                                      {% if messages  %}
+                                      {% for category, message in messages %}
+                                      {%if category!="danger"%}
+                                          <div class="alert round bg-{{ category }} alert-icon-left alert-dismissible mb-2" role="alert">
+                                              <span class="alert-icon">
+                                                  <i class="fa fa-thumbs-o-down"></i>
+                                              </span>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                              </button>
+                                              <strong class="text-gray-900">{{ message }}!</strong> 
+                                              
+                                          </div>
+                                      {%else%}
+                                          <div class="alert round bg-{{ category }} alert-icon-left alert-dismissible mb-2" role="alert">
+                                              <span class="alert-icon">
+                                                  <i class="fa fa-thumbs-o-up"></i>
+                                              </span>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                              </button>
+                                              <strong class="text-gray-900">{{ message }}!</strong>
+                                              
+                                          </div>
+                                      {%endif%}
+                                      
+                                      {% endfor %}
+                                      {% endif %}
+                                      {% endwith %}
+              
+                                <div class="row">
+
+                                  {%if liste !=[]%} 
+                                    <div class="col-md-12">
+                                      <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th>Nom </th>
+                                            <th>Post-nom</th>
+                                            <th>Nom d'utilisateur</th>
+                                            <th>Mot de passe</th>
+                                            <th>Role</th>
+                                            <th class="text-center">Statut </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {%for autorisation in liste%}
+                                          <tr>
+                                            <td> {{autorisation.nom}} </td>
+                                            <td> {{autorisation.post_nom}} </td>
+                                            <td> {{autorisation.username}} </td>
+                                            <td> {{autorisation.password}} </td>
+                                            <td> {{autorisation.role}} </td>
+                                            <td class="text-center">
+                                              {%if autorisation.statut==True%}
+                                              <a href="{{url_for('autorisation.statut', aut_id=autorisation.id)}}"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                              {%else%}
+                                              <a href="{{url_for('autorisation.statut', aut_id=autorisation.id)}}"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                              {%endif%}
+                                            </td>
+                                          </tr>
+                                          {%endfor%}
+                                        </tbody>
+                                      </table>
+                                
+                                    </div>
+                                  {%else%}
+                                    <div class="col-md-12">
+                                      <p class="text-center" style="margin-top:100px">
+                                          <i class="fa fa-folder success fa-5x text-center"></i>
+                                          <h4 class="text-center">LA LISTE EST VIDE .</h4>
+                                          <br><br><br><br><br><br>
+                                      </p>
+                                    </div>
+                                  {%endif%}
+                                </div> 
+
+                
+            </div><!--/card-block-->
+          </div><!-- /form card login -->
+          
+        </div>
+      </div>
+    </div><!--/col-->
+  </div><!--/row-->
+
+{% endblock body %}

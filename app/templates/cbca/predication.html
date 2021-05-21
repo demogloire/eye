@@ -1,0 +1,115 @@
+{% extends "layout/coedec.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="COADEC">
+<meta property="og:title" content="Prédications">
+<meta name="keywords" content="COADEC, Prédications">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<title>Prédications </title>
+{%endblock%}
+
+
+{% block body %}
+{% include'element/menu.html'%}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/event-2.jpg')}}');"
+data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+            <h1 class="mb-2 bread">Prédication </h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
+                            class="ion-ios-arrow-forward"></i></a></span> <span>Prédications</span></p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            {%if predication.items|length > 0%} 
+            {%for pred in predication.items%}
+            <div class="col-md-4">
+                <div class="sermon-wrap sermon-wrap-2 mb-4 ftco-animate">
+                    <div class="img d-flex align-items-center justify-content-center"
+                        style="background-image: url({{url_for('static', filename='publication/{}'.format(pred.url_img))}});">
+                        <div class="vid-down d-flex">
+                            <a href="#" class="btn-custom d-flex align-items-center justify-content-center">
+                                <span class="fa fa-eye"></span></a>
+                        </div>
+                    </div>
+                    <div class="text p-4 bg-light text-justify">
+                        <h3 ><a href="{{url_for('coedac.predication_une',slug=pred.slug)}}">{{pred.titre}}</a></h3>
+                        <div class="meta">
+                            <p>
+                                <span> 
+                                    <a href="#" class="ptr">{{pred.cat_pub.nom}}, {{pred.user_pub.prenom}} {{pred.user_pub.nom}} {{pred.user_pub.post_nom}}</a>
+                                </span><br>
+                                <span>Publier <a href="#">{{timeagos(pred.date_pub)}}</a></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+            <br>
+
+        </div>
+        {%if predication.items|length>3%}
+        
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        {% for page_num in predication.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                        {% if page_num %}
+                            {% if predication.page==page_num %}
+                            <li>
+                                <a href="{{ url_for('coedac.predication', page=page_num) }}" class="active">
+                                   {{page_num}}</i>
+                                </a> 
+                            </li>
+                            {% else %}
+                            <li>
+                                <a href="{{ url_for('coedac.predication', page=page_num) }}">
+                                    {{page_num}}</i>
+                                </a>
+                            </li>                       
+                            {% endif %}
+                        {% else %}
+                        ...
+                        {% endif %}
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {%endif%}
+
+        {%else%}
+
+        <p class="text-center" style="margin-top:100px">
+            <i class="fa fa-file-o success fa-5x text-center"></i>
+            <h4 class="text-center">AUCUNE PREDICATION DISPONIBLE .</h4>
+            <br><br><br><br><br><br>
+        </p>
+
+        {%endif%}
+    </div>
+</section>
+{% endblock body %}
+
+{% block js %}
+
+{% endblock %}
