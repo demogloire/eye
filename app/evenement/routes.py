@@ -73,9 +73,7 @@ def ajouter():
    #formulaire
    form=AjoutEvenementForm()
 
-   
    if form.validate_on_submit():
-      
       enreg_avatar=f_avatar(form.avatar.data)
       #date_f_debut=f_date()
       if date_sup_ver(form.date_fin.data,form.date_debut.data) is False :

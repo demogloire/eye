@@ -214,6 +214,46 @@ class Organisation (db.Model):
     num_telephone=db.Column(db.String(128))
     statut=db.Column(db.Boolean, default=False)
 
-    
+    def __repr__(self):
+        return ' {} '.format(self.nom)
+
+
+class Rubrique(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(128))
+    resume = db.Column(db.Text)
+    image_rubrique = db.Column(db.String(200), default='image.jpg')
+    statut = db.Column(db.Boolean, default=False)  
+    donations = db.relationship('Donation', backref='donation_rub', lazy='dynamic')
+    def __repr__(self):
+        return ' {} '.format(self.nom)
+
+
+class Donation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rubrique_id = db.Column(db.Integer, db.ForeignKey('rubrique.id'), nullable=True) 
+    parrainage_id = db.Column(db.Integer, db.ForeignKey('parrainage.id'), nullable=True) 
+    somme=db.Column(db.DECIMAL(precision=10, scale=2))
+    noms = db.Column(db.String(128))
+    resume = db.Column(db.Text)
+    date_payements=db.Column(db.Date)
+    identi_payement=db.Column(db.String(128))
+    adresse=db.Column(db.String(128))
+    email=db.Column(db.String(128))
+    pays=db.Column(db.String(128))
+    telephone=db.Column(db.String(128))
+
+    def __repr__(self):
+        return ' {} '.format(self.noms)
+
+class Parrainage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    noms = db.Column(db.String(128))
+    resume = db.Column(db.Text)
+    parrainage=db.Column(db.DECIMAL(precision=10, scale=2))
+    date_de_naissance=db.Column(db.Date)
+    image_rubrique = db.Column(db.String(200), default='image.jpg')
+    statut = db.Column(db.Boolean, default=False)  
+    donations = db.relationship('Donation', backref='donation_parrainage', lazy='dynamic')
     def __repr__(self):
         return ' {} '.format(self.nom)

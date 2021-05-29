@@ -1,0 +1,172 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.css')}}" >
+
+<script src="{{url_for('static', filename='plugins/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/gijgo.min.js')}}" type="text/javascript"></script>
+<link href="{{url_for('static', filename='plugins/gijgo.min.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{url_for('static', filename='plugins/messages.fr-fr.js')}}" type="text/javascript"></script>
+
+{%endblock%}
+
+{% block body %}
+
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+          <h3>Modifier un enfants</h3>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first">
+          <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('parrainage.index')}}">Les enfants</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Modifier enfant</li>
+              </ol>
+          </nav>
+      </div>
+  </div>
+<br>
+  <div class="row">
+          <div class="col-md-12"> 
+            <div class="row">
+              <div class="col-md-9">
+                <div class="card card-outline-secondary box-shadow--3dp">
+                  <div class="card-body">
+                    <h3><b>Modifier</b></h3> <br>
+                    {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages  %}
+                        {% for category, message in messages %}
+                            <div class="alert text-center alert-{{ category }}">
+                                <b>{{ message }}</b>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}                 
+                       
+                    <form  method="POST" enctype="multipart/form-data">
+                      {{ form.csrf_token }}
+    
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                            {% if form.noms.errors %}
+                            {{ form.noms(class="form-control form-control is-invalid", placeholder="Noms complet ")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.noms.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.noms(class="form-control", placeholder="Noms complet ")}}
+                            {% endif %}
+                          </div>
+                          <div class="col-md-6">
+                            {% if form.date_de_naissance.errors %}
+                            {{ form.date_de_naissance(class="form-control form-control is-invalid", placeholder="Date de naissance", id="datepicker", readonly="")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.date_de_naissance.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.date_de_naissance(class="form-control", placeholder="Date de naissance", id="datepicker", readonly="")}}
+                            {% endif %}
+                          </div>
+
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            {% if form.resume.errors %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        <div class="invalid-feedback">
+                                            {% for error in form.resume.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        {% endif %}
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <img src="{{url_for('static', filename='rubrique/{}'.format(image_rub))}}" height="40" width="40" alt="">
+                        </div>
+
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+
+                              <label class="control-label mb-1" > <small>Image d'enfant en jpg</small> </label>
+                              {% if form.image_rubrique.errors %}
+                              {{ form.image_rubrique(class="form-control is-invalid")}}
+                              <i class="form-group__bar"></i>
+                              <div class="invalid-feedback">
+                                  {% for error in form.image_rubrique.errors %}
+                                      <span>{{ error }}</span>
+                                  {% endfor %}
+                              </div>
+                              {% else %}
+                              {{ form.image_rubrique(class="form-control")}}
+                              <i class="form-group__bar"></i>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="control-label mb-1" > <small>Prix de parrainage par mois</small> </label>
+                              {% if form.parrainage.errors %}
+                              {{ form.parrainage(class="form-control is-invalid", placeholder="10$")}}
+                              <i class="form-group__bar"></i>
+                              <div class="invalid-feedback">
+                                  {% for error in form.parrainage.errors %}
+                                      <span>{{ error }}</span>
+                                  {% endfor %}
+                              </div>
+                              {% else %}
+                              {{ form.parrainage(class="form-control", placeholder="10$")}}
+                              <i class="form-group__bar"></i>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="text-center mb-1">
+                            <button class="btn btn-outline-success btn-md"  type="submit">
+                               Modifier
+                            </button>
+                            <a class="btn btn-danger " id="success" href="{{url_for('parrainage.index')}}  ">Annuler</a>     
+                        </div>
+                    </form>
+                  </div><!--/card-block-->
+                </div><!-- /form card login -->
+              </div>
+            </div>
+          </div><!--/col-->
+  </div><!--/row-->
+
+{% endblock body %}
+
+{%block jsblock%}
+   <script src="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.js')}}"></script>
+   <script>
+       $('#summernote').summernote({
+           tabsize: 2,
+           height: 120,
+       });
+
+       $('#datepicker').datepicker({
+         uiLibrary: 'bootstrap4',
+         format: 'dd/mm/yyyy',
+         locale: 'fr-fr',
+         icons: {
+          rightIcon: '<i class="bi bi-calendar-date-fill"></i>'
+      }
+     });
+   </script>
+{%endblock%}

@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 import flask_sijax
+from flask_wtf import CSRFProtect
 
 
 #Importation des configuration de l'application sur le developpement de l'application
@@ -40,6 +41,7 @@ def create_app (config_name):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate = Migrate(app, db)
+    CSRFProtect(app)
   
     
     #Sijax
@@ -88,8 +90,8 @@ def create_app (config_name):
     from .publication import publication as publication_blueprint
     app.register_blueprint(publication_blueprint)
 
-    from .cbca import cbca as cbca_blueprint
-    app.register_blueprint(cbca_blueprint)
+    from .projet import projet as projet_blueprint
+    app.register_blueprint(projet_blueprint)
     
     from .album import album as album_blueprint
     app.register_blueprint(album_blueprint)
@@ -115,6 +117,13 @@ def create_app (config_name):
     
     from .statistique import stat as stat_blueprint
     app.register_blueprint(stat_blueprint)
+    
+    from .rubrique import rubrique as rub_blueprint
+    app.register_blueprint(rub_blueprint)
+    
+    from .parrainage import parrainage as par_blueprint
+    app.register_blueprint(par_blueprint)
+    
     
     return app
 

@@ -1,0 +1,121 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.css')}}" >
+{%endblock%}
+
+{% block body %}
+
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+          <h3>Rubrique de dons</h3>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first">
+          <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('rubrique.index')}}">Les rubriques</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Ajouter rubrique</li>
+              </ol>
+          </nav>
+      </div>
+  </div>
+<br>
+  <div class="row">
+          <div class="col-md-12"> 
+            <div class="row">
+              <div class="col-md-7">
+                <div class="card card-outline-secondary box-shadow--3dp">
+                  <div class="card-body">
+                    <h3><b>Ajouter une rubrique</b></h3> <br>
+                    {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages  %}
+                        {% for category, message in messages %}
+                            <div class="alert text-center alert-{{ category }}">
+                                <b>{{ message }}</b>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}                 
+                       
+                    <form  method="POST" enctype="multipart/form-data">
+                      {{ form.csrf_token }}
+    
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            {% if form.nom.errors %}
+                            {{ form.nom(class="form-control form-control is-invalid", placeholder="Nom de la rubrique")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.nom.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.nom(class="form-control", placeholder="Nom de la rubrique")}}
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            {% if form.resume.errors %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        <div class="invalid-feedback">
+                                            {% for error in form.resume.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.resume(id="summernote",cols="30",rows="40")}}
+                                        <i class="form-group__bar"></i>
+                                        {% endif %}
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+
+                              <label class="control-label mb-1" > <small>Image de la rubrique en jpg</small> </label>
+                              {% if form.image_rubrique.errors %}
+                              {{ form.image_rubrique(class="form-control is-invalid")}}
+                              <i class="form-group__bar"></i>
+                              <div class="invalid-feedback">
+                                  {% for error in form.image_rubrique.errors %}
+                                      <span>{{ error }}</span>
+                                  {% endfor %}
+                              </div>
+                              {% else %}
+                              {{ form.image_rubrique(class="form-control")}}
+                              <i class="form-group__bar"></i>
+                              {% endif %}
+                          </div>
+                          </div>
+                        </div>
+
+                        <div class="text-center mb-1">
+                            <button class="btn btn-outline-success btn-md"  type="submit">
+                               Enregistrer
+                            </button>
+                            <a class="btn btn-danger " id="success" href="{{url_for('rubrique.index')}}  ">Annuler</a>     
+                        </div>
+                    </form>
+                  </div><!--/card-block-->
+                </div><!-- /form card login -->
+              </div>
+            </div>
+          </div><!--/col-->
+  </div><!--/row-->
+
+{% endblock body %}
+
+{%block jsblock%}
+   <script src="{{url_for('static', filename='nv_admin/vendors/choices.js/choices.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/jquery/jquery.min.js')}}"></script>
+   <script src="{{url_for('static', filename='nv_admin/vendors/summernote/summernote-lite.min.js')}}"></script>
+   <script>
+       $('#summernote').summernote({
+           tabsize: 2,
+           height: 120,
+       });
+   </script>
+{%endblock%}

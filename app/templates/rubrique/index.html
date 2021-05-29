@@ -1,0 +1,92 @@
+{% extends "layout/admini.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Rubrique des dons</h3>
+      <br>
+      <a href="{{url_for('rubrique.ajoutrub')}} " class="d-none d-md-inline-block btn btn-md btn-primary shadow-md">
+      <i class="fa fa-folder-o fa-md text-white-50"></i> Ajouter rubrique</a>
+  </div>
+  <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url_for('main.dashboard')}}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Liste des rubriques</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+<br><br>
+
+
+
+  <div class="row" id="basic-table">
+    
+
+    <div class="col-12 col-md-7">
+        {%if liste !=[]%} 
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Liste des rubriques</h3>
+            </div>
+
+                <div class="card-body">
+                    <p class="card-text">
+                        {% with messages= get_flashed_messages(with_categories=true) %}
+                        {% if messages  %}
+                            {% for category, message in messages %}
+                                <div class="alert text-center alert-{{ category }}">
+                                    <b>{{ message }}</b>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}       
+                    </p>
+                    <!-- Table with outer spacing -->
+                    <div class="table-responsive">
+                        <table class="table table-lg">
+                            <thead>
+                                <tr>
+                                  <th>Avatar</th>
+                                  <th>Nom rubrique</th>
+                                  <th class="text-center">Statut </th>
+                                  <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {%for categorie in liste%}
+                              <tr>
+                                <td><img src="{{url_for('static', filename='rubrique/{}'.format(categorie.image_rubrique))}} " alt="" height="40" width="50"></td>
+                                <td> {{categorie.nom}} </td>
+                                <td class="text-center">
+                                  {%if categorie.statut==True%}
+                                  <a href="{{url_for('rubrique.statut', rub_id=categorie.id)}}"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                  {%else%}
+                                  <a href="{{url_for('rubrique.statut', rub_id=categorie.id)}}"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                  {%endif%}
+                                </td>
+                                <td class="text-center"><a href="{{url_for('rubrique.edit', rub_id=categorie.id)}}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+                              </tr>
+                              {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+        </div>
+        {%else%}
+          <p class="text-center" style="margin-top:100px">
+            <i class="fa fa-folder success fa-5x text-center"></i>
+            <h4 class="text-center">AUCUNE CATEGORIE .</h4>
+            <br><br><br><br><br><br>
+          </p>
+        {%endif%}
+    </div>
+
+</div>
+
+
+
+
+{% endblock body %}
