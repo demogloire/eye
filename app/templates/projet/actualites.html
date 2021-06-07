@@ -1,12 +1,12 @@
-{% extends "layout/coedec.html" %}
+{% extends "layout/emi.html" %}
 
 {% block meta %}
 <meta name="robots" content="index">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:site_name" content="COADEC">
+<meta property="og:site_name" content="Oeil Mondial International">
 <meta property="og:title" content="Actualités">
-<meta name="keywords" content="COADEC, Actualités">
+<meta name="keywords" content="Oeil Mondial International, Actualités">
 <link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
 <link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
 
@@ -18,41 +18,58 @@
 
 
 {% block body %}
-{% include'element/menu.html'%}
+{% include 'element/menu.html' %}
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/image_3.jpg')}}');"
-data-stellar-background-ratio="0.5">
-<div class="overlay"></div>
-<div class="container">
-    <div class="row no-gutters slider-text align-items-end justify-content-center">
-        <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-2 bread">Actualités </h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
-                            class="ion-ios-arrow-forward"></i></a></span> <span>Actualités</span></p>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ url_for('static', filename='emi/images/causes-5.jpg') }}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs mb-2">
+                    <span class="mr-2">
+                        <a href="{{ url_for('projet.accueil') }}">Home
+                            <i class="ion-ios-arrow-forward"></i>
+                        </a>
+                    </span>
+                    <span>Blog
+                        <i class="ion-ios-arrow-forward"></i>
+                    </span>
+                </p>
+                <h1 class="mb-0 bread">Actus</h1>
+            </div>
         </div>
     </div>
-</div>
 </section>
 
 <section class="ftco-section">
     <div class="container">
-        <div class="row">
+        <div class="row d-flex">
             {%if actualites.items|length > 0%} 
             {%for actua in actualites.items%}
-            <div class="col-md-4">
-                <div class="blog-entry">
-                    <div class="text">
-                        <div class="meta mb-0 pl-md-5">
-                            <div><a href="#">{{timeagos(actua.date_pub)}}</a></div>
-                            <div><a href="#">{{actua.user_pub.prenom}}</a></div>
-							<div><a href="#" class="meta-chat"><span class="fa fa-eye"></span> {{actua.nbr_lu}} </a></div>
+            <div class="col-md-4 d-flex ftco-animate">
+                <div class="blog-entry align-self-stretch">
+                    <a href="{{url_for('projet.article', slug=actua.slug)}}" class="block-20" style="background-image: url({{url_for('static', filename='publication/{}'.format(actua.url_img))}});"></a>
+                    <div class="text p-4">
+                        <div class="meta mb-2">
+                            <div>
+                                <a href="#">{{actua.date_pub.strftime('%B %d %Y')}} </a>
+                            </div>
+                            <div>
+                                <a href="#">Admin</a>
+                            </div>
+                            <div>
+                                <a href="#" class="meta-chat">
+                                    <span class="fa fa-eye">{{actua.nbr_lu}} </span>
+                                    </a>
+                            </div>
                         </div>
-                        <h3 class="heading pl-md-5"><a href="{{url_for('coedac.article', slug=actua.slug)}}">{{actua.titre}}</a>
+                        <h3 class="heading">
+                            <a href="{{url_for('projet.article', slug=actua.slug)}}">{{actua.titre}}</a>
                         </h3>
+                        <p>
+                            <a href="{{url_for('projet.article', slug=actua.slug)}}" class="btn btn-secondary">Read more</a>
+                        </p>
                     </div>
-                    <a href="{{url_for('coedac.article', slug=actua.slug)}}" class="block-20"
-                        style="background-image: url('{{url_for('static', filename='publication/{}'.format(actua.url_img))}}');">
-                    </a>
                 </div>
             </div>
             {%endfor%}
@@ -61,6 +78,10 @@ data-stellar-background-ratio="0.5">
         </div>
         {%if actualites.items|length>3%}
         
+        
+        
+
+
         <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
@@ -69,13 +90,13 @@ data-stellar-background-ratio="0.5">
                         {% if page_num %}
                             {% if actualites.page==page_num %}
                             <li>
-                                <a href="{{ url_for('coedac.predication', page=page_num) }}" class="active">
+                                <a href="{{ url_for('projet.actualites', page=page_num) }}" class="active">
                                    {{page_num}}</i>
                                 </a> 
                             </li>
                             {% else %}
                             <li>
-                                <a href="{{ url_for('coedac.predication', page=page_num) }}">
+                                <a href="{{ url_for('projet.actualites', page=page_num) }}">
                                     {{page_num}}</i>
                                 </a>
                             </li>                       

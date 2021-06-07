@@ -6,13 +6,11 @@
        </button>
        <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto">
-             <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-             <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-             <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
-             <li class="nav-item"><a href="causes.html" class="nav-link">Causes</a></li>
-             <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-             <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-             <li class="nav-item cta"><a href="contact.html" class="nav-link">Donate</a></li>
+             <li class="nav-item active"><a href="{{url_for('projet.accueil')}}" class="nav-link">Home</a></li>
+             <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+             <li class="nav-item"><a href="{{url_for('projet.parrainer')}}" class="nav-link">Sponsor a Child</a></li>
+             <li class="nav-item"><a href="{{url_for('projet.actualites')}}" class="nav-link">Blog</a></li>
+             <li class="nav-item"><a href="{{url_for('projet.contact')}}" class="nav-link">Contact</a></li>
           </ul>
        </div>
     </div>

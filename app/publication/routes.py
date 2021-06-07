@@ -117,7 +117,7 @@ def edit(pub_id):
       pub_c.resume=form.resume.data
       pub_c.date_mod=date_modification()
       pub_c.categorie_id=form.categorie.data.id
-      pub_c.url=url_youtube
+      pub_c.url_youtube=url_youtube
       db.session.commit()
       #Enregistrement
       message=f"Modification de la publication de:{form.titre.data}"

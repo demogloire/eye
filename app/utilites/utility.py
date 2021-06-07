@@ -406,6 +406,18 @@ def recent_artcile():
     else:
         recent_a=[]
     return recent_a
+
+def recent_artcile_footer():
+    categorie=Categorie.query.filter_by(nom="Actualités").first()
+    recent_a=None
+    if categorie is not None:
+        recent_a=Publication.query.filter_by(categorie_id=categorie.id).order_by(Publication.id.desc()).limit(2).all()
+    else:
+        recent_a=[]
+    return recent_a
+
+
+
     
         
     

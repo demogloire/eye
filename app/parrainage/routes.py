@@ -12,13 +12,12 @@ from . import parrainage
 
 
 
-#Time ago
+#Age 
 @parrainage.context_processor
 def utility_processor():
    def age_naissance(date_time):
       today = date.today()
       age = today.year - date_time.year - ((today.month, today.day) < (date_time.month, date_time.day))
-      print(today, date_time,  age,'dddddddddddddddddddddddddddddddddddddddddddddddddddd')
       return age
    return dict(age_naissance=age_naissance)
 

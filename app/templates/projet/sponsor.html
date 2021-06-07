@@ -1,0 +1,526 @@
+{% extends "layout/emi.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/select-country/css/bootstrap-select-country.min.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/flaticon/css/flaticon.css')}}" rel="stylesheet">
+
+  <!-- JS -->
+  
+ 
+<style>
+.card {
+  display: block; 
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12); 
+    transition: box-shadow .25s; 
+}
+.card:hover {
+  box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-card {
+  width: 100%;
+  height:500px; 
+  border-top-left-radius:2px;
+  border-top-right-radius:2px;
+  display:block;
+    overflow: hidden;
+}
+.img-card img{
+  width: 100%;
+  /* height: 200px;  */
+  object-fit:cover; 
+  transition: all .25s ease;
+} 
+.card-content {
+  padding:15px;
+  text-align:left;
+}
+.card-title {
+  margin-top:0px;
+  font-weight: 700;
+  font-size: 1.65em;
+}
+.card-title a {
+  color: #000;
+  text-decoration: none !important;
+}
+.card-read-more {
+  border-top: 1px solid #D4D4D4;
+}
+.card-read-more a {
+  text-decoration: none !important;
+  padding:10px;
+  font-weight:600;
+  text-transform: uppercase
+}
+
+.stages {
+	font-size: 0;
+	text-align: justify;
+}
+
+.stages:after {
+	content: '';
+	display: inline-block;
+	font-size: 0;
+	text-align: justify;
+	width: 100%;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+.stages label {
+	background: #ffffff;
+	border: solid 5px #c0c0c0;
+	border-radius: 50%;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0;
+	font-weight: 700;
+	height: 50px;
+	line-height: 50px;
+	position: relative;
+	text-align: center;
+	vertical-align: top;
+	width: 50px;
+	z-index: 1;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.stages label:after {
+	content: '\2713';
+	color: #ffb400;
+	display: inline-block;
+	font-size: 16px;
+}
+
+#one:checked ~ .stages label[for="one"],
+#two:checked ~ .stages label[for="two"],
+#three:checked ~ .stages label[for="three"],
+#four:checked ~ .stages label[for="four"],
+#five:checked ~ .stages label[for="five"],
+#six:checked ~ .stages label[for="six"] {
+	border-color: #ffb400;
+}
+
+.stages label.active{
+	border-color: purple !important;
+}
+
+#one:checked ~ .stages label,
+#two:checked ~ .stages label[for="one"] ~ label,
+#three:checked ~ .stages label[for="two"] ~ label,
+#four:checked ~ .stages label[for="three"] ~ label,
+#five:checked ~ .stages label[for="four"] ~ label,
+#six:checked ~ .stages label[for="five"] ~ label {
+	font-size: 1rem;
+}
+
+#one:checked ~ .stages label:after,
+#two:checked ~ .stages label[for="one"] ~ label:after,
+#three:checked ~ .stages label[for="two"] ~ label:after,
+#four:checked ~ .stages label[for="three"] ~ label:after,
+#five:checked ~ .stages label[for="four"] ~ label:after,
+#six:checked ~ .stages label[for="five"] ~ label:after {
+	display: none;
+}
+
+.progress > span {
+	background: #c0c0c0;
+	display: inline-block;
+	height: 5px;
+	transform: translateY(-2.75em);
+	transition: 0.3s;
+	width: 0;
+}
+
+#two:checked ~ .progress span {
+	width: calc(100% / 5 * 1);
+}
+
+#three:checked ~ .progress span {
+	width: calc(100% / 5 * 2);
+}
+
+#four:checked ~ .progress span {
+	width: calc(100% / 5 * 3);
+}
+
+#five:checked ~ .progress span {
+	width: calc(100% / 5 * 4);
+}
+
+#six:checked ~ .progress span {
+	width: calc(100% / 5 * 5);
+}
+
+.panels div {
+	display: none;
+}
+
+#one:checked ~ .panels [data-panel="one"],
+#two:checked ~ .panels [data-panel="two"],
+#three:checked ~ .panels [data-panel="three"],
+#four:checked ~ .panels [data-panel="four"],
+#five:checked ~ .panels [data-panel="five"],
+#six:checked ~ .panels [data-panel="six"] {
+	display: block;
+}
+/* Custom code for the demo */
+
+
+
+.panels div {
+	border-top: solid 1px #c0c0c0;
+	margin: 1em 0 0;
+	padding: 1em 0 0;
+}
+
+input {
+	box-sizing: border-box;
+	display: block;
+	padding: .4em;
+	width: 100%;
+}
+
+button {
+	background-color: #ffb400;
+	border: 0;
+	color: #ffffff;
+	cursor: pointer;
+	font-weight: 700;
+	margin: 1em 0 0 0;
+	padding: 1em;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+
+
+
+.services-section {
+    padding: 0;
+}
+.services {
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
+    padding: 40px 25px;
+}
+@media(max-width:991.98px) {
+    .services {
+    padding: 10px 0;
+}
+}.services .icon {
+    line-height: 1.3;
+    position: relative;
+}
+.services .icon span {
+    font-size: 60px;
+    color: rgba(0, 0, 0, .2);
+}
+.services .media-body h3 {
+    font-size: 22px;
+    font-weight: 900;
+}
+@media(min-width:992px) {
+    .services.active {
+    background: #ffb400;
+    color: #000;
+}
+.services.active .icon span {
+    color: #fff;
+}
+}.services:hover, .services:focus {
+    background: #ffb400;
+    color: #000;
+}
+.services:hover .icon span, .services:focus .icon span {
+    color: #fff;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'element/menu.html' %}
+
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ url_for('static', filename='emi/images/causes-2.jpg') }}');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end">
+                <div class="col-md-9 ftco-animate pb-5">
+                    <p class="breadcrumbs mb-2">
+                        <span class="mr-2">
+                            <a href="{{ url_for('projet.accueil') }}">Home
+                                <i class="ion-ios-arrow-forward"></i>
+                            </a>
+                        </span>
+                        <span>Sponsor
+                            <i class="ion-ios-arrow-forward"></i>
+                        </span>
+                    </p>
+                    <h1 class="mb-0 bread">Child</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="services-section py-5 py-md-0 bg-light">
+        <div class="container">
+           <div class="row no-gutters d-flex">
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 active services d-block">
+                    <div class="icon"><span class="fa fa-users"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Family reunification</h3>
+                       <p> We place children separated from their families in foster families. This provides them with a good environment for their growth. </p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-money"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Empowerment</h3>
+                       <p>We strengthen the economic and social empowerment of young people in order to fight against poverty and make them more useful to the community. .</p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-shield"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Protection</h3>
+                       <p>We fight all forms of violence, exploitation and abuse inflicted on children. This is our daily duty, give to children a bright future.</p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-graduation-cap"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Education</h3>
+                       <p>We pay school fees for orphaned children and those formerly living on the streets. We are convinced that education is the right of every child.  </p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card">
+                        <a class="img-card">
+                        <img src="{{url_for('static', filename='rubrique/{}'.format(enfant.image_rubrique))}}" height="120px" class="img-fluid" />
+                      </a>
+                        <div class="card-content">
+                            <h4 class="card-title">
+                                <a href=""> {{enfant.noms}}
+                              </a>
+                            </h4>
+                            <p class="">
+                                {{enfant.resume|safe}}
+                            </p>
+                        </div>
+                        <div class="card-read-more">
+                            <a href="" class="btn btn-link btn-block">
+                                {{ age_naissance(enfant.date_de_naissance) }} years old
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-6">
+                    <div class="form">
+                        <h2>Sponsorship of a child</h2>
+                    
+                        <input id="one" type="radio" name="stage" checked="checked" />
+                        <input id="two" type="radio" name="stage" />
+                        <input id="three" type="radio" name="stage" />
+                        <input id="four" type="radio" name="stage" />
+                    
+                        <div class="stages">
+                            <label for="one">1</label>
+                            <label for="two">2</label>
+                            <label for="three">3</label>
+                            <label for="four">4</label>
+                        </div>
+                                        
+                        <div class="panels">
+                            <div data-panel="one">
+                                <h4>Amount Sponsor</h4>
+                                <form method="post" id="form1">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="number" name="montant" id="montant" placeholder=" $ 10 " value="{{enfant.parrainage}}" readonly />
+                                    <button type="submit">Next</button>
+                                </form>
+
+                                <p>
+                                    <hr>
+                                    <b>Notice:</b> The sponsorship amount is monthly, the effect of accepting this condition, you will receive notification messages for reminder via your 
+                                    email address.
+                                </p>
+                                  </div>
+                            <div data-panel="two">
+                                <h4>Identity</h4>
+                                <form method="post" id="form2">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="text" name="prenom" id="prenom" placeholder="First Name" required /> <br>
+                                    <input type="text" name="nom" id="nom" placeholder="Name " required/> <br>
+                                    <input type="text" name="post_nom" id="post_nom" placeholder="Last Name" />
+                                    <button type="submit">Next</button>
+                                </form>
+                            </div>
+                            <div data-panel="three">
+                                <h4>Address & Contact</h4>
+                                <form method="post" id="form3">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="text" name="adresse" id="adresse" placeholder="Address " required /> <br>
+                                    <input type="text" name="mail" id="mail" placeholder="joe@doe.com " required /> <br>
+                                    <input type="tel" class="tel" id="tel" placeholder="243994594509" required><br>
+                                    <select name="pays" id="pays" class="selectpicker countrypicker" data-flag="true" style="width:100%; height: 45px;" ></select> <br><br>
+                                    <button type="submit">Next</button>
+                                </form>
+                            </div>
+                            <div data-panel="four" class="text-center">
+                                <br><br>
+                                <a href="{{url_for('projet.sponsor_childe_payement')}} " class="btn btn-warning btn-lg">Confirm your sponsorship</a>
+                            </div>
+                        </div>
+                    
+                        
+                    
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{url_for('static', filename='plugins/select-country/js/bootstrap-select-country.min.js')}}"></script>   
+<script src="{{url_for('static', filename='plugins/tel/vendor/jquery.caret.js')}}"></script>   
+<script src="{{url_for('static', filename='plugins/tel/lib/jquery.mobilePhoneNumber.js')}}"></script> 
+
+<script>
+
+    $('.form .stages label').click(function() {
+	var radioButtons = $('.form input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+	selectedIndex = selectedIndex + 1;
+});
+
+$('.form button').click(function() {
+	var radioButtons = $('.form input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+
+	selectedIndex = selectedIndex + 2;
+
+	$('.form input[type="radio"]:nth-of-type(' + selectedIndex + ')').prop('checked', true);
+});
+
+jQuery(function($){
+      var input = $('[type=tel]')
+      input.mobilePhoneNumber({allowPhoneWithoutPrefix: '+243'});
+      input.bind('country.mobilePhoneNumber', function(e, country) {
+        $('.country').text(country || '')
+      })
+    });
+
+
+var csrf_token = "{{ csrf_token() }}";
+
+
+$(document).on('submit','#form2',function(e){
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        headers:{
+                    'X-CSRFToken': csrf_token,
+                },
+        url:'/identite',
+        data:{
+            nom:$("#nom").val(),
+            prenom:$("#prenom").val(),
+            post_nom:$("#post_nom").val(),
+        },
+
+        success:function()
+        {
+         // alert('saved');
+        }
+      })
+    });
+
+    $(document).on('submit','#form1',function(e){
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        headers:{
+                    'X-CSRFToken': csrf_token,
+                },
+        url:'/montant',
+        data:{
+            montant:$("#montant").val()
+        },
+
+        success:function()
+        {
+          //alert('saved');
+        }
+      })
+    });
+
+
+    $(document).on('submit','#form3',function(e){
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        headers:{
+                    'X-CSRFToken': csrf_token,
+                },
+        url:'/data/contact',
+        data:{
+            adresse:$("#adresse").val(),
+            mail:$("#mail").val(),
+            tel:$("#tel").val(),
+            pays:$("#pays").val()
+        },
+
+        success:function()
+        {
+         // alert('saved');
+        }
+      })
+    });
+
+
+
+</script>
+
+{% endblock %}

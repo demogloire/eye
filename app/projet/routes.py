@@ -1,11 +1,11 @@
 from re import U
 from flask import render_template, flash, url_for, redirect, request, session, g
 from .. import db, bcrypt
-from ..models import Donation, Rubrique, User, Publication, Categorie, Historique, Commentaire, Comment, Galerie, Album, Fichier, Evenement, Media
+from ..models import Donation, Rubrique, User, Publication, Categorie, Historique, Commentaire, Comment, Galerie, Album, Fichier, Evenement, Media, Parrainage
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime, date
 import flask_sijax
-from ..utilites.utility import webmaster_admin, recent_artcile, les_visteurs_aujourd8, ver_enre_article, ver_enre_lu, enr_art, lesvisteurs, title_page, slug_publication, message_historique, date_modification,user_mac
+from ..utilites.utility import recent_artcile_footer, webmaster_admin, recent_artcile, les_visteurs_aujourd8, ver_enre_article, ver_enre_lu, enr_art, lesvisteurs, title_page, slug_publication, message_historique, date_modification,user_mac
 from . import projet
 import timeago
 from datetime import datetime, date
@@ -18,6 +18,15 @@ from flask_wtf.csrf import generate_csrf
 def set_xsrf_cookie(response):
    response.set_cookie('CSRF-TOKEN', generate_csrf())
    return response
+
+#Age 
+@projet.context_processor
+def utility_processor():
+   def age_naissance(date_time):
+      today = date.today()
+      age = today.year - date_time.year - ((today.month, today.day) < (date_time.month, date_time.day))
+      return age
+   return dict(age_naissance=age_naissance)
 
 #Time ago
 @projet.context_processor
@@ -90,12 +99,16 @@ def accueil():
     # L'utilisateur en cours
     mac_utilisateur=user_mac()
     fichier=None
+    pub=[]
+    photo=[]
     #Liste des actualités sur la plateforme
     message=f"Visite de l'acceuil"
     message_historique(message=message, internaute=mac_utilisateur)
+    
     cate_id=Categorie.query.filter_by(nom="Actualités").first()
-    #Publication
-    pub=Publication.query.filter_by(statut=True, categorie_id=cate_id.id).order_by(Publication.id.asc()).limit(3).all()
+    if cate_id is not None:
+        #Publication
+        pub=Publication.query.filter_by(statut=True, categorie_id=cate_id.id).order_by(Publication.id.asc()).limit(3).all()
     #Photo
     photo=Galerie.query.filter(Album.statut==True).order_by(Galerie.id.asc()).limit(4).all() #Les photos
     #Photo à une
@@ -124,9 +137,7 @@ def accueil():
     session["ver"]=None
     
     
-            
-    
-    return render_template('projet/index.html',form=form, media_predication=media_predication,video_alaune=video_alaune, evenements=evenements, title=title, pub=pub, photos=photo, ala_une=ala_une,fichier=fichier)
+    return render_template('projet/index.html',footer_pub=recent_artcile_footer(), form=form, media_predication=media_predication,video_alaune=video_alaune, evenements=evenements, title=title, pub=pub, photos=photo, ala_une=ala_une,fichier=fichier)
 
 
 #Donation
@@ -143,7 +154,6 @@ def donation(nopay):
         notification=True
     elif nopay==faux:
         notification=False
-    
     #Validation du formulaire
     if form.validate_on_submit():
         session["resume"]=form.cause.data.resume
@@ -154,13 +164,11 @@ def donation(nopay):
         session["donateur_rub"]=form.noms.data
         session["do_adresse_mail"]=form.adresse_mail.data
         session["ver"]=None
-        
-        
+
     if "noms_rub" not in session:
         return redirect(url_for('projet.accueil'))   
-        
+    return render_template('projet/donation.html',title=title, notification=notification, footer_pub=recent_artcile_footer())
 
-    return render_template('projet/donation.html',title=title, notification=notification)
 
 #Donation
 @projet.route('/final/donation', methods=['GET','POST'])
@@ -184,241 +192,186 @@ def donation_final():
         db.session.commit()
         flash("Thank you for your donation!",'success')
         #return redirect(url_for('projet.donation', nopay="b326b5062b2f0e69046810717534cb09"))   
-    return render_template('projet/donation.html',title=title)
+    return render_template('projet/donation.html',title=title, footer_pub=recent_artcile_footer())
 
 
-# @coedac.route('/apropos')
-# def apropos():
-#     #Titre de l'onglet
-#     title=title_page('Apropos de nous')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     message=f"Visite de l'apropos de nous"
-#     message_historique(message=message, internaute=mac_utilisateur)
-
-#     page="Qui sommes-nous"
+#Donation
+@projet.route('/sponsor/<int:enf_id>', methods=['GET','POST'])
+def sponsor_child(enf_id):
+    title=title_page('Sponsor')
+    enfant=Parrainage.query.filter_by(id=enf_id, statut=True).first_or_404()
+    session["enfant"]=enf_id
     
-#     return render_template('coadec/about.html',title=title, page=page)
-
-# @coedac.route('/predications')
-# def predication():
-#     #Titre de l'onglet
-#     title=title_page('Prédication')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     page="Prédication"
-#     #Prédication
-#     message=f"Visite de la prediction"
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Liste des prédications
-#     page= request.args.get('page', 1, type=int)
-#     cate_id=Categorie.query.filter_by(nom="Predications").first()
-#     predication=Publication.query.filter(Publication.statut==True,Publication.categorie_id==cate_id.id).order_by(Publication.id.desc()).paginate(page=page, per_page=6)
-  
-#     return render_template('coadec/predication.html',title=title, page=page, predication=predication)
+    return render_template('projet/sponsor.html',title=title, enfant=enfant , footer_pub=recent_artcile_footer())
 
 
-# """ Prédication """
-# @coedac.route('/predication/<string:slug>')
-# def predication_une(slug):
-#     #Vérification de la prédication
-#     article_pu=Publication.query.filter_by(slug=slug).first_or_404()
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-    
-#     if article_pu is not None:
-#         session["id_pu"] = article_pu.id
-
-#     #Publication des recentes publications sur la plateforme
-#     post_recent=recent_artcile()
-#     #Message d'alerte
-#     message=f"Visite de la predication:{article_pu.titre} "
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Nombre des lis de l'article
-#     article=ver_enre_article(article_pu.id)
-#     var_lu_art=ver_enre_lu(article_pu.id)
-#     enr_art(article,var_lu_art,article_pu)
-#     #Formulaire
-#     pub_meilleur=Publication.query.filter(Publication.nbr_lu > 10 , Publication.statut==True, Categorie.nom=='Actualités').order_by(Publication.nbr_lu.desc()).limit(6).all()
-#     #Fichier encours d'éxecution
-#     fichier_docu=Fichier.query.filter_by(publication_id=article_pu.id).first()
-#     return render_template('coadec/une_pred.html',title="Actualité", page="Actualité", post_recent=post_recent,  pub_meilleur=pub_meilleur, une_pub=article_pu, fichier=fichier_docu)
-
-
-# @coedac.route('/evenements')
-# def evenement():
-#     #Titre de l'onglet
-#     title=title_page('Evénement')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     #Message d'alerte
-#     message=f"Visite de l'événement "
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Liste les évenements
-#     page= request.args.get('page', 1, type=int)
-#     evenement=Evenement.query.filter_by(statut=True).order_by(Evenement.date_fin.desc()).paginate(page=page, per_page=6)
-#     #Publication des recentes publications sur la plateforme
-#     post_recent=recent_artcile()
-#     return render_template('coadec/evenement.html', post_recent=post_recent, title=title, evenement=evenement)
-
-
-# @coedac.route('/medias')
-# def medias():
-#     #Titre de l'onglet
-#     title=title_page('Apropos de nous')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     message=f"Visite des audios"
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Les methodes des video
-#     page= request.args.get('page', 1, type=int)
-#     audio=Media.query.filter_by(type_media="Audio", statut=True).paginate(page=page, per_page=12)
-#     #Publication des recentes publications sur la plateforme
-#     post_recent=recent_artcile()
-#     return render_template('coadec/media.html',title=title,audio=audio, post_recent=post_recent )
-
-
-# @coedac.route('/video/medias')
-# def media_video():
-#     #Titre de l'onglet
-#     title=title_page('Apropos de nous')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     message=f"Visite des vidéo"
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Les methodes des video
-#     page= request.args.get('page', 1, type=int)
-#     audio=Media.query.filter_by(type_media="Vidéo", statut=True).paginate(page=page, per_page=12)
-#     #La liste à transfert
-#     liste_transfert=[]
-#     for i in audio.items:
-#         url_formetter=i.url_media.replace("https://www.youtube.com/embed/", "")
-#         liste_transfert.append(url_formetter)
-#     #Publication des recentes publications sur la plateforme
-#     post_recent=recent_artcile()
-#     return render_template('coadec/media_video.html',title=title,audio=audio, post_recent=post_recent, liste_transfert=liste_transfert )
-
-
-# @coedac.route('/galerie')
-# def galerie():
-#     #Titre de l'onglet
-#     title=title_page("Gélerie")
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     page="Galerie"
-#     message=f"Visite de la galérie"
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Album actif
-#     photo_al_actif=None
-#     album_actif=Album.query.filter_by(statut=True).order_by(Album.id.asc()).first()
-#     if album_actif is not None:
-#         photo_al_actif=Galerie.query.filter_by(album_id=album_actif.id).all() 
-
-#     album=Album.query.filter(Album.statut==True, Album.id != album_actif.id ).order_by(Album.id.desc()).all()
-#     #Les articles de recentes
-#     post_recent=recent_artcile()
-    
-#     return render_template('coadec/galerie.html',title=title, post_recent=post_recent, page=page, album=album, album_actif=album_actif, photo_al_actif=photo_al_actif)
-
-
-# @coedac.route('/<int:id>/galerie')
-# def galerie_trie(id):
-#     #Titre de l'onglet
-#     title=title_page("Galerie")
-#     #album encours
-#     nom_al=Album.query.filter_by(id=id).first_or_404()
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#    #Album actif
-#     photo_al_actif=None
-#     message=f"Visite de l'album: {nom_al.noms} "
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     album_actif=Album.query.filter_by(id=id).order_by(Album.id.asc()).first()
-#     if album_actif is not None:
-#         photo_al_actif=Galerie.query.filter_by(album_id=album_actif.id).all() 
-
-#     album=Album.query.filter(Album.statut==True, Album.id != album_actif.id ).order_by(Album.id.desc()).all()
-#     #Les articles de recentes
-#     post_recent=recent_artcile()
-    
-#     return render_template('coadec/galerie_trie.html',title=title, post_recent=post_recent,  album=album, album_actif=album_actif, photo_al_actif=photo_al_actif)
-
-
-# @coedac.route('/actus')
-# def actualites():
-#     #Titre de l'onglet
-#     title=title_page('Prédication')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     page="Prédication"
-#     #Prédication
-#     message=f"Visite des actualités"
-#     message_historique(message=message, internaute=mac_utilisateur)
-#     #Liste des actualités
-#     page= request.args.get('page', 1, type=int)
-#     cate_id=Categorie.query.filter_by(nom="Actualités").first()
-#     actualites=Publication.query.filter(Publication.statut==True,Publication.categorie_id==cate_id.id).order_by(Publication.id.desc()).paginate(page=page, per_page=6)
-#     return render_template('coadec/actualites.html',title=title, page=page, actualites=actualites)
-
-
-# # """ Article """
-# @coedac.route('/article/<string:slug>')
-# def article(slug):
-#     #Article de verification.
-#     article_pu=Publication.query.filter_by(slug=slug).first_or_404()
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
+#Donation & adresse contact
+@projet.route('/montant', methods=['GET','POST'])
+def montant_child():
+    title=title_page('Sponsor')
+    id_enf=None
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
         
-#     if article_pu is not None:
-#         session["id_pu"] = article_pu.id
+    if request.method == "POST":
+        montant = request.form.get("montant")
+        session["montant"]=montant
+    return render_template('projet/sponsor.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
 
-#     #Nombre des lis de l'article
-#     article=ver_enre_article(article_pu.id)
-#     var_lu_art=ver_enre_lu(article_pu.id)
-#     enr_art(article,var_lu_art,article_pu)
+@projet.route('/identite', methods=['GET','POST'])
+def identite():
+    title=title_page('Sponsor')
+    #Information de l'enfant
+    id_enf=None
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
+        
+    if request.method == "POST":
+        nom = request.form.get("nom")
+        prenom=request.form.get("prenom")
+        post_nom=request.form.get("post_nom")
+        session["nom"]=nom
+        session["prenom"]=prenom
+        session["post_nom"]=post_nom
+    return render_template('projet/sponsor.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
+
+
+@projet.route('/data/contact', methods=['GET','POST'])
+def ad():
+    title=title_page('Sponsor')
+    #Information de l'enfant
+    id_enf=None
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
+        
+    if request.method == "POST":
+        adresse = request.form.get("adresse")
+        mail = request.form.get("mail")
+        tel = request.form.get("tel")
+        pays = request.form.get("pays")
+        session["mail"]=mail
+        session["adresse"]=adresse
+        session["tel"]=tel
+        session["pays"]=pays
+    return render_template('projet/sponsor.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
+
+
+@projet.route('/sponsor-child', methods=['GET','POST'])
+def parrainer():
+    title=title_page('Sponsor a child')
+    #Information de l'enfant
+    page= request.args.get('page', 1, type=int)
+    parrainage=Parrainage.query.filter_by(statut=True).order_by(Parrainage.id.desc()).paginate(page=page, per_page=6)
+
+    return render_template('projet/sponsor_ch.html',parrainage=parrainage, title=title, footer_pub=recent_artcile_footer())
+
+@projet.route('/sponsor/child', methods=['GET','POST'])
+def sponsor_childe_payement():
+    title=title_page('Sponsor')
+    #Information de l'enfant
+    id_enf=None
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
+    #Vérification de la validité des infromation
+    if "enfant" not in session or "mail" not in session or "adresse" not in session or "tel" not in session or "pays" not in session or "montant" not in session or "nom" not in session or "prenom" not in session or "post_nom" not in session:
+        return redirect(url_for('projet.sponsor_child', enf_id=session["enfant"]))      
+
+    return render_template('projet/sponsor_payement.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
+
+
+
+@projet.route('/final/sponsor', methods=['GET','POST'])
+def sponsor_final():
+    #Titre de l'onglet
+    title=title_page('Sponspor')
     
-#     message=f"Visite de l'actualité :{article_pu.titre} "
-#     message_historique(message=message, internaute=mac_utilisateur)
-
-#     post_recent=Publication.query.filter(Publication.nbr_lu > 10 , Publication.statut==True, Categorie.nom=='Actualités').order_by(Publication.nbr_lu.desc()).limit(6).all()
-#     album=Album.query.filter_by(statut=True).order_by(Album.id.asc()).all()
-#     #Fichier encours d'éxecution
-#     fichier_docu=Fichier.query.filter_by(publication_id=article_pu.id).first()
+    id_enf=None
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
     
-#     return render_template('coadec/actua_une.html', post_recent=post_recent, article_pu=article_pu,  album=album, fichier_docu=fichier_docu)
-
-
-# @coedac.route('/contact')
-# def contact():
-#     #Titre de l'onglet
-#     title=title_page('Contact')
-#     #Visteur en ligne
-#     lesvisteurs()
-#     # L'utilisateur en cours
-#     mac_utilisateur=user_mac()
-#     message=f"Visite des contact"
-#     message_historique(message=message, internaute=mac_utilisateur)
-
-
+    if "enfant" not in session or "mail" not in session or "adresse" not in session or "tel" not in session or "pays" not in session or "montant" not in session or "nom" not in session or "prenom" not in session or "post_nom" not in session:
+        return redirect(url_for('projet.sponsor_child', enf_id=session["enfant"]))   
     
-#     return render_template('coadec/contact.html',title=title)
+    if request.method=="POST":
+        data=request.get_json()
+        identi_payement=data["donnateur"]
+        noms=f"{session['nom']} {session['post_nom']} {session['prenom']}"
+        #Enregistrement de la donation
+        don=Donation(parrainage_id=session["enfant"], noms=noms, date_payements=date.today(),identi_payement=identi_payement,
+                          somme=session["montant"], adresse=session["adresse"], pays=session["pays"], telephone=session["tel"], email=session["mail"])
+        db.session.add(don)
+        db.session.commit()
+        flash("Thank you for your donation!",'success')
+  
+    return render_template('projet/sponsor_payement.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
+    
+# """ Article """
+@projet.route('/article/<string:slug>')
+def article(slug):
+    #Article de verification.
+    article_pu=Publication.query.filter_by(slug=slug).first_or_404()
+    #Visteur en ligne
+    lesvisteurs()
+    # L'utilisateur en cours
+    mac_utilisateur=user_mac()
+        
+    if article_pu is not None:
+        session["id_pu"] = article_pu.id
+
+    #Nombre des lis de l'article
+    article=ver_enre_article(article_pu.id)
+    var_lu_art=ver_enre_lu(article_pu.id)
+    enr_art(article,var_lu_art,article_pu)
+    
+    message=f"Visite de l'actualité :{article_pu.titre} "
+    message_historique(message=message, internaute=mac_utilisateur)
+
+    post_recent=Publication.query.filter(Publication.nbr_lu > 10 , Publication.statut==True, Categorie.nom=='Actualités').order_by(Publication.nbr_lu.desc()).limit(6).all()
+    album=Album.query.filter_by(statut=True).order_by(Album.id.asc()).all()
+    #Fichier encours d'éxecution
+    print(article_pu.id)
+    fichier_docu=Fichier.query.filter_by(publication_id=article_pu.id).first()
+        
+    return render_template('projet/actua_une_c.html',footer_pub=recent_artcile_footer(),  post_recent=post_recent, article_pu=article_pu,  album=album, fichier_docu=fichier_docu)
+
+
+@projet.route('/actus')
+def actualites():
+    #Titre de l'onglet
+    title=title_page('Blog')
+    #Visteur en ligne
+    lesvisteurs()
+    # L'utilisateur en cours
+    mac_utilisateur=user_mac()
+    page="Prédication"
+    #Prédication
+    message=f"Visite des actualités"
+    message_historique(message=message, internaute=mac_utilisateur)
+    #Liste des actualités
+    page= request.args.get('page', 1, type=int)
+    cate_id=Categorie.query.filter_by(nom="Actualités").first()
+    actualites=Publication.query.filter(Publication.statut==True,Publication.categorie_id==cate_id.id).order_by(Publication.id.desc()).paginate(page=page, per_page=6)
+    return render_template('projet/actualites.html',title=title, page=page, actualites=actualites, footer_pub=recent_artcile_footer())
+
+
+
+@projet.route('/contact')
+def contact():
+    #Titre de l'onglet
+    title=title_page('Contact')
+    #Visteur en ligne
+    lesvisteurs()
+    # L'utilisateur en cours
+    mac_utilisateur=user_mac()
+    message=f"Visite des contact"
+    message_historique(message=message, internaute=mac_utilisateur)
+    
+    return render_template('projet/contact.html',title=title, footer_pub=recent_artcile_footer())
+
+
+

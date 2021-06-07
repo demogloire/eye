@@ -1,0 +1,303 @@
+{% extends "layout/emi.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="Oeil Mondial International">
+<meta property="og:title" content="Sponsor">
+<meta name="keywords" content="Oeil Mondial International, sponsor">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"></style>
+<style>
+    .services-section {
+    padding: 0;
+}
+.services {
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
+    padding: 40px 25px;
+}
+@media(max-width:991.98px) {
+    .services {
+    padding: 10px 0;
+}
+}.services .icon {
+    line-height: 1.3;
+    position: relative;
+}
+.services .icon span {
+    font-size: 60px;
+    color: rgba(0, 0, 0, .2);
+}
+.services .media-body h3 {
+    font-size: 22px;
+    font-weight: 900;
+}
+@media(min-width:992px) {
+    .services.active {
+    background: #ffb400;
+    color: #000;
+}
+.services.active .icon span {
+    color: #fff;
+}
+}.services:hover, .services:focus {
+    background: #fd645b;
+    color: #000;
+}
+.services:hover .icon span, .services:focus .icon span {
+    color: #fff;
+}
+
+.hm-gradient {
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
+.darken-grey-text {
+    color: #2E2E2E;
+}
+.danger-text {
+    color: #ff3547; }
+.default-text {
+    color: #2BBBAD; 
+}
+.info-text {
+    color: #33b5e5; 
+}
+.form-white .md-form label {
+  color: #fff; 
+}
+.form-white input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 1px 0 0 #fff;
+    box-shadow: 0 1px 0 0 #fff; 
+}
+.form-white input[type=text]:focus:not([readonly]) + label {
+    color: #fff; 
+}
+.form-white input[type=password]:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 1px 0 0 #fff;
+    box-shadow: 0 1px 0 0 #fff; 
+}
+.form-white input[type=password]:focus:not([readonly]) + label {
+    color: #fff; 
+}
+.form-white input[type=password], .form-white input[type=text] {
+    border-bottom: 1px solid #fff; 
+}
+.form-white .form-control:focus {
+    color: #fff;
+}
+.form-white .form-control {
+    color: #fff;
+}
+.form-white textarea.md-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+    color: #fff; 
+}
+.form-white textarea.md-textarea  {
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+.form-white textarea.md-textarea:focus:not([readonly])+label {
+    color: #fff;
+}
+.ripe-malinka-gradient {
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+}
+.near-moon-gradient {
+    background-image: linear-gradient(to bottom, #5ee7df 0%, #b490ca 100%);
+}
+</style>
+
+{%endblock%}
+
+
+{% block body %}
+{% include 'element/menu.html' %}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ url_for('static', filename='emi/images/causes-2.jpg') }}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs mb-2">
+                    <span class="mr-2">
+                        <a href="{{ url_for('projet.accueil') }}">Home
+                            <i class="ion-ios-arrow-forward"></i>
+                        </a>
+                    </span>
+                    <span>Donate
+                        <i class="ion-ios-arrow-forward"></i>
+                    </span>
+                </p><br>
+                <h1 class="mb-0 bread">Donate</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services-section py-5 py-md-0 bg-light">
+    <div class="container">
+       <div class="row no-gutters d-flex">
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+             <div class="media block-6 services d-block">
+                <div class="icon"><span class="fa fa-users"></span></div>
+                <div class="media-body">
+                   <h3 class="heading mb-3">Family reunification</h3>
+                   <p> We place children separated from their families in foster families. This provides them with a good environment for their growth. </p>
+                </div>
+             </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+             <div class="media block-6 services d-block">
+                <div class="icon"><span class="fa fa-money"></span></div>
+                <div class="media-body">
+                   <h3 class="heading mb-3">Empowerment</h3>
+                   <p>We strengthen the economic and social empowerment of young people in order to fight against poverty and make them more useful to the community. .</p>
+                </div>
+             </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+             <div class="media block-6 services d-block">
+                <div class="icon"><span class="fa fa-shield"></span></div>
+                <div class="media-body">
+                   <h3 class="heading mb-3">Protection</h3>
+                   <p>We fight all forms of violence, exploitation and abuse inflicted on children. This is our daily duty, give to children a bright future.</p>
+                </div>
+             </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+             <div class="media block-6 services d-block">
+                <div class="icon"><span class="fa fa-graduation-cap"></span></div>
+                <div class="media-body">
+                   <h3 class="heading mb-3">Education</h3>
+                   <p>We pay school fees for orphaned children and those formerly living on the streets. We are convinced that education is the right of every child.  </p>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+ <section class="img ftco-section ftco-no-pt ftco-no-pb">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-md-6 col-lg-5 d-flex">
+                <div class="img d-flex align-self-stretch align-items-center" style="background-image:url({{ url_for('static', filename='emi/donate/education.jpg') }});"></div>
+            </div>
+            <div class="col-md-6 col-lg-7 pl-lg-5 py-5">
+                <div class="py-md-5">
+                    <div class="row justify-content-start pb-3">
+                        <div class="col-md-12 heading-section ftco-animate fadeInUp ftco-animated">
+                            <span class="subheading">Give for the cause</span>
+                            <h2 class="mb-4">Schooling</h2>
+                            <p>
+                                We take care of the schooling of orphaned children and those separated from 
+                                their families for various reasons. The beneficiaries are at different levels of 
+                                study: primary, secondary and university. The assistance also consists of providing 
+                                the beneficiaries with the school supplies they need and acting as a tutor to the school 
+                                authorities. We have in place a team of supervisors whose main role is to ensure better 
+                                academic performance of all children under their responsibility. Supporting the schooling 
+                                of these children has allowed us to save their future and give them the chance to grow 
+                                up in a healthy environment. Almost every day, we receive constant requests from children 
+                                who wish to benefit from our support. In the Democratic Republic of Congo, many children
+                                 are separated from their families for various reasons such as poverty, death of parents, 
+                                 children accused of witchcraft, etc. This forces them to abandon their studies at a very 
+                                 early age and to be at the mercy of many dangers such as sexual exploitation, forced labor, 
+                                 etc. Thanks to the help we receive from all our partners, we manage to get dozens of children 
+                                 back to school every year. 
+                            </p>
+
+                            <hr> <h1>Donate</h1>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!--Body-->
+                                        <form method="POST">
+                                            <div class="md-form">
+                                                <input type="text" id="montant" class="form-control">
+                                            </div>
+                                            <br><br>
+                                            <div class="md-form">
+                                            <div id="paypal-button-container" ></div>   
+                                        </div>
+                                        </form>
+                                </div>
+                                
+                            </div>
+                              
+        
+                            <br>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://www.paypal.com/sdk/js?client-id=AZnijnhEFfRmVNt2Z3y4JnYOFyIhEs3fTvy3DfO8dPL_sLThcbWtq435c4HFcBaTwLcYf5cQiruwmyG7&currency=USD"></script>
+
+
+
+{% endblock body %}
+
+{% block js %}
+<script>
+        
+    var csrf_token = "{{ csrf_token() }}";
+
+    var montant=document.getElementById("montant").value;
+
+    
+
+    function completeOrder(name, montant) {
+        var url="{{url_for('projet.donation_final_c')}}"
+
+        fetch(url,{
+            method: 'POST',
+            headers:{
+                'Content-type':'application/json',
+                'X-CSRFToken': csrf_token,
+            },
+            body:JSON.stringify({"donnateur":name,"montant":montant})
+
+        })
+
+        
+    }
+    
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: montant
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                completeOrder(details.payer.name.given_name,montant);
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock %}

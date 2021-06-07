@@ -9198,7 +9198,9 @@ h1, h2, h3, h4, h5,
   position: relative;
   padding: 5em 0;
   background: #4c7bcb;
-  background: url(../images/moroccan-flower-dark.png); }
+  background: url(../images/moroccan-flower-dark.jpg);  
+  background-repeat: repeat-y;
+}
   @media (max-width: 1199.98px) {
     .ftco-counter {
       background-position: center center !important; } }

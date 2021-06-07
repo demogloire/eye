@@ -1,87 +1,145 @@
-{% extends "layout/coedec.html" %}
+{% extends "layout/emi.html" %}
 
 {% block meta %}
 <meta name="robots" content="index">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:site_name" content="COADEC">
+<meta property="og:site_name" content="Oeil Mondial International">
 <meta property="og:title" content="Contact">
-<meta name="keywords" content="COADEC, Contact">
+<meta name="keywords" content="Oeil Mondial International, Contact">
 <link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
 <link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
 
 {% endblock meta %}
 
 {% block css %}
-<title>Contact </title>
+<title>Actualités </title>
 {%endblock%}
 
 
 {% block body %}
-{% include'element/menu.html'%}
+{% include 'element/menu.html' %}
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/event-2.jpg')}}');"
-data-stellar-background-ratio="0.5">
-<div class="overlay"></div>
-<div class="container">
-    <div class="row no-gutters slider-text align-items-end justify-content-center">
-        <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-2 bread">Contact </h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
-                            class="ion-ios-arrow-forward"></i></a></span> <span>Contact</span></p>
-        </div>
-    </div>
-</div>
-</section>
-
-<section class="ftco-section contact-section">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ url_for('static', filename='emi/images/causes-5.jpg') }}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
     <div class="container">
-        <div class="row d-flex mb-5 contact-info">
-            <div class="col-md-12 mb-4">
-                <h2 class="h3">Les informations de contact</h2>
-            </div>
-            <div class="w-100"></div>
-            <div class="col-md-3">
-                <p><span>Addresse:</span> Av. Musohoko, Q. Kabindula, Comunne de Kalundu, Ville d'Uvira</p>
-            </div>
-            <div class="col-md-3">
-                <p><span>Phone:</span>  Répresentant légal: <a href="tel://+243828204774">+243828204774</a> <a href="tel://+242978132712">+242978132712</a></p>
-            </div>
-            <div class="col-md-3">
-                <p><span>E-mail:</span> <a>info@coedacabakomite.com</span></a>
+        <div class="row no-gutters slider-text align-items-end">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs mb-2">
+                    <span class="mr-2">
+                        <a href="{{ url_for('projet.accueil') }}">Home
+                            <i class="ion-ios-arrow-forward"></i>
+                        </a>
+                    </span>
+                    <span>Contact
+                        <i class="ion-ios-arrow-forward"></i>
+                    </span>
                 </p>
-            </div>
-            <div class="col-md-3">
-                <p><span>Site web</span> <a href="#">www.coedacabakomite.com</a></p>
-            </div>
-        </div>
-        <div class="row block-9">
-            <div class="col-lg-6 order-md-last d-flex">
-                <form action="#" class="bg-light p-5 contact-form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Votre nom">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Votre E-mail">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Objet">
-                    </div>
-                    <div class="form-group">
-                        <textarea name="" id="" cols="30" rows="7" class="form-control"
-                            placeholder="Message"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Envoyer message" class="btn btn-primary py-3 px-5">
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-6 d-flex">
-                <div id="map" class="bg-white"></div>
+                <h1 class="mb-0 bread">Contact</h1>
             </div>
         </div>
     </div>
 </section>
+
+<section class="ftco-section">
+    <div class="container">
+       <div class="row justify-content-center">
+          <div class="col-md-12">
+             <div class="wrapper">
+                <div class="row mb-5">
+                   <div class="col-md-3">
+                      <div class="dbox w-100 text-center">
+                         <div class="icon bg-primary d-flex align-items-center justify-content-center">
+                            <span class="fa fa-map-marker"></span>
+                         </div>
+                         <div class="text">
+                            <p><span>Address:</span> 96, Avanue Tshakwiza, Quartier Somika, Commune Annexe, Lubumbashi, Haut-Katanga.</p>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-md-3">
+                      <div class="dbox w-100 text-center">
+                         <div class="icon bg-secondary d-flex align-items-center justify-content-center">
+                            <span class="fa fa-phone"></span>
+                         </div>
+                         <div class="text">
+                            <p><span>Phone:</span> <a >+243 818002808, 0818846228</a></p>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-md-3">
+                      <div class="dbox w-100 text-center">
+                         <div class="icon bg-tertiary d-flex align-items-center justify-content-center">
+                            <span class="fa fa-paper-plane"></span>
+                         </div>
+                         <div class="text">
+                            <p><span>Email:</span> <a href="">info@emi.com</a></p>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-md-3">
+                      <div class="dbox w-100 text-center">
+                         <div class="icon bg-quarternary d-flex align-items-center justify-content-center">
+                            <span class="fa fa-globe"></span>
+                         </div>
+                         <div class="text">
+                            <p><span>Website</span> <a href="#">emi.com</a></p>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="row no-gutters">
+                   <div class="col-md-7">
+                      <div class="contact-wrap w-100 p-md-5 p-4">
+                         <h3 class="mb-4">Contact Us</h3>
+                         <form method="POST" id="contactForm" name="contactForm" class="contactForm">
+                            <div class="row">
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label class="label" for="name">Full Name</label>
+                                     <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                                  </div>
+                               </div>
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label class="label" for="email">Email Address</label>
+                                     <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                                  </div>
+                               </div>
+                               <div class="col-md-12">
+                                  <div class="form-group">
+                                     <label class="label" for="subject">Subject</label>
+                                     <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+                                  </div>
+                               </div>
+                               <div class="col-md-12">
+                                  <div class="form-group">
+                                     <label class="label" for="#">Message</label>
+                                     <textarea name="message" class="form-control" id="message" cols="30" rows="4" placeholder="Message"></textarea>
+                                  </div>
+                               </div>
+                               <div class="col-md-12">
+                                  <div class="form-group">
+                                     <input type="submit" value="Send Message" class="btn btn-primary">
+                                     <div class="submitting"></div>
+                                  </div>
+                               </div>
+                            </div>
+                         </form>
+                      </div>
+                   </div>
+                   <div class="col-md-5 d-flex align-items-stretch">
+                      <div class="info-wrap w-100 p-5 img" style="background-image: url({{ url_for('static', filename='emi/images/e.jpg') }});"></div>
+                   </div>
+                </div>
+             </div>
+          </div>
+
+       </div>
+    </div>
+ </section>
+
+
 {% endblock body %}
 
 {% block js %}
