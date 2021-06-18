@@ -15,15 +15,15 @@
                         <div class="">
                            <p class="mb-0"><a href="{{url_for('projet.apropos')}}  " class="btn btn-secondary py-3 px-2 px-md-4">Our values</a></p>
                         </div>
-                        <a href="#" class="d-flex align-items-center button-link">
+                        {%if video_alaune!=None %}
+                        <a href="#" data-toggle="modal" data-target="#VideoV" class="d-flex align-items-center button-link">
                            <div class="button-video d-flex align-items-center justify-content-center">
                               <span class="fa fa-play"></span>
                            </div>
-
-                           {%if video_alaune!='' %}
                            <span>Watch our video</span>
-                           {%endif%}
+                           
                         </a>
+                        {%endif%}
                      </div>
                    </div>
                 </div>
@@ -45,15 +45,15 @@
                          <div class="">
                             <p class="mb-0"><a href="{{url_for('projet.apropos')}}  " class="btn btn-secondary py-3 px-2 px-md-4">Our values</a></p>
                          </div>
-                         <a href="#" class="d-flex align-items-center button-link">
-                            <div class="button-video d-flex align-items-center justify-content-center">
-                               <span class="fa fa-play"></span>
-                            </div>
-
-                            {%if video_alaune!='' %}
-                            <span>Watch our video</span>
-                            {%endif%}
-                         </a>
+                         {%if video_alaune!=None %}
+                        <a href="#" data-toggle="modal" data-target="#VideoV" class="d-flex align-items-center button-link">
+                           <div class="button-video d-flex align-items-center justify-content-center">
+                              <span class="fa fa-play"></span>
+                           </div>
+                           <span>Watch our video</span>
+                           
+                        </a>
+                        {%endif%}
                       </div>
                    </div>
                 </div>
@@ -75,15 +75,15 @@
                         <div class="">
                            <p class="mb-0"><a href="{{url_for('projet.apropos')}}  " class="btn btn-secondary py-3 px-2 px-md-4">Our values</a></p>
                         </div>
-                        <a href="#" class="d-flex align-items-center button-link">
+                        {%if video_alaune!=None %}
+                        <a href="#" data-toggle="modal" data-target="#VideoV" class="d-flex align-items-center button-link">
                            <div class="button-video d-flex align-items-center justify-content-center">
                               <span class="fa fa-play"></span>
                            </div>
-
-                           {%if video_alaune!='' %}
                            <span>Watch our video</span>
-                           {%endif%}
+                           
                         </a>
+                        {%endif%}
                      </div>
                    </div>
                 </div>
