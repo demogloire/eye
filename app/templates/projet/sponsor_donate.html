@@ -1,0 +1,167 @@
+{% extends "layout/emi.html" %}
+
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Sponsor">
+<meta name="keywords" content="World Eye International, Sponsor">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"></style>
+
+<style>
+   .success-message {
+	 text-align: center;
+	 max-width: 500px;
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+}
+ .success-message__icon {
+	 max-width: 75px;
+}
+ .success-message__title {
+	 color: #3dc480;
+	 transform: translateY(25px);
+	 opacity: 0;
+	 transition: all 200ms ease;
+}
+ .active .success-message__title {
+	 transform: translateY(0);
+	 opacity: 1;
+}
+ .success-message__content {
+	 color: #b8babb;
+	 transform: translateY(25px);
+	 opacity: 0;
+	 transition: all 200ms ease;
+	 transition-delay: 50ms;
+}
+ .active .success-message__content {
+	 transform: translateY(0);
+	 opacity: 1;
+}
+ .icon-checkmark circle {
+	 fill: #3dc480;
+	 transform-origin: 50% 50%;
+	 transform: scale(0);
+	 transition: transform 200ms cubic-bezier(0.22, 0.96, 0.38, 0.98);
+}
+ .icon-checkmark path {
+	 transition: stroke-dashoffset 350ms ease;
+	 transition-delay: 100ms;
+}
+ .active .icon-checkmark circle {
+	 transform: scale(1);
+}
+ 
+</style>
+
+
+{%endblock%}
+
+
+{% block body %}
+{% include 'element/menu.html' %}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='emi/images/bg_2.jpg')}}');" data-stellar-background-ratio="0.5">
+   <div class="overlay"></div>
+   <div class="container">
+       <div class="row no-gutters slider-text align-items-end">
+           <div class="col-md-9 ftco-animate pb-5">
+               <p class="breadcrumbs mb-2">
+                   <span class="mr-2">
+                       <a href="{{url_for('projet.accueil')}}">Home
+                           <i class="ion-ios-arrow-forward"></i>
+                       </a>
+                   </span>
+                   <span>Sponsor
+                       <i class="ion-ios-arrow-forward"></i>
+                   </span>
+               </p>
+               <h1 class="mb-0 bread">Confirm</h1>
+           </div>
+       </div>
+   </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+       <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="success-message" style="margin-top: 100px; margin-bottom: 100px;">
+               <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark">
+                   <circle cx="38" cy="38" r="36"/>
+                   <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7"/>
+               </svg>
+               <h1 class="success-message__title">Thinks for your sponsor</h1>
+               <div class="success-message__content">
+                  <br><br>
+                   <p> <a class="btn btn-secondary" href="{{url_for('projet.accueil')}}">Home</a>   </p>
+               </div>
+           </div>
+           
+          </div>
+          
+       </div>
+    </div>
+ </section>
+ <br><br><br><br><br><br><br><br>
+
+{% endblock body %}
+
+{% block js %}
+<script>
+   function PathLoader(el) {
+	this.el = el;
+    this.strokeLength = el.getTotalLength();
+	
+    // set dash offset to 0
+    this.el.style.strokeDasharray =
+    this.el.style.strokeDashoffset = this.strokeLength;
+}
+
+PathLoader.prototype._draw = function (val) {
+    this.el.style.strokeDashoffset = this.strokeLength * (1 - val);
+}
+
+PathLoader.prototype.setProgress = function (val, cb) {
+	this._draw(val);
+    if(cb && typeof cb === 'function') cb();
+}
+
+PathLoader.prototype.setProgressFn = function (fn) {
+	if(typeof fn === 'function') fn(this);
+}
+
+var body = document.body,
+    svg = document.querySelector('svg path');
+
+if(svg !== null) {
+    svg = new PathLoader(svg);
+    
+    setTimeout(function () {
+        document.body.classList.add('active');
+        svg.setProgress(1);
+    }, 200);
+}
+
+document.addEventListener('click', function () {
+    
+    if(document.body.classList.contains('active')) {
+        document.body.classList.remove('active');
+        svg.setProgress(0);
+        return;
+    }
+    document.body.classList.add('active');
+    svg.setProgress(1);
+});
+</script>
+{% endblock %}

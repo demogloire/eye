@@ -1,5 +1,5 @@
 from re import U
-from flask import render_template, flash, url_for, redirect, request, session, g
+from flask import render_template, flash, url_for, redirect, request, session, g, jsonify
 from .. import db, bcrypt
 from ..models import Donation, Rubrique, User, Publication, Categorie, Historique, Commentaire, Comment, Galerie, Album, Fichier, Evenement, Media, Parrainage
 from flask_login import login_user, current_user, logout_user, login_required
@@ -11,7 +11,20 @@ import timeago
 from datetime import datetime, date
 from .forms import FormCommetaire, FormCommetaired, FormDonation
 from flask_wtf.csrf import generate_csrf
+import paypalrestsdk
 
+
+
+# paypalrestsdk.configure({
+#   "mode": "sandbox", # sandbox or live
+#   "client_id": "AZnijnhEFfRmVNt2Z3y4JnYOFyIhEs3fTvy3DfO8dPL_sLThcbWtq435c4HFcBaTwLcYf5cQiruwmyG7",
+#   "client_secret": "EMKR8xTd4S4cHtjnFSkhlo3gJR3tKAM0U5TFI2TiwJ8rZENxkvQn3oUFsa6s0ua9WaUsDUkMFFWKUAHv" })
+
+
+paypalrestsdk.configure({
+  "mode": "live", # sandbox or live
+  "client_id": "Ab8G3V3gIkjuPbA6RdM4eN66KX8RElsYunxXjp_Lc3YP0CIFas_aOapxXSf02YDnhI92C3nobIt3zdRZ",
+  "client_secret": "EKK0gDlS86q-lIKErr4w9lQQ40atVbXfdGLK0jZ-DY8NVEFltAdB4owxjasMYvrY_VzgstiSsLRRF_He" })
 
 
 @projet.after_request
@@ -88,12 +101,11 @@ def utility_processor():
     return dict(date_french=date_french)
 
 
-
 """ Acceuil """
 @projet.route("/", methods=['GET','POST'])
 def accueil():
     #Titre de l'onglet
-    title=title_page('Accueil')
+    title=title_page('Home')
     #Visteur en ligne
     lesvisteurs()
     # L'utilisateur en cours
@@ -134,11 +146,22 @@ def accueil():
     session.pop('image_rub',None)
     session.pop('id_rub',None)
     session.pop('email_don',None)
+    session.pop('sponsor_confirm',None)
+    session.pop('donate_confirm',None)
+    session.pop('enfant',None)
+    session.pop('mail',None)
+    session.pop('adresse',None)
+    session.pop('tel',None)
+    session.pop('pays',None)
+    session.pop('montant',None)
+    session.pop('nom',None)
+    session.pop('prenom',None)
+    
     session["ver"]=None
     
     
+    
     return render_template('projet/index.html',footer_pub=recent_artcile_footer(), form=form, media_predication=media_predication,video_alaune=video_alaune, evenements=evenements, title=title, pub=pub, photos=photo, ala_une=ala_une,fichier=fichier)
-
 
 #Donation
 @projet.route('/donation/<string:nopay>', methods=['GET','POST'])
@@ -169,7 +192,6 @@ def donation(nopay):
         return redirect(url_for('projet.accueil'))   
     return render_template('projet/donation.html',title=title, notification=notification, footer_pub=recent_artcile_footer())
 
-
 #Donation
 @projet.route('/final/donation', methods=['GET','POST'])
 def donation_final():
@@ -185,6 +207,7 @@ def donation_final():
         noms=session["donateur_rub"]
         identi_payement=data["donnateur"]
         email=session["do_adresse_mail"]
+        session["donate_confirm"]=False
         #Enregistrement de la donation
         don=Donation(rubrique_id=rubrique_id, noms=noms, date_payements=date.today(),identi_payement=identi_payement,
                           somme=somme, email=email)
@@ -194,7 +217,6 @@ def donation_final():
         #return redirect(url_for('projet.donation', nopay="b326b5062b2f0e69046810717534cb09"))   
     return render_template('projet/donation.html',title=title, footer_pub=recent_artcile_footer())
 
-
 #Donation
 @projet.route('/sponsor/<int:enf_id>', methods=['GET','POST'])
 def sponsor_child(enf_id):
@@ -203,7 +225,6 @@ def sponsor_child(enf_id):
     session["enfant"]=enf_id
     
     return render_template('projet/sponsor.html',title=title, enfant=enfant , footer_pub=recent_artcile_footer())
-
 
 #Donation & adresse contact
 @projet.route('/montant', methods=['GET','POST'])
@@ -231,12 +252,9 @@ def identite():
     if request.method == "POST":
         nom = request.form.get("nom")
         prenom=request.form.get("prenom")
-        post_nom=request.form.get("post_nom")
         session["nom"]=nom
         session["prenom"]=prenom
-        session["post_nom"]=post_nom
     return render_template('projet/sponsor.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
-
 
 @projet.route('/data/contact', methods=['GET','POST'])
 def ad():
@@ -258,7 +276,6 @@ def ad():
         session["pays"]=pays
     return render_template('projet/sponsor.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
 
-
 @projet.route('/sponsor-child', methods=['GET','POST'])
 def parrainer():
     title=title_page('Sponsor a child')
@@ -277,12 +294,10 @@ def sponsor_childe_payement():
         id_enf=session["enfant"]
     enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
     #Vérification de la validité des infromation
-    if "enfant" not in session or "mail" not in session or "adresse" not in session or "tel" not in session or "pays" not in session or "montant" not in session or "nom" not in session or "prenom" not in session or "post_nom" not in session:
+    if "enfant" not in session and "mail" not in session and "adresse" not in session and "tel" not in session and "pays" not in session and "montant" not in session and "nom" not in session and "prenom" not in session:
         return redirect(url_for('projet.sponsor_child', enf_id=session["enfant"]))      
 
     return render_template('projet/sponsor_payement.html',title=title, enfant=enfant, footer_pub=recent_artcile_footer())
-
-
 
 @projet.route('/final/sponsor', methods=['GET','POST'])
 def sponsor_final():
@@ -339,7 +354,6 @@ def article(slug):
         
     return render_template('projet/actua_une_c.html',footer_pub=recent_artcile_footer(),  post_recent=post_recent, article_pu=article_pu,  album=album, fichier_docu=fichier_docu)
 
-
 @projet.route('/actus')
 def actualites():
     #Titre de l'onglet
@@ -358,8 +372,6 @@ def actualites():
     actualites=Publication.query.filter(Publication.statut==True,Publication.categorie_id==cate_id.id).order_by(Publication.id.desc()).paginate(page=page, per_page=6)
     return render_template('projet/actualites.html',title=title, page=page, actualites=actualites, footer_pub=recent_artcile_footer())
 
-
-
 @projet.route('/contact')
 def contact():
     #Titre de l'onglet
@@ -373,5 +385,172 @@ def contact():
     
     return render_template('projet/contact.html',title=title, footer_pub=recent_artcile_footer())
 
+@projet.route('/donation/payement', methods=['POST', 'GET'])
+def payement_donation():
+    
+    payment = paypalrestsdk.Payment({
+    "intent": "sale",
+    "payer": {
+        "payment_method": "paypal"},
+    "redirect_urls": {
+        "return_url": "http://localhost:3000/payment/execute",
+        "cancel_url": "http://localhost:3000/"}, 
+    "transactions": [{
+        "item_list": {
+            "items": [{
+                "name":"{}".format(session["noms_rub"]),
+                "sku": "{}".format(session["noms_rub"]),
+                "price": "{}".format(session["montant"]),
+                "currency": "USD",
+                "quantity": 1}]},
+        "amount": {
+            "total": "{}".format(session["montant"]),
+            "currency": "USD"},
+        "description": "Ce payement est un parrainage pour l'enfant {}".format(session["noms_rub"])}]})
 
+    if payment.create():
+        print("Payment created successfully")
+    else:
+        print(payment.error)
+    
+    return jsonify({'paymentID':payment.id})
+
+@projet.route('/donation/execute', methods=['POST','GET'])
+def execute_donation():
+    success=False
+    payment=paypalrestsdk.Payment.find(request.form['paymentID'])
+    
+    if payment.execute({'payer_id': request.form['payerID']}):
+        rubrique_id=session["id_rub"]
+        somme=session["montant"]
+        noms=session["donateur_rub"]
+        email=session["do_adresse_mail"]
+        #Enregistrement de la donation
+        don=Donation(rubrique_id=rubrique_id, noms=noms, date_payements=date.today(),identi_payement=request.form['payerID'],
+                          somme=somme, email=email)
+        db.session.add(don)
+        db.session.commit()
+        session["donate_confirm"]=True
+        
+    else:
+        print(payment.error)
+    
+    return jsonify({'success':success})
+
+@projet.route('/donate/confirm')
+def donate_conform():
+    #Titre de l'onglet
+    title=title_page('Donate')
+    #Visteur en ligne
+    donate=None
+    
+    if 'donate_confirm' in session:
+        donate=session["donate_confirm"]
+        if donate==False:
+            return redirect(url_for('projet.accueil'))
+        session.pop('resume',None)
+        session.pop('noms_rub',None)
+        session.pop('montant',None)
+        session.pop('image_rub',None)
+        session.pop('id_rub',None)
+        session.pop('email_don',None)
+        session["ver"]=None
+    else:
+        return redirect(url_for('projet.accueil'))
+    
+    return render_template('projet/conform_donate.html',title=title, footer_pub=recent_artcile_footer())
+
+@projet.route('/sponsor/payement', methods=['POST', 'GET'])
+def payement_sponsor():
+    
+    if "enfant" in session:
+        id_enf=session["enfant"]
+    enfant=Parrainage.query.filter_by(id=id_enf, statut=True).first_or_404()
+    
+    if "enfant" not in session and "mail" not in session and "adresse" not in session and "tel" not in session and "pays" not in session and "montant" not in session and "nom" not in session and "prenom" not in session:
+        return redirect(url_for('projet.sponsor_child', enf_id=session["enfant"]))    
+    
+    payment = paypalrestsdk.Payment({
+    "intent": "sale",
+    "payer": {
+        "payment_method": "paypal"},
+    "redirect_urls": {
+        "return_url": "http://localhost:3000/payment/execute",
+        "cancel_url": "http://localhost:3000/"}, 
+    "transactions": [{
+        "item_list": {
+            "items": [{
+                "name":"Parrainage",
+                "sku": "Parrainage",
+                "price": "{}".format(session["montant"]),
+                "currency": "USD",
+                "quantity": 1}]},
+        "amount": {
+            "total": "{}".format(session["montant"]),
+            "currency": "USD"},
+        "description": "Ce payement est une donation pour la cause de {}".format(enfant.noms )}]})
+
+    if payment.create():
+        print("Payment created successfully")
+    else:
+        print(payment.error)
+    
+    return jsonify({'paymentID':payment.id})
+
+@projet.route('/sponsor/execute', methods=['POST','GET'])
+def execute_sponsor():
+    success=False
+    payment=paypalrestsdk.Payment.find(request.form['paymentID'])
+    
+    if payment.execute({'payer_id': request.form['payerID']}):
+        noms=f"{session['nom']} {session['post_nom']}"
+        #Enregistrement de la donation
+        don=Donation(parrainage_id=session["enfant"], noms=noms, date_payements=date.today(),identi_payement=request.form['payerID'],
+                          somme=session["montant"], adresse=session["adresse"], pays=session["pays"], telephone=session["tel"], email=session["mail"])
+        db.session.add(don)
+        db.session.commit()
+        session["sponsor_confirm"]=True
+        
+    else:
+        print(payment.error)
+    
+    return jsonify({'success':success})
+
+@projet.route('/sponsor/confirm')
+def sponsor_conform():
+    #Titre de l'onglet
+    title=title_page('Sponsor')
+    #Visteur en ligne
+    donate=None
+    
+    if 'sponsor_confirm' in session:
+        donate=session["sponsor_confirm"]
+        if donate==False:
+            return redirect(url_for('projet.accueil'))
+        session.pop('enfant',None)
+        session.pop('mail',None)
+        session.pop('adresse',None)
+        session.pop('tel',None)
+        session.pop('pays',None)
+        session.pop('montant',None)
+        session.pop('nom',None)
+        session.pop('prenom',None)
+
+    else:
+        return redirect(url_for('projet.accueil'))
+    
+    return render_template('projet/sponsor_donate.html',title=title, footer_pub=recent_artcile_footer())
+
+@projet.route('/about')
+def apropos():
+    #Titre de l'onglet
+    title=title_page('About')
+    #Visteur en ligne
+    #Visteur en ligne
+    lesvisteurs()
+    # L'utilisateur en cours
+    mac_utilisateur=user_mac()
+    message=f"Apropos de nous"
+    message_historique(message=message, internaute=mac_utilisateur)
+    return render_template('projet/about.html',title=title, footer_pub=recent_artcile_footer())
 

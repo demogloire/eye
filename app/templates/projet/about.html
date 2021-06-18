@@ -1,137 +1,216 @@
-{% extends "layout/coedec.html" %}
+{% extends "layout/emi.html" %}
 
 {% block meta %}
 <meta name="robots" content="index">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:site_name" content="COADEC">
-<meta property="og:title" content="Apropos de nous">
-<meta name="keywords" content="COADEC Apropos de nous">
-<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
-<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Sponsor">
+<meta name="keywords" content="World Eye International, sponsor">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
 
 {% endblock meta %}
 
 {% block css %}
-<title>COEDAC </title>
-{%endblock%}
+<link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/select-country/css/bootstrap-select-country.min.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/flaticon/css/flaticon.css')}}" rel="stylesheet">
 
+<style>
+
+    
+    .services-section {
+        padding: 0;
+    }
+    .services {
+        -moz-transition: all .3s ease;
+        -o-transition: all .3s ease;
+        -webkit-transition: all .3s ease;
+        -ms-transition: all .3s ease;
+        transition: all .3s ease;
+        padding: 40px 25px;
+    }
+    @media(max-width:991.98px) {
+        .services {
+        padding: 10px 0;
+    }
+    }.services .icon {
+        line-height: 1.3;
+        position: relative;
+    }
+    .services .icon span {
+        font-size: 60px;
+        color: rgba(0, 0, 0, .2);
+    }
+    .services .media-body h3 {
+        font-size: 22px;
+        font-weight: 900;
+    }
+    @media(min-width:992px) {
+        .services.active {
+        background: #529850;
+        color: #000;
+    }
+    .services.active .icon span {
+        color: #fff;
+    }
+    }.services:hover, .services:focus {
+        background: #ffb400;
+        color: #000;
+    }
+    .services:hover .icon span, .services:focus .icon span {
+        color: #fff;
+    }
+    
+    </style>
+{% endblock %}
 
 {% block body %}
-{% include'element/menu.html'%}
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='coedac/images/event-2.jpg')}}');"
-data-stellar-background-ratio="0.5">
-<div class="overlay"></div>
-<div class="container">
-    <div class="row no-gutters slider-text align-items-end justify-content-center">
-        <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-2 bread">COADEC </h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="{{url_for('coedac.accueil')}}">Acceuil <i
-                            class="ion-ios-arrow-forward"></i></a></span> <span>COEDAC</span></p>
+    {% include 'element/menu.html' %}
+
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ url_for('static', filename='emi/images/causes-2.jpg') }}');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end">
+                <div class="col-md-9 ftco-animate pb-5">
+                    <p class="breadcrumbs mb-2">
+                        <span class="mr-2">
+                            <a href="{{ url_for('projet.accueil') }}">Home
+                                <i class="ion-ios-arrow-forward"></i>
+                            </a>
+                        </span>
+                        <span>About
+                            <i class="ion-ios-arrow-forward"></i>
+                        </span>
+                    </p>
+                    <h1 class="mb-0 bread">About</h1>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-</section>
-<section class="ftco-section">
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <ul class="ministry-list">
-                <li class="active"><a  href="#" id="his">Historique</a></li>
-                <li><a  href="#" id="but">But</a></li>
-                <li><a href="#" id="min">Ministère</a></li>
-            </ul>
+    </section>
+
+    <section class="img ftco-section ftco-no-pt ftco-no-pb">
+        <div class="container">
+            <div class="row d-flex">
+                <div class="col-md-6 col-lg-5 d-flex">
+                    <div class="img d-flex align-self-stretch align-items-center" style="background-image:url({{ url_for('static', filename='emi/images/d.jpg') }});"></div>
+                </div>
+                <div class="col-md-6 col-lg-7 pl-lg-5 py-5">
+                    <div class="py-md-5">
+                        <div class="row justify-content-start pb-3">
+                            <div class="col-md-12 heading-section ftco-animate fadeInUp ftco-animated">
+                                <span class="subheading">About Us</span>
+                                <h2 class="mb-4">Eye World International</h2>
+                                <p class="text-justify">  <img height="150px" width="150px"  hspace="10" vspace="10" src="{{url_for('static', filename='eye.jpg')}}" align="left" class="rounded-circle box-shadow--3dp" alt="">
+                                    Eye World International, whose name means "world eye international" in English, 
+                                    is a non-governmental organization created in 2012 in the city of Lubumbashi, in 
+                                    the province of Katanga, whose mission is to provide assistance to all children 
+                                    in the world without exception. It intervenes in four key areas: family reunification, 
+                                    schooling of orphaned children, accommodation of children in an orphanage and vocational 
+                                    training and social integration of young people trained in various jobs. It offers the 
+                                    possibility to benefactors to sponsor children they want to help directly. Thanks to 
+                                    this, several children have been taken off the streets and returned to school and others 
+                                    have been integrated into foster families. Eye World International pursues various 
+                                    objectives, including.
+                                
+                                <p>
+                                    <ul>
+                                        <li>To provide assistance to orphaned children in difficult situations and separated from their families</li>
+                                        <li>To ensure the education of children who have been separated from their families </li>
+                                        <li>Facilitate the social integration of abandoned children</li>
+                                        <li>Advocate with different partners to mobilize more help for the protection of children</li>
+                                    </ul>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-9">
-            <span id="historique">
-            <h3 class="mb-4">Historique du COEDAC</h3>
+    </section>
 
-                <p class="text-justify"> Il est créé à Minembwe le 12 Septembre 1999 une association sans but lucratif dénommée « comité de l’œuvre de Dieu en Afrique Centrale » C.Œ.D.A.C, en sigle.
-                Le siège du C.Œ.D.A.C est établi à Minembwe, Zone Rurale de Fizi, Province du Sud-Kivu, en République Démocratique du Congo. 
-                L’association C.Œ.D.A.C  exerce ses activités sur toute l’étendue de la République Démocratique du 
-                Congo en particulier et en Afrique Centrale en général.</p> 
-
-                <p class="text-justify">Par la vision ecclésiastique, l’association  est centrée sur la deuxième épître de Paul 
-                aux corinthiens 13:8,  «Car nous n`avons pas de puissance contre la vérité; nous n`en 
-                avons que pour la vérité». (2 Corinthiens 13:8).
-                </p> 
-
-                <p class="text-justify">
-                    Depuis sa création, il y’a de cela plus de 20 ans, sont intervention dans la 
-                    communauté ne cesse de trouver une place au sein de la communauté, par l’Evangile 
-                    en prêchant et en convertissant les âmes égarés  mais aussi par l’intervention 
-                    direct au sein de la communauté en aidant les personnes en difficulté. <br><br>
-                COEDAC compte pour le moment 1677 fidèles, 44 pasteurs, 27 Enseignant de l'église et +2 Eglises. 
-                </p>
-
-            </span>
-
-            <span id="bu">
-                <h3 class="mb-4">But du COEDAC</h3>
-                <p class="text-justify">
-                    Le comité de l’œuvre de Dieu en Afrique Centrale » C.Œ.D.A.C, dans sa 
-                    réalisation de ses missions ecclésiastiques, pour de but ayant des 
-                    traits sur la spiritualité et le bien-être du prochain de manière détaillée, 
-                    il poursuit les buts suivants:
-                </p>
-                <ul class="ministry-list" style="padding-left: 50px;">
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Reprocher les chrétiens égarés et leur montrer le chemin du salut. Jean 2 :16 ;</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Evangéliser les païens. Matthieu 28 :19 ;</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Prier pour divers besoins : l’église, la paix pour le pays, les malades,…</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Organiser les cultes en toute les catégories des chrétiens (adultes, jeunes, femmes, école de dimanche…)
-                    Accueillir les visiteurs venant de tout les coins du monde ;</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Créer les œuvres sociales ;</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Aides aux orphelins et veuves sans distinction d’ethnie ni de religion ;</li>
-                    <li><span class="ion-ios-arrow-forward mr-2"></span>Améliorer les conditions d’habitats des nécessiteux et cultiver leurs champs.</li>
-                    
-                </ul>
-
-                <p class="text-justify">
-                    Les actions que menent C.Œ.D.A.C, tient  compte des buts ci-haut cité traduit la bonne nouvelle telle que dit par <b>Matthieu 22 : 37-39:</b>   "Jésus lui répondit : 
-                    Tu aimeras le Seigneur, ton Dieu, de tout ton cœur, de toute ton âme, et de toute ta pensée. 
-                    C'est le premier et le plus grand commandement. Et voici le second, qui lui est semblable : 
-                    Tu aimeras ton prochain comme toi-même".
-                </p>
-
-            </span>
-
-            <span id="mission">
-                Bientôt disponible
-            </span>
+    <section class="services-section py-5 py-md-0 bg-light">
+        <div class="container">
+           <div class="row no-gutters d-flex">
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 active services d-block">
+                    <div class="icon"><span class="fa fa-users"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Family reunification</h3>
+                       <p class="text-justify" > We place children separated from their families in foster families. This provides them with a good environment for their growth. </p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-money"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Empowerment</h3>
+                       <p class="text-justify" >We strengthen the economic and social empowerment of young people in order to fight against poverty and make them more useful to the community. .</p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-shield"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Protection</h3>
+                       <p>We fight all forms of violence, exploitation and abuse inflicted on children. This is our daily duty, give to children a bright future.</p>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate fadeInUp ftco-animated">
+                 <div class="media block-6 services d-block">
+                    <div class="icon"><span class="fa fa-graduation-cap"></span></div>
+                    <div class="media-body">
+                       <h3 class="heading mb-3">Education</h3>
+                       <p class="text-justify" >We pay school fees for orphaned children and those formerly living on the streets. We are convinced that education is the right of every child.  </p>
+                    </div>
+                 </div>
+              </div>
+           </div>
         </div>
+     </section>
 
-    </div>
-</div>
-</section>
+    <section class="ftco-mission">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 py-4 py-md-5 ftco-animate">
+                    <div class="py-md-4 pb-md-5">
+                        <h3 style="font-weight: bold; color: #fd645b;">Mision</h3>
+                        <p class="text-justify">The organization pursues its mission to help children in difficult circumstances acquire a good education, have better health and decent housing.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4 py-md-5 ftco-animate">
+                    <div class="py-md-4 pb-md-5">
+                        <h3 style="font-weight: bold; color: #ffb400;">Vision</h3> 
+                        <p class="text-justify" >Eye World International's vision is to build a world where the rights of all the world's children are protected. To date, the organization has been active in the province of Tanganyika and plans to expand its activities to all provinces of the Democratic Republic of Congo. </p>
+                    </div>
+                </div> 
+                <div class="col-md-4 py-4 py-md-5 img" style="background-image: url({{url_for('static', filename='emi/donate/logement.jpg')}})"></div>
+            </div>
+        </div>
+    </section>
 
-{% endblock body %}
+    <section class="ftco-hireme bg-primary">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8 d-flex align-items-center">
+                    <div class="w-100 text-center">
+                        <h2>
+                          The best way to make a difference in the lives of others is to do it differently.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
 
 {% block js %}
-<script src="{{url_for('static', filename='plugins/jquery-3.3.1.min.js')}}"></script>
-<script>
-    $("#bu").hide();
-    $("#mission").hide();
 
-	 $(function () {
-      $("#his").click(function () {
-        $("#historique").show();
-        $("#bu").hide();
-        $("#mission").hide();
-      });
 
-      $("#but").click(function () {
-        $("#historique").hide();
-        $("#bu").show();
-        $("#mission").hide();
-      });
-
-      $("#min").click(function () {
-        $("#historique").hide();
-        $("#bu").hide();
-        $("#mission").show();
-
-      });
-  });
-</script>
 {% endblock %}

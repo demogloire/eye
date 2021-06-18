@@ -1,5 +1,18 @@
 {% extends "layout/emi.html" %}
 
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Donation">
+<meta name="keywords" content="World Eye International, Donation">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+
 {% block css %}
      
 <style>
@@ -29,7 +42,7 @@
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  background-image:url("{{url_for('static', filename='rubrique/{}'.format(session['image_rub']))}}");
+  background-image:url("{{url_for('static', filename='emi/images/bg_2.jpg')}}");
 }
 .Card1:hover .photo {
   -webkit-transform: rotate(5deg) scale(1.3);-moz-transform: rotate(5deg) scale(1.3);-ms-transform: rotate(5deg) scale(1.3);-o-transform: rotate(5deg) scale(1.3);transform: rotate(5deg) scale(1.3);
@@ -101,6 +114,17 @@
 .close { cursor: pointer; }.close { cursor: pointer; }
 
 
+
+.logotype{background:#000;color:#fff;width:75px;height:75px;  line-height: 75px; text-align: center; font-size:11px;}
+.column-title{background:#eee;text-transform:uppercase;padding:15px 5px 15px 15px;font-size:11px}
+.column-detail{border-top:1px solid #eee;border-bottom:1px solid #eee;}
+.column-header{background:#eee;text-transform:uppercase;padding:15px;font-size:11px;border-right:1px solid #eee;}
+.alert{background: #ffd9e8;padding:20px;margin:20px 0;line-height:22px;color:#333}
+.socialmedia{background:#eee;padding:20px; display:inline-block}
+
+
+
+
 </style>
 {% endblock %}
 
@@ -112,7 +136,7 @@
 
 
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='emi/images/bg_2.jpg')}}');" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{url_for('static', filename='emi/images/e.jpg')}}');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end">
@@ -133,114 +157,133 @@
     </div>
 </section>
 
-<section class="ftco-section">
+<section class="img ftco-section ftco-no-pt ftco-no-pb">
     <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="Card1">
-                    <div class="photo"></div>
-                    <ul class="details">
-                    <h4>Personnel information</h4>
-                    <li>{{session['donateur_rub']}}</li>
-                    <li>{{session['do_adresse_mail']}}</li>
-                    </ul>
-                    <div class="description">
-                    <div class="line">
-                        <h1 class="product_name">{{session['noms_rub']}}</h1>
-                        <h1 class="product_price">$ {{session['montant']}} </h1>
-                    </div>
-                                       
-                    {{session['resume']|safe}}
+        <div class="row d-flex">
+            <div class="col-md-6 col-lg-5 d-flex">
+                <div class="img d-flex align-self-stretch align-items-center" style="background-image:url({{ url_for('static', filename='rubrique/{}'.format(session['image_rub'])) }});"></div>
+            </div>
+            <div class="col-md-6 col-lg-7 pl-lg-5 py-5">
+                <div class="py-md-5">
+                    <div class="row justify-content-start pb-3">
+                        <div class="col-md-12 heading-section ftco-animate fadeInUp ftco-animated">
+                            
 
-                    <br>
-                    <div class="d-flex justify-content-left">
-                        <a href=" {{url_for('projet.accueil')}} " class="btn btn-secondary ">Cancel</a>
+                                <h3>Donate for cause {{session['noms_rub']}} </h3>
+                                <br>
+                               <div>{{session['resume']|safe}}</div>
+
+                               <hr>
+                                <table width="100%" style="border-collapse: collapse;">
+                                  <tr>
+                                    <td widdth="50%" style="background:#eee;padding:20px;">
+                                      <strong>Date:</strong> 2021/05/26<br>
+                                      <strong>Payment type:</strong> PayPal<br>
+                                    </td>
+                                    <td style="background:#eee;padding:20px;">
+                                      <strong>E-mail receive:</strong> oeilmondialinter@gmail.com<br>
+                                      <strong>Phone:</strong> +243 818002808, 0818846228<br>
+                                    </td>
+                                  </tr>
+                                </table><br>
+                                <table width="100%">
+                                  <tr>
+                                    <td>
+                                      <table>
+                                        <tr>
+                                          <td style="vertical-align: text-top;">
+                                            <div style="background: #ffd9e8 url(https://cdn0.iconfinder.com/data/icons/commerce-line-1/512/comerce_delivery_shop_business-07-128.png);width: 50px;height: 50px;margin-right: 10px;background-position: center;background-size: 42px;"></div>   
+                                          </td>
+                                          <td>
+                                            <strong>From</strong><br>
+                                            {{session['donateur_rub']}}<br>
+                                            {{session['do_adresse_mail']}}<br>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                    <td>
+                                      <table>
+                                        <tr>
+                                          <td style="vertical-align: text-top;">
+                                            <div style="background: #ffd9e8 url(https://cdn4.iconfinder.com/data/icons/app-custom-ui-1/48/Check_circle-128.png) no-repeat;width: 50px;height: 50px;margin-right: 10px;background-position: center;background-size: 25px;"></div>   
+                                          </td>
+                                          <td>
+                                            <strong>To</strong><br>
+                                            Eye World International <br>
+                                            96, Avanue Tshakwiza, Quartier Somika, Commune Annexe, Lubumbashi, Haut-Katanga.<br>
+                                            +243 818002808, 0818846228<br> 
+                                            inf@emi.org <br>
+                                            DRCongo
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table><br>
+                                <table width="100%" style="border-top:1px solid #eee;border-bottom:1px solid #eee;padding:0 0 8px 0">
+                                  <tr>
+                                    <td><h3>Amount donate</h3>We will receive a sum $ {{session['montant']}}  of for the cause {{session['noms_rub']}} <td>
+                                  </tr>
+                                </table><br>
+                               
+                               
+                                <div class="text-center">
+                                    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+                                    <div id="paypal-button-container"></div>
+                         
+                                    <script>
+                                        var csrf_token = "{{ csrf_token() }}";
+                        
+                                        paypal.Button.render({
+                                          //env: 'sandbox', // Or 'production' 'sandbox'
+                                          env: 'production', // Or 'production' 'sandbox'
+                                          // Set up the payment:
+                                          // 1. Add a payment callback
+                                          payment: function(data, actions) {
+                                            // 2. Make a request to your server
+                                            return actions.request.get("{{url_for('projet.payement_donation',  _external=True)}} ")
+                                              .then(function(res) {
+                                                // 3. Return res.id from the response
+                                                return res.paymentID;
+                                              });
+                                          },
+                                          // Execute the payment: 
+                                          // 1. Add an onAuthorize callback
+                                          onAuthorize: function(data, actions) {
+                                            // 2. Make a request to your server
+                                            return actions.request.post("{{url_for('projet.execute_donation',  _external=True)}}", {
+                                              paymentID: data.paymentID,
+                                              payerID:   data.payerID
+                                            }, {
+                                                headers: {
+                                                    'X-CSRFToken': csrf_token,
+                                                }
+                                            }
+                                            
+                                            
+                                            )
+                                              .then(function(res) {
+                                                window.setTimeout(function(){
+                                                // Move to a new location or you can do something else
+                                                location.replace("{{url_for('projet.donate_conform')}}");
+                                                }, 1000); 
+                        
+                                              });
+                                          }
+                                        }, '#paypal-button-container');
+                                      </script>
+
+                                </div>
+                             
+                           
+                        </div>
                     </div>
-                    
-                    
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            {{notification}}
-            {%if notification==True%}
-                <div class="alert alert-danger alert-dismissible fade show" id='redAlert' role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                    <strong>Thanks</strong> for your contribution !
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <p><a href="{{url_for('projet.accueil')}}" class="btn btn-secondary btn-outline-secondary"> Done Donate</a></p>
-                </div>
-               
-            {%else%}
-            <div id="paypal-button-container"></div>
-            {%endif%}
-            
         </div>
     </div>
 </section>
 
 
-
-<script src="https://www.paypal.com/sdk/js?client-id=AZnijnhEFfRmVNt2Z3y4JnYOFyIhEs3fTvy3DfO8dPL_sLThcbWtq435c4HFcBaTwLcYf5cQiruwmyG7&currency=USD"></script>
-
-    <script>
-        
-        var csrf_token = "{{ csrf_token() }}";
-    
-        function completeOrder(name) {
-            var url="{{url_for('projet.donation_final')}}"
-
-            fetch(url,{
-                method: 'POST',
-                headers:{
-                    'Content-type':'application/json',
-                    'X-CSRFToken': csrf_token,
-                },
-                body:JSON.stringify({"donnateur":name})
-
-            })
-
-            
-        }
-        
-        // Render the PayPal button into #paypal-button-container
-        paypal.Buttons({
-            // Set up the transaction
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: {{'{}'.format(session['montant'])}}
-                        }
-                    }]
-                });
-            },
-
-            // Finalize the transaction
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    completeOrder(details.payer.name.given_name);
-                    
-                    window.setTimeout(function(){
-                        // Move to a new location or you can do something else
-                        location.replace("{{url_for('projet.donation', nopay='b326b5062b2f0e69046810717534cb09')}}");
-                    }, 1000); 
-                });
-            }
-
-
-        }).render('#paypal-button-container');
-    </script>
-
-    <script>
-        $('#redAlert').hide();
-            window.setTimeout(function() {
-            $( "#redAlert" ).fadeIn(1000).slideDown(1000);
-            }, 4000);
-
-    </script>
  {%endblock%}

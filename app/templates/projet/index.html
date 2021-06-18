@@ -1,5 +1,19 @@
 {% extends "layout/emi.html" %}
 
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Home">
+<meta name="keywords" content="World Eye International, Home">
+<meta name="description" content="World Eye International is a humanitarian organization created in 2012 in the city of Lubumbashi where it has its headquarters. The idea of its creation was born after a wave of wars that the Democratic Republic of Congo has known, which has led to massive displacement of populations. Its initiator, the apostle and prophet ESAIE SEBASTIEN KASEBA, had a vision from God to create an NGO whose mission would be to bring help to the people affected by the torments of the repeated wars that the Democratic Republic of Congo has known. With the means at hand and a few donations, the NGO takes care of children in its orphanage and provides schooling to several of them.">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
+
 {% block css %}
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"></style>
 
@@ -128,14 +142,19 @@
                                             </div>
                                         </div>
                                         <div class="col-md-7 wrap-about py-5">
+
+                                            
+
                                             <div class="heading-section pr-md-5 pt-md-5">
-                                                <span class="subheading">Welcome to ŒIL MONDIAL INTERNATIONAL
+                                                
+                                                 <span class="subheading">Welcome to World Eye International 
                                                 </span>
                                                 <h2 class="mb-4">We are here to help everyone in need</h2>
                                                 <p class="text-justify">
-                                                    ŒIL MONDIAL INTERNATIONAL is a humanitarian organization created in 2012 in the city of Lubumbashi where it has its headquarters. The idea of its creation was born after a wave of wars that the Democratic Republic of Congo has known, which has led to massive displacement of populations.  Its initiator, the apostle and prophet ESAIE SEBASTIEN KASEBA, had a vision from God to create an NGO whose mission would be to bring help to the people affected by the torments of the repeated wars that the Democratic Republic of Congo has known. With the means at hand and a few donations, the NGO takes care of children in its orphanage and provides schooling to several of them.
+                                                    <img height="150px" width="150px"  hspace="10" vspace="10" src="{{url_for('static', filename='eye.jpg')}}" align="left" class="rounded-circle box-shadow--3dp" alt=""> World Eye International is a humanitarian organization created in 2012 in the city of Lubumbashi where it has its headquarters. The idea of its creation was born after a wave of wars that the Democratic Republic of Congo has known, which has led to massive displacement of populations.  Its initiator, the apostle and prophet ESAIE SEBASTIEN KASEBA, had a vision from God to create an NGO whose mission would be to bring help to the people affected by the torments of the repeated wars that the Democratic Republic of Congo has known. With the means at hand and a few donations, the NGO takes care of children in its orphanage and provides schooling to several of them.
                                                 </p>
                                             </div>
+
                                             <div class="row my-md-5">
                                                 <div class="col-md-6 d-flex counter-wrap">
                                                     <div class="block-18 d-flex">
@@ -169,23 +188,23 @@
                                                 </div>
                                             </div>
                                             <p>
-                                                <a href="#" class="btn btn-secondary btn-outline-secondary">Become A Volunteer</a>
+                                                <a href="#" class="btn btn-secondary btn-outline-secondary">Our values</a>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </section>
+
                             <section class="ftco-section ftco-no-pt ftco-no-pb">
                                 <div class="container">
                                     <div class="row no-gutters">
                                         <div class="col-md-3 d-flex align-items-stretch">
                                             <div class="services">
                                                 <div class="text text-center bg-secondary">
-                                                    <h3>Become a
-                                                        <br>Volunteer</h3>
-                                                        <p>But nothing the copy said could convince her and so it didn’t take long until a few</p>
+                                                    <h3>Serving <br> Without borders</h3>
+                                                        <p>We provide assistance to all the children around the world without discrimination.</p>
                                                     </div>
-                                                    <div class="img border-2" style="background-image: url({{ url_for('static', filename='emi/images/services-1.jpg') }});">
+                                                    <div class="img border-2" style="background-image: url({{ url_for('static', filename='emi/child_charity.jpg') }});">
                                                         <div class="icon d-flex align-items-center justify-content-center">
                                                             <span class="flaticon-volunteer"></span>
                                                         </div>
@@ -195,11 +214,10 @@
                                             <div class="col-md-3 d-flex align-items-stretch">
                                                 <div class="services">
                                                     <div class="text text-center bg-tertiary">
-                                                        <h3>Quick
-                                                            <br>Fundraising</h3>
-                                                            <p>But nothing the copy said could convince her and so it didn’t take long until a few</p>
+                                                        <h3>Protect <br> Children's rights</h3>
+                                                            <p>Children are adorable human beings, their rights have to be respected.</p>
                                                         </div>
-                                                        <div class="img border-3" style="background-image: url({{ url_for('static', filename='emi/images/services-2.jpg') }});">
+                                                        <div class="img border-3" style="background-image: url({{ url_for('static', filename='emi/images/services-3.jpg') }}); ">
                                                             <div class="icon d-flex align-items-center justify-content-center">
                                                                 <span class="flaticon-piggy-bank"></span>
                                                             </div>
@@ -209,11 +227,10 @@
                                                 <div class="col-md-3 d-flex align-items-stretch">
                                                     <div class="services">
                                                         <div class="text text-center bg-primary">
-                                                            <h3>Start
-                                                                <br>Donating</h3>
-                                                                <p>But nothing the copy said could convince her and so it didn’t take long until a few</p>
+                                                            <h3>Offering <br> Hope</h3>
+                                                                <p>Our work consists of motivating children to keep heads up and believe in their future.</p> 
                                                             </div>
-                                                            <div class="img border-1" style="background-image: url({{ url_for('static', filename='emi/images/services-3.jpg') }});">
+                                                            <div class="img border-1" style="background-image: url({{ url_for('static', filename='emi/child_aid.jpg') }});">
                                                                 <div class="icon d-flex align-items-center justify-content-center">
                                                                     <span class="flaticon-donation"></span>
                                                                 </div>
@@ -223,11 +240,11 @@
                                                     <div class="col-md-3 d-flex align-items-stretch">
                                                         <div class="services">
                                                             <div class="text text-center bg-quarternary">
-                                                                <h3>Get
-                                                                    <br>Involved</h3>
-                                                                    <p>But nothing the copy said could convince her and so it didn’t take long until a few</p>
+                                                                <h3>Children
+                                                                    <br>Love God </h3>
+                                                                    <p>We guide children on the spiritual path and teach to respect God's rules.</p>
                                                                 </div>
-                                                                <div class="img border-4" style="background-image: url({{ url_for('static', filename='emi/images/services-4.jpg') }});">
+                                                                <div class="img border-4" style="background-image: url({{ url_for('static', filename='emi/child_bible.jpg') }});">
                                                                     <div class="icon d-flex align-items-center justify-content-center">
                                                                         <span class="flaticon-ecological"></span>
                                                                     </div>
@@ -241,9 +258,9 @@
                                             <section class="ftco-section ftco-no-pb">
                                                 <div class="container">
                                                     <div class="row justify-content-center pb-5 mb-3">
-                                                        <div class="col-md-7 heading-section text-center ftco-animate">
+                                                        <div class="col-md-8 heading-section text-center ftco-animate">
                                                             <span class="subheading">Our Causes</span>
-                                                            <h2>Donate to help Oeil International Mondial to give hope for a better future to children.</h2>
+                                                            <h2>Donate to help us improve lives of children in need around the globe.</h2>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -255,7 +272,8 @@
                                                                         <a href="#">
                                                                             Help for the education of children</a>
                                                                     </h2>
-                                                                    <p>They are the hope of tomorrow, you can also educate them. They need it badly.</p>
+                                                                    <p>We can offer them a bright if we stand shoulder to shoulder to support them.</p>
+                                                                    <br><br><br>
 
                                                                     <p>
                                                                         <a href="#c" class="btn btn-light w-100">Donate Now</a>
@@ -268,10 +286,10 @@
                                                                 <a href="#" class="img w-100" style="background-image: url({{ url_for('static', filename='emi/images/causes-3.jpg') }});"></a>
                                                                 <div class="text p-3">
                                                                     <h2>
-                                                                        <a href="#">Help the children of the orphelina.</a>
+                                                                        <a href="#">Support for the orphanage.</a>
                                                                     </h2>
-                                                                    <p>They are counting on you to keep him living in the orphanage long enough.</p>
-                                                                    <br>
+                                                                    <p>Living without their parents is their daily pain. Your help can their life story.</p>
+                                                                    <br><br><br>
                                                 
                                                                             <p>
                                                                                 <a href="#c" class="btn btn-light w-100">Donate Now</a>
@@ -284,13 +302,13 @@
                                                                         <a href="#" class="img w-100" style="background-image: url({{ url_for('static', filename='emi/profession.jpg') }});"></a>
                                                                         <div class="text p-3">
                                                                             <h2>
-                                                                                <a href="#c">Help so that he learns a profession of life.</a>
+                                                                                <a href="#c">Professional integrate.</a>
                                                                             </h2>
-                                                                            <br>
-                                                                            <p>They learn trades to have an impact in life.</p>
+                                                                            
+                                                                            <p>We give young people the chance to learn new jobs and get empowered every day. They're the future of tomorrow.</p>
                                                                             <p>
                                                                                 <a href="#c" class="btn btn-light w-100">Donate Now</a>
-                                                                            </p>
+                                                                            </p> <br>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -299,9 +317,9 @@
                                                                         <a href="#" class="img w-100" style="background-image: url({{ url_for('static', filename='emi/donate/logement.jpg') }});"></a>
                                                                         <div class="text p-3">
                                                                             <h2>
-                                                                                <a href="#">They are needs to live happily</a>
+                                                                                <a href="#">Family unification program.</a>
                                                                             </h2>
-                                                                            <p>They hope to integrate into the social lifer.</p>
+                                                                            <p>So many children lose their parents at early age and go live in the streets. Putting them in host families saves their lives.</p>
                                                                             <br>
                                                                                 <p>
                                                                                     <a href="#c" class="btn btn-light w-100">Donate Now</a>
@@ -317,7 +335,7 @@
                                                             <div class="container">
                                                                 <div class="row">
                                                                     <div class="col-md-12 mb-5 mb-md-0 ">
-                                                                        <h1 class="font-weight-bold text-center" style="color: #fd645b; font-size: 32px;">We are thousands of children in difficulty in Lubumbashi and in the DRC, we need your assistance. Do this by Oeil International Mondial.</h1>
+                                                                        <h1 class="font-weight-bold text-center" style="color: #fd645b; font-size: 32px;">We are thousands of children in difficulty in Lubumbashi and in the DRC, we need your assistance. This is done by World Eye International</h1>
 
 
                                                                     </div>
@@ -337,14 +355,14 @@
                                                                                 <div class="col-md-12 heading-section ftco-animate fadeInUp ftco-animated">
                                                         
                                                                                     <h2 class="mb-4">Sponsor a child</h2>
-                                                                                    <p>Many children leave school due to a combination of unfortunate circumstances, exposing their lives to an uncertain future. However, 
+                                                                                    <p class="text-justify" >Many children leave school due to a combination of unfortunate circumstances, exposing their lives to an uncertain future. However, 
                                                                                         every child in the world, regardless of race or religion, deserves a good education, health care and basic needs 
                                                                                         (housing, food, drinking water, etc.). The sponsorship from which the children benefit allows them to have access 
                                                                                         to school and to their vital needs (health, food, drinking water, sanitation). As such, sponsorship benefits not 
                                                                                         only the child to whom it opens the doors to a better and freer future, but also an entire community.</p>
                                                                                     
                                                                                     
-                                                                                    <p>
+                                                                                    <p class="text-justify">
                                                                                         By sponsoring a child, you create a strong link with him/her, you see him/her grow and become emancipated.
                                                                                          The sponsors can, if they wish, come and visit the children they sponsor and enjoy an experience rich in 
                                                                                          emotions and memories. 
@@ -421,5 +439,13 @@
                                                         </section>
                                                         {%endif%}
 
-
+                                                        <div class="modal fade VideoPop" id="VideoV" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                              <div class="modal-content">
+                                                                <div class="modal-body p-0">
+                                                                    <iframe width="100%" height="600" src="{{video_alaune.url_media}} " frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
                                                     {% endblock %}

@@ -1,5 +1,17 @@
 {% extends "layout/emi.html" %}
 
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Sponsor">
+<meta name="keywords" content="World Eye International, sponsor">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
+
 {% block css %}
 <link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
 <link href="{{ url_for('static', filename='plugins/select-country/css/bootstrap-select-country.min.css')}}" rel="stylesheet">
@@ -388,8 +400,7 @@ button:hover {
                                 <form method="post" id="form2">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                     <input type="text" name="prenom" id="prenom" placeholder="First Name" required /> <br>
-                                    <input type="text" name="nom" id="nom" placeholder="Name " required/> <br>
-                                    <input type="text" name="post_nom" id="post_nom" placeholder="Last Name" />
+                                    <input type="text" name="nom" id="nom" placeholder="Full name " required/> <br>
                                     <button type="submit">Next</button>
                                 </form>
                             </div>
@@ -467,7 +478,6 @@ $(document).on('submit','#form2',function(e){
         data:{
             nom:$("#nom").val(),
             prenom:$("#prenom").val(),
-            post_nom:$("#post_nom").val(),
         },
 
         success:function()

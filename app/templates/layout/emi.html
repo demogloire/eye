@@ -4,7 +4,7 @@
       {% if title %}
     <title> {{ title }} </title>
     {% else %}
-    <title> Oeil International Mondial </title>
+    <title> World Eye International </title>
     {% endif %}
       
       <meta charset="utf-8">
@@ -33,7 +33,7 @@
             <div class="row">
                <div class="col-md-6 d-flex align-items-center">
                   <p class="mb-0 phone pl-md-2">
-                     <a href="#googtrans(en|en)" class="lang-en lang-select" data-lang="en"><span class="flag-icon flag-icon-gb"></span> </a>
+                     <a href="#googtrans(en|en)" class="lang-en lang-select" data-lang="en"><span class="flag-icon flag-icon-us"></span> </a>
                      <a href="#googtrans(en|fr)" class="lang-fr lang-select" data-lang="fr"><span class="flag-icon flag-icon-fr"></span> </a>
                      
                      
@@ -45,7 +45,7 @@
                   <p class="mb-0 phone pl-md-2">
                      
                      <a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> +243 818002808 </a>
-                     <a href="#"><span class="fa fa-paper-plane mr-1"></span> <span>info@emi.com</span></a>
+                     <a href="#"><span class="fa fa-paper-plane mr-1"></span> <span>info@ewi.com</span></a>
                   </p>
                </div>
             </div>
@@ -64,14 +64,14 @@
          <div class="container">
             <div class="row">
                <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                  <h2 class="footer-heading">EMI.</h2>
+                  <h2 class="footer-heading"> <img style="margin-left:30px;" height="100px" width="100px"  src="{{url_for('static', filename='eye.jpg')}}"  class="rounded-circle box-shadow--3dp" alt=""></h2>
 
                   <ul class="ftco-footer-social p-0">
                      <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><span class="fa fa-twitter"></span></a></li>
                      <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fa fa-facebook"></span></a></li>
                      <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><span class="fa fa-instagram"></span></a></li>
                   </ul>
-                  <p><a href="#" class="btn btn-quarternary">Donate Now</a></p>
+                  <p><a href="#c" class="btn btn-quarternary">Donate Now</a></p>
                </div>
                <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
                   <h2 class="footer-heading">Latest News</h2>
@@ -97,7 +97,7 @@
                   <h2 class="footer-heading">Quick Links</h2>
                   <ul class="list-unstyled">
                      <li><a href="{{url_for('projet.accueil')}}" class="py-2 d-block">Home</a></li>
-                     <li><a href="#" class="py-2 d-block">About</a></li>
+                     <li><a href="{{url_for('projet.apropos')}}" class="py-2 d-block">About Us</a></li>
                      <li><a href="{{url_for('projet.parrainer')}}" class="py-2 d-block">Sponsor a child</a></li>
                      <li><a href="{{url_for('projet.actualites')}}" class="py-2 d-block">Blog</a></li>
                      <li><a href="{{url_for('projet.contact')}}" class="py-2 d-block">Contact</a></li>
@@ -109,7 +109,7 @@
                      <ul>
                         <li><span class="icon fa fa-map"></span><span class="text"> 96, Avanue Tshakwiza, Quartier Somika, Commune Annexe, Lubumbashi, Haut-Katanga.</span></li>
                         <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+243 818002808, 0818846228</span></a></li>
-                        <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text"><span class="__cf_email__" data-cfemail="452c2b232a053c2a3037212a28242c2b6b262a28">[email&#160;protected]</span></span></a></li>
+                        <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text"><span class="__cf_email__" data-cfemail="452c2b232a053c2a3037212a28242c2b6b262a28">info@ewi.com</span></span></a></li>
                      </ul>
                   </div>
                </div>
@@ -123,9 +123,6 @@
             </div>
          </div>
       </footer>
-      <!-- <div id="ftco-loader" class="show fullscreen text-center"  >
-         <img src="{{url_for('static', filename='logo_org/logo.png')}}" height="120" width="120" style="margin-top: 350px;" alt="">
-      </div> -->
       <script src="{{url_for('static', filename='emi/js/jquery.min.js')}}"></script>
       <script src="{{url_for('static', filename='emi/js/jquery-migrate-3.0.1.min.js')}}"></script>
       <script src="{{url_for('static', filename='emi/js/popper.min.js')}}"></script>
@@ -139,8 +136,6 @@
       <script src="{{url_for('static', filename='emi/js/owl.carousel.min.js')}}"></script>
       <script src="{{url_for('static', filename='emi/js/jquery.magnific-popup.min.js')}}"></script>
       <script src="{{url_for('static', filename='emi/js/scrollax.min.js')}}"></script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&amp;sensor=false"></script>
-      <script src="{{url_for('static', filename='emi/js/google-map.js')}}"></script>
       <script src="{{url_for('static', filename='emi/js/main.js')}}"></script>
 
       <script type="text/javascript">

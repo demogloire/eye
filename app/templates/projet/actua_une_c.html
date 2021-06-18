@@ -11,16 +11,16 @@
 <meta name="twitter:image" content=" {{url_for('static', filename='publication/{}'.format(article_pu.url_img), _external=True)}}">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{{url_for('projet.article', slug=article_pu.slug, _external=True)}}">
-<meta property="og:site_name" content="Oeil Mondial International">
+<meta property="og:site_name" content="World Eye International">
 <meta name="keywords" content="{{article_pu.titre}}">
-<link href="{{ url_for('static', filename='logod.png', _external=True) }} " rel="icon">
-<link href="{{ url_for('static', filename='logod.png', _external=True) }}" rel="apple-touch-icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }} " rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
 
 {% endblock meta %}
 
 {% block css %}
 <title>Actualités </title>
-{%endblock%}
+{%endblock%}d
 
 
 {% block body %}

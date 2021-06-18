@@ -1,4 +1,15 @@
 {% extends "layout/emi.html" %}
+{% block meta %}
+<meta name="robots" content="index">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="World Eye International">
+<meta property="og:title" content="Sponsor">
+<meta name="keywords" content="World Eye International, sponsor">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="icon">
+<link href="{{ url_for('static', filename='logo.png', _external=True) }}" rel="apple-touch-icon">
+
+{% endblock meta %}
 
 {% block css %}
 <link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
@@ -357,73 +368,63 @@ button:hover {
                         
                         <hr>
                         <b>Notice:</b> The sponsorship amount is monthly, the effect of accepting this condition, you will receive notification messages for reminder via your 
-                        email address. if you do not agree click <a href="" class="info">here</a> to cancel your sponsorship.
+                        email address. if you do not agree click <a href="{{url_for('projet.accueil')}}" class="info">here</a> to cancel your sponsorship.
                         
                     </p>
-                    <div id="paypal-button-container" style="margin-top: 50px;"></div>
+
+                    <div class="text-center">
+                        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+                        <div id="paypal-button-container"></div>
+             
+                        <script>
+                            var csrf_token = "{{ csrf_token() }}";
+            
+                            paypal.Button.render({
+                              env: 'production', // Or 'production' 'sandbox'
+                              //env: 'sandbox', // Or 'production' 'sandbox'
+                              // Set up the payment:
+                              // 1. Add a payment callback
+                              payment: function(data, actions) {
+                                // 2. Make a request to your server
+                                return actions.request.get("{{url_for('projet.payement_sponsor',  _external=True)}} ")
+                                  .then(function(res) {
+                                    // 3. Return res.id from the response
+                                    return res.paymentID;
+                                  });
+                              },
+                              // Execute the payment: 
+                              // 1. Add an onAuthorize callback
+                              onAuthorize: function(data, actions) {
+                                // 2. Make a request to your server
+                                return actions.request.post("{{url_for('projet.execute_sponsor',  _external=True)}}", {
+                                  paymentID: data.paymentID,
+                                  payerID:   data.payerID
+                                }, {
+                                    headers: {
+                                        'X-CSRFToken': csrf_token,
+                                    }
+                                }
+                                
+                                
+                                )
+                                  .then(function(res) {
+                                    window.setTimeout(function(){
+                                    // Move to a new location or you can do something else
+                                    location.replace("{{url_for('projet.sponsor_conform')}}");
+                                    }, 1000); 
+            
+                                  });
+                              }
+                            }, '#paypal-button-container');
+                          </script>
+
+                    </div>
 
                 </div>
             </div>
         </div>
     </section>
-    <script src="https://www.paypal.com/sdk/js?client-id=AZnijnhEFfRmVNt2Z3y4JnYOFyIhEs3fTvy3DfO8dPL_sLThcbWtq435c4HFcBaTwLcYf5cQiruwmyG7&currency=USD"></script>
-
-    <script>
-        
-        var csrf_token = "{{ csrf_token() }}";
     
-        function completeOrder(name) {
-            var url="{{url_for('projet.sponsor_final')}}"
-
-            fetch(url,{
-                method: 'POST',
-                headers:{
-                    'Content-type':'application/json',
-                    'X-CSRFToken': csrf_token,
-                },
-                body:JSON.stringify({"donnateur":name})
-
-            })
-
-            
-        }
-        
-        // Render the PayPal button into #paypal-button-container
-        paypal.Buttons({
-            // Set up the transaction
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: {{'{}'.format(session['montant'])}}
-                        }
-                    }]
-                });
-            },
-
-            // Finalize the transaction
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    completeOrder(details.payer.name.given_name);
-                    
-                    window.setTimeout(function(){
-                        // Move to a new location or you can do something else
-                        location.replace("{{url_for('projet.parrainer')}}");
-                    }, 1000); 
-                });
-            }
-
-
-        }).render('#paypal-button-container');
-    </script>
-
-    <script>
-        $('#redAlert').hide();
-            window.setTimeout(function() {
-            $( "#redAlert" ).fadeIn(1000).slideDown(1000);
-            }, 4000);
-
-    </script>
 
 {% endblock %}
 
