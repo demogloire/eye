@@ -1,0 +1,75 @@
+{% extends "layout/admini.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='datatable/datatables/css/dataTables.bootstrap4.min.css')}}">
+
+{%endblock%}
+
+
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Les donnations et parrainages</h2>
+                <br><br>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>Noms</th>
+                                <th>Au compte</th>
+                                <th>Somme</th>
+                                <th>Adresse</th>
+                                <th>Pays</th>
+                                <th>E-mail</th>
+                                <th>Téléphone</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {%for i in don%}
+                            {%if i.rubrique_id !=None%}
+                                <tr>
+                                    <td>{{i.noms}}</td>
+                                    <td>{{i.donation_rub.nom}}</td>
+                                    <td>{{i.somme}} USD</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>{{i.date_payements.strftime('%d/%m/%Y')}}</td>
+                                </tr>
+                            {%else%}
+                                <tr>
+                                    <td>{{i.donation_parrainage.noms}} </td>
+                                    <td>Parrainage/({{i.noms}}) </td>
+                                    <td>{{i.somme}} USD</td>
+                                    <td>{{i.adresse}} </td>
+                                    <td>{{i.pays}}</td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.telephone}}</td>
+                                    <td>{{i.date_payements.strftime('%d/%m/%Y')}}</td>
+                                </tr>
+                            {%endif%}
+                            {%endfor%}
+                            
+                        </tbody>
+                      
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- order table -->
+
+{% endblock body %}
+
+{%block jsblock%}
+<!--This page plugins -->
+<script src="{{url_for('static', filename='emi/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static', filename='datatable/js/jquery.dataTables.js')}}"></script>
+<script src="{{url_for('static', filename='datatable/datatable-basic.init.js')}}"></script>
+{%endblock%}

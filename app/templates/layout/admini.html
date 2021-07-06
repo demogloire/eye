@@ -65,9 +65,12 @@
                                 <li class="submenu-item ">
                                     <a href="{{url_for('publication.index')}}">Publications</a>
                                 </li>
+                                {%if current_user.role=='Encours'%}
                                 <li class="submenu-item ">
                                     <a href="{{url_for('evenement.index')}}">Evenement</a>
                                 </li>
+                                {%endif%}
+                                
                             </ul>
                         </li>
                         <li class="sidebar-item  has-sub">
@@ -76,26 +79,49 @@
                                 <span>Media</span>
                             </a>
                             <ul class="submenu ">
+                                {%if current_user.role=='Encours'%}
                                 <li class="submenu-item ">
                                     <a href="{{url_for('album.index')}}">Photo</a>
                                 </li>
                                 <li class="submenu-item ">
                                     <a href="{{url_for('media.index_audio')}}">Audio</a>
                                 </li>
+                                {%endif%}
                                 <li class="submenu-item ">
                                     <a href="{{url_for('media.index_video')}}">Vidéo</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-title">Programme</li>
 
+                        <li class="sidebar-title">Dons</li>
+                        
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-cash"></i>
+                                <span>Donation</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('rubrique.index')}}">Rubrique</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('parrainage.index')}}">Parrainage</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url_for('main.recette')}}">Recette</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {%if current_user.role=='Encours'%}
+                        <li class="sidebar-title">Programme</li>
                         <li class="sidebar-item  ">
                             <a href="{{url_for('realisation.index')}}" class='sidebar-link'>
                                 <i class="bi bi-ui-checks-grid"></i>
                                 <span>Réalisation</span>
                             </a>
                         </li>
-
+                        {%endif%}
                         
                         <li class="sidebar-title">Visteurs</li>
 
@@ -210,13 +236,11 @@
             </div>
         </div>
     </div>
+    
     <script src="{{url_for('static', filename='nv_admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{url_for('static', filename='nv_admin/js/bootstrap.bundle.min.js')}}"></script>
-
-    <script src="{{url_for('static', filename='nv_admin/vendors/apexcharts/apexcharts.js')}}"></script>
-
-    {%block jsblock%}{%endblock%}
+    <script src="{{url_for('static', filename='nv_admin/vendors/apexcharts/apexcharts.js')}}"></script> -->
     <script src="{{url_for('static', filename='nv_admin/js/main.js')}}"></script>
+    {%block jsblock%}{%endblock%}
     
 </body>
 </html>

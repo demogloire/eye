@@ -22,5 +22,6 @@ class FormDonation(FlaskForm):
     noms= StringField('Lieu', validators=[DataRequired("Nom")])
     adresse_mail= StringField('Lieu', validators=[DataRequired("Votre adresse mail"), Email('Votre email est incorrect')])
     montant=IntegerField('montant')
+    #montant = SelectField(u'Choice amount', choices=[(5, '5 USD'), (10, '10 USD'), (20 , '20 USD')])
     cause= QuerySelectField(query_factory=rech_rubrique, get_label='nom', allow_blank=False)
     submit = SubmitField('Ajouter donation')

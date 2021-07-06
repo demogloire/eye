@@ -169,6 +169,9 @@ def donation(nopay):
     #Titre de l'onglet
     title=title_page('Donation')
     form=FormDonation()
+
+    
+
     #Nofication
     notification=None
     vrai="b326b5062b2f0e69046810717534cb09"
@@ -188,9 +191,15 @@ def donation(nopay):
         session["do_adresse_mail"]=form.adresse_mail.data
         session["ver"]=None
 
+
     if "noms_rub" not in session:
-        return redirect(url_for('projet.accueil'))   
-    return render_template('projet/donation.html',title=title, notification=notification, footer_pub=recent_artcile_footer())
+        return redirect(url_for('projet.accueil'))  
+
+    #La date d'aujourdui
+    date_transanction=date.today()
+    
+
+    return render_template('projet/donation.html',date_transanction=date_transanction, title=title, notification=notification, footer_pub=recent_artcile_footer())
 
 #Donation
 @projet.route('/final/donation', methods=['GET','POST'])
@@ -315,7 +324,7 @@ def sponsor_final():
     if request.method=="POST":
         data=request.get_json()
         identi_payement=data["donnateur"]
-        noms=f"{session['nom']} {session['post_nom']} {session['prenom']}"
+        noms=f"{session['nom']} {session['prenom']}"
         #Enregistrement de la donation
         don=Donation(parrainage_id=session["enfant"], noms=noms, date_payements=date.today(),identi_payement=identi_payement,
                           somme=session["montant"], adresse=session["adresse"], pays=session["pays"], telephone=session["tel"], email=session["mail"])
@@ -503,7 +512,7 @@ def execute_sponsor():
     payment=paypalrestsdk.Payment.find(request.form['paymentID'])
     
     if payment.execute({'payer_id': request.form['payerID']}):
-        noms=f"{session['nom']} {session['post_nom']}"
+        noms=f"{session['nom']} {session['prenom']}"
         #Enregistrement de la donation
         don=Donation(parrainage_id=session["enfant"], noms=noms, date_payements=date.today(),identi_payement=request.form['payerID'],
                           somme=session["montant"], adresse=session["adresse"], pays=session["pays"], telephone=session["tel"], email=session["mail"])

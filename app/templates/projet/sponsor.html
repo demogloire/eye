@@ -344,7 +344,7 @@ button:hover {
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">
-                        <a class="img-card">
+                        <a>
                         <img src="{{url_for('static', filename='rubrique/{}'.format(enfant.image_rubrique))}}" height="120px" class="img-fluid" />
                       </a>
                         <div class="card-content">
@@ -352,9 +352,9 @@ button:hover {
                                 <a href=""> {{enfant.noms}}
                               </a>
                             </h4>
-                            <p class="">
-                                {{enfant.resume|safe}}
-                            </p>
+                            
+                            {{enfant.resume|safe}}
+                            
                         </div>
                         <div class="card-read-more">
                             <a href="" class="btn btn-link btn-block">
