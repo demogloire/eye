@@ -29,13 +29,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            {%if session['logo']=='logo.png'%}
-                            <a href="{{url_for('main.dashboard')}}"><img src="{{url_for('static', filename='logo_org/logo.png')}}" alt="Logo" srcset=""></a>
-                            {%else%}
-                            <a href="{{url_for('main.dashboard')}}">
-                               {{session['nom']|truncate(12)}}                          
-                            </a>
-                            {%endif%}
+                            Organisation
                             
                         </div>
                         <div class="toggler">
