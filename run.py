@@ -7,4 +7,4 @@ app =create_app(config_name)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='192.168.43.232')
